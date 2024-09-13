@@ -9,5 +9,6 @@
 	
 	<body>
 		<p>Welcome!</p>
+		<p><a href="/login">Login</a></p>
 	</body>
 </html>
