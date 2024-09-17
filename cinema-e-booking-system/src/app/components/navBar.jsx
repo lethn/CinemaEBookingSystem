@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function NavBar() {
     return (
@@ -19,7 +18,8 @@ export default function NavBar() {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/register" className="text-black border border-black px-3 py-1 rounded hover:bg-gray-200">
+                    <Link href="/register"
+                          className="text-black border border-black px-3 py-1 rounded hover:bg-gray-200">
                         Register
                     </Link>
                 </li>
