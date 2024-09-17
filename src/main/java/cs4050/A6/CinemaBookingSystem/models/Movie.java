@@ -1,4 +1,4 @@
-package cs4050.A6.CinemaBookingSystem;
+package cs4050.A6.CinemaBookingSystem.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
