@@ -1,4 +1,4 @@
-# CinemaBookingSystem
+# Cinema E-Booking System
 
 Requrements: Maven, Java 17
 
