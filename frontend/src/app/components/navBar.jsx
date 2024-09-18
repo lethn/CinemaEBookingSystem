@@ -2,24 +2,26 @@ import Link from "next/link";
 
 export default function NavBar() {
     return (
-        <div className="bg-dark-red border-2 border-dark-red py-2 px-4">
-            <ul className="flex justify-end space-x-4">
+        <div className="bg-black py-2 px-4">
+            <ul className="flex justify-end items-center space-x-4">
                 <li className="mr-auto">
-                    Logo
+                    <label className="text-white text-2xl">
+                        eCinema
+                    </label>
                 </li>
                 <li>
-                    <Link href="/" className="text-black border border-black px-3 py-1 rounded hover:bg-gray-200">
+                    <Link href="/" className="px-3 py-1 rounded hover:bg-stone-600">
                         Home
                     </Link>
                 </li>
                 <li>
-                    <Link href="/login" className="text-black border border-black px-3 py-1 rounded hover:bg-gray-200">
+                    <Link href="/login" className="px-3 py-1 rounded hover:bg-stone-600">
                         Login
                     </Link>
                 </li>
                 <li>
                     <Link href="/register"
-                          className="text-black border border-black px-3 py-1 rounded hover:bg-gray-200">
+                          className="px-3 py-1 rounded hover:bg-stone-600">
                         Register
                     </Link>
                 </li>
