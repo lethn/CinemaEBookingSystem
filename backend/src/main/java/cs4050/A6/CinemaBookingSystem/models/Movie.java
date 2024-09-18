@@ -25,6 +25,7 @@ public class Movie {
     private String synopsis;
     private String trailer;
     private String picture;
+    private String rating; // E.g., 'PG-13'
 
     // All basic methods (getters, setters, etc.) automatically defined by Lombok
 }

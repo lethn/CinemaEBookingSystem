@@ -1,4 +1,4 @@
-Format for JSON body when making a post request to create a movie (fill in with real values):
+Format for JSON body:
 {
     "title": "Test2",
     "category": "Fiction",
@@ -11,6 +11,7 @@ Format for JSON body when making a post request to create a movie (fill in with 
     "producer": "Alice",
     "synopsis": "An epic film.",
     "trailer": "www.google.com",
-    "picture": "www.s3.aws.com"
+    "picture": "www.s3.aws.com",
+    "rating": "PG-13"
 }
 

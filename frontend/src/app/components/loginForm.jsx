@@ -1,9 +1,8 @@
 "use client"
-import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
-export default function LoginForm({ redirectTo }) {
+export default function LoginForm({redirectTo}) {
 
     const router = useRouter();
     const [username, setUsername] = useState('');
@@ -17,22 +16,23 @@ export default function LoginForm({ redirectTo }) {
 
 
     return (
-            <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                placeholder="Username" 
+        <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
+            <input
+                type="text"
+                placeholder="Username"
                 className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                required 
+                required
             /> <br/>
-            <input 
-                type="password" 
-                placeholder="Password" 
+            <input
+                type="password"
+                placeholder="Password"
                 className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                required 
+                required
             /> <br/>
-            <button type="submit" 
-                className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
-                Login</button>
-            </form>
+            <button type="submit"
+                    className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
+                Login
+            </button>
+        </form>
     )
 }

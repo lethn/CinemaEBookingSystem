@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // Keep this class above all sub-packages
 @SpringBootApplication
-public class CinemaBookingSystemApplication {
+public class Driver {
     // Initializes and executes app
     public static void main(String[] args) {
-        SpringApplication.run(CinemaBookingSystemApplication.class, args);
+        SpringApplication.run(Driver.class, args);
     }
 }

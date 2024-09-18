@@ -1,6 +1,6 @@
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import {useState} from 'react';
+import {useRouter} from 'next/navigation';
 import NavBar from "../components/navBar";
 
 export default function Register() {
@@ -36,37 +36,37 @@ export default function Register() {
                 <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
                     <h2 className="text-2xl font-semibold mb-6 text-black">Register</h2>
                     {error && <p className="text-red-500 mb-4">{error}</p>}
-                    <input 
-                        type="email" 
-                        placeholder="Email" 
+                    <input
+                        type="email"
+                        placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required 
+                        required
                     />
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
+                    <input
+                        type="text"
+                        placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required 
+                        required
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
+                    <input
+                        type="password"
+                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required 
+                        required
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Confirm Password" 
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         className="block w-full p-3 mb-6 border border-gray-300 rounded-md text-black"
-                        required 
+                        required
                     />
                     <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
                         Register
