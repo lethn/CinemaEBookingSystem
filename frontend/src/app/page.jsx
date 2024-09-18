@@ -52,7 +52,7 @@ export default function Home() {
             </div>
 
             <div>
-                Comming Soon Movies
+                Coming Soon Movies
             </div>
             
         </div>
