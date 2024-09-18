@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# next.js
+cinema-e-booking-system/.next/
+cinema-e-booking-system/node_modules/
+cinema-e-booking-system/out/
