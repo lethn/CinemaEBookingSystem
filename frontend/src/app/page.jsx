@@ -34,9 +34,15 @@ export default function Home() {
 
 
     // Get Current Movies From Database
-    useEffect(() => {
-        //fetch in here
-    }, []);
+    fetch('http://localhost:8080/movies')
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            setCurrentMovies(json);
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
 
     // Get Comming Soon Movies From Database
 
