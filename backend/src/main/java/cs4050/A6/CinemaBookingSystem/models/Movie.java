@@ -26,6 +26,7 @@ public class Movie {
     private String trailer;
     private String picture;
     private String rating; // E.g., 'PG-13'
+    private boolean nowPlaying; // Whether movie is currently showing
 
     // All basic methods (getters, setters, etc.) automatically defined by Lombok
 }
