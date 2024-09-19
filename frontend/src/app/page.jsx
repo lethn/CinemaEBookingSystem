@@ -1,7 +1,7 @@
 "use client"
 import NavBar from "./components/navBar";
 import SearchBar from "./components/searchBar";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 // Dummy data for movies
 const movies = [
@@ -34,7 +34,9 @@ export default function Home() {
 
 
     // Get Current Movies From Database
-
+    useEffect(() => {
+        //fetch in here
+    }, []);
 
     // Get Comming Soon Movies From Database
 
