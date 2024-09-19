@@ -35,15 +35,14 @@ export default function Home() {
 
     // Get Current Movies From Database
     fetch('http://localhost:8080/movies')
-        .then(response => response.json())
-        .then(json => {
-            console.log(json);
-            setCurrentMovies(json);
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
-
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+        setCurrentMovies(json);
+    })
+    .catch((err) => {
+        console.log(err.message);
+    });
     // Get Comming Soon Movies From Database
 
 
@@ -58,6 +57,9 @@ export default function Home() {
             <div>
                 Currently Running Movies
             </div>
+            <pre>
+                Data: {JSON.stringify(currentMovies, null, 2)}
+            </pre>
 
             <div>
                 Coming Soon Movies
