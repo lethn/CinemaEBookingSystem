@@ -4,6 +4,7 @@ import ComingSoon from "./components/comingSoon";
 import NowPlaying from "./components/nowPlaying";
 import SearchBar from "./components/searchBar";
 import {useState, useEffect} from "react";
+import YouTube from 'react-youtube';
 
 // Dummy data for movies
 const movies = [
@@ -81,12 +82,20 @@ const Home = () => {
             <div>
                 <NowPlaying/>
             </div>
-            <div class="mt-10">
+            <div className="mt-10">
                 <ComingSoon/>
             </div>
             <pre>
                 {JSON.stringify(currentMovies, null, 2)}
             </pre>
+
+            <div>
+
+                {/* Need to install react-youtube for this to work */}
+                {/* Requires video ID only */}
+                <YouTube videoId="TcMBFSGVi1c" />
+            </div>
+
         </div>
     );
 }
