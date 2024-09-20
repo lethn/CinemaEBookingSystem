@@ -28,26 +28,48 @@ const movies = [
     }
 ];
 
-export default function Home() {
+const Home = () => {
     const [currentMovies, setCurrentMovies] = useState();
     const [comingSoonMovies, setComingSoonMovies] = useState();
 
-
     // Get Current Movies From Database
+    
+    // fetching the json file works, but getting it into the useState or displaying the data does not
+    // same code but inside of a useEffect is commeneted down below
+
     fetch('http://localhost:8080/movies')
     .then(response => response.json())
     .then(json => {
-        console.log(json);
-        setCurrentMovies(json);
+        console.log(json); // json is printed
+        setCurrentMovies(json); // idk if this works
     })
     .catch((err) => {
         console.log(err.message);
     });
+    
+    
+    /*
+    useEffect(() => {
+        const fetchMovies = async () => {
+            fetch('http://localhost:8080/movies')
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                setCurrentMovies(json);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        };
+        fetchMovies();
+    }, []);
+    */
+
+    
     // Get Comming Soon Movies From Database
 
 
     // useEffect to re-render page
-
 
     return (
         <div>
@@ -58,7 +80,7 @@ export default function Home() {
                 Currently Running Movies
             </div>
             <pre>
-                Data: {JSON.stringify(currentMovies, null, 2)}
+                {JSON.stringify(currentMovies, null, 2)}
             </pre>
 
             <div>
@@ -68,3 +90,5 @@ export default function Home() {
         </div>
     );
 }
+
+export default Home;
