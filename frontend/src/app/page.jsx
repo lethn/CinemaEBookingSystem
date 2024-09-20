@@ -1,5 +1,7 @@
 "use client"
 import NavBar from "./components/navBar";
+import ComingSoon from "./components/comingSoon";
+import NowPlaying from "./components/nowPlaying";
 import SearchBar from "./components/searchBar";
 import {useState, useEffect} from "react";
 
@@ -77,16 +79,14 @@ const Home = () => {
             <SearchBar/>
 
             <div>
-                Currently Running Movies
+                <NowPlaying/>
+            </div>
+            <div class="mt-10">
+                <ComingSoon/>
             </div>
             <pre>
                 {JSON.stringify(currentMovies, null, 2)}
             </pre>
-
-            <div>
-                Coming Soon Movies
-            </div>
-
         </div>
     );
 }

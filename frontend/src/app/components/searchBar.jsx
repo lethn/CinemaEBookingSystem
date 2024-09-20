@@ -19,7 +19,7 @@ const SearchBar = ({onSearch}) => {
     };
 
     return (
-        <div className="flex items-center justify-center mt-10">
+        <div className="flex items-center justify-center m-10">
             <input
                 type="text"
                 value={search}
