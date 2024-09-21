@@ -59,8 +59,8 @@ export default function SelectTickets() {
         <div>
             <NavBar userRole={userRole}/>
             <div className='p-2 grid grid-cols-3'>
-                <div className='text-white rounded-lg w-5/6 p-2'>
-                    <img src={dummy_movie.picture} alt='Poster' className='w-2/3 justify-center flex'/>
+                <div className='text-black bg-white w-5/6 m-4 p-4 rounded-lg shadow-md flex justify-center items-center flex-col'>
+                    <img src={dummy_movie.picture} alt='Poster' className='w-2/3 justify-center flex '/>
                     <h2 className='text-lg'>{dummy_movie.title}</h2>
                     <p>Rating: {dummy_movie.rating}</p>
                     <p>Category: {dummy_movie.category}</p>
