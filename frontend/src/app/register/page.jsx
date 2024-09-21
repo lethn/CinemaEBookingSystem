@@ -1,14 +1,24 @@
 "use client";
-import {useState} from 'react';
-import {useRouter} from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import NavBar from "../components/navBar";
 
 export default function Register() {
     const router = useRouter();
+
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [streetAddress, setStreetAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expirationDate, setExpirationDate] = useState('');
+    const [cvv, setCvv] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
@@ -25,59 +35,168 @@ export default function Register() {
 
         // Perform registration logic (e.g., API call)
 
-        // randonmy generated 6 digit code
-        // using Math.floor(100000 + Math.random() * 900000)
-
-        //send email with code
-        // verify email on next page
-        
-        // Store the role (user or admin) in localStorage
-        localStorage.setItem('userRole', "user");
-
         // Redirect to a specified route
-        router.push('/register/email-confirmation');  // Adjust the path as needed
+        router.push('/register-confirmation');
     };
 
     return (
         <div>
-            <NavBar/>
-            <div className="flex justify-center items-center h-screen">
-                <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
-                    <h2 className="text-2xl font-semibold mb-6 text-black">Register</h2>
+            <NavBar />
+            <div className="flex flex-col justify-center items-center m-8 p-8">
+                <h2 className="text-4xl font-semibold mb-6">Registration</h2>
+                <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
                     {error && <p className="text-red-500 mb-4">{error}</p>}
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="block w-full p-3 mb-6 border border-gray-300 rounded-md text-black"
-                        required
-                    />
-                    <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
+
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black"> 
+                                First Name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                required
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">
+                                Last Name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                required
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">
+                                Date of Birth <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="date"
+                                value={dateOfBirth}
+                                onChange={(e) => setDateOfBirth(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-lg font-medium mb-1 text-black">
+                            Email <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-lg font-medium mb-1 text-black">
+                            Password <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-lg font-medium mb-1 text-black">
+                            Confirm Password <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-lg font-medium mb-1 text-black">Street Address</label>
+                        <input
+                            type="text"
+                            value={streetAddress}
+                            onChange={(e) => setStreetAddress(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">City</label>
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">State</label>
+                            <input
+                                type="text"
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">Postal Code</label>
+                            <input
+                                type="text"
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-lg font-medium mb-1 text-black">Card Number (Optional)</label>
+                        <input
+                            type="text"
+                            value={cardNumber}
+                            onChange={(e) => setCardNumber(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                        />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
+                            <input
+                                type="text"
+                                value={expirationDate}
+                                onChange={(e) => setExpirationDate(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-lg font-medium mb-1 text-black">CVV</label>
+                            <input
+                                type="text"
+                                value={cvv}
+                                onChange={(e) => setCvv(e.target.value)}
+                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            />
+                        </div>
+                    </div>
+
+                    <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
                         Register
                     </button>
                 </form>
