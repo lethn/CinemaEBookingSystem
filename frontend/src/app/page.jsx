@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import NavBar from "./components/navBar";
 import ComingSoon from "./components/comingSoon";
 import NowPlaying from "./components/nowPlaying";
