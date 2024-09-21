@@ -66,9 +66,9 @@ export default function SelectTickets() {
                     <p>Category: {dummy_movie.category}</p>
                     <p>Director: {dummy_movie.director}</p>
                 </div>
-                <div class="col-span-2">
+                <div className="col-span-2">
                     <form onSubmit={handleSubmit}>
-                        <div class="grid grid-cols-2">
+                        <div className="grid grid-cols-2">
                             <div>
                                 {Object.keys(movieSchedule).map((date) => (
                                 <div key={date} className="mb-4">
