@@ -1,61 +1,97 @@
 "use client"
-import { useState, useEffect } from "react";
-import NavBar from "../components/navBar";
+import React, { useState, useEffect } from 'react';
+import NavBar from '../components/navBar';
 
 export default function ManagePromotions() {
-    const [userRole, setUserRole] = useState(null);
+  const [promotions, setPromotions] = useState([]);
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
         const role = localStorage.getItem('userRole'); // Fetch role from localStorage
         setUserRole(role);
     }, []);
 
-    return (
-        <div>
-            <NavBar userRole={userRole}/>
-            <h1>Manage Promotions</h1>
-            <table className="manage-table" cellPadding="10px">
-                <thead>
-                <tr>
-                    <th>Promotion:</th>
-                    <th>Code:</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Free movies</td>
-                    <td>1234</td>
-                    <td>
-                        {/* Man idk how to do this button doesnt do anything */}
-                        <input type="button" value="Delete"
-                               className="w-full bg-red-600 text-white p-3 rounded-md hover:bg-red-700-700">
-                        </input>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <h1>Add Promotion</h1>
-            <form className="shadow-lg w-80 rounded-lg">
-                <input
-                    type="text"
-                    placeholder="Promotion"
-                    className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                    required
-                /> <br/>
-                <input
-                    type="text"
-                    placeholder="Code"
-                    className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
-                    required
-                /> <br/>
-                {/*This button also does nothing also this form could be a component? sorry i dont know how this works*/}
-                <button type="submit"
-                        className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
-                    ADD
-                </button>
-            </form>
-        </div>
-    );
-}
+  const handleAddPromotion = (e) => {
+    e.preventDefault();
+    if (name && code && expiryDate) {
+      const newPromotion = { id: Date.now(), name, code, expiryDate };
+      setPromotions([...promotions, newPromotion]);
+      setName('');
+      setCode('');
+      setExpiryDate('');
+    }
+  };
 
+  const handleDeletePromotion = (id) => {
+    setPromotions(promotions.filter((promo) => promo.id !== id));
+  };
+
+  return (
+    <div>
+        <NavBar userRole={userRole}/>
+        <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Manage Promotions</h1>
+      
+      <form onSubmit={handleAddPromotion} className="mb-4">
+        <input
+          type="text"
+          placeholder="Promotion Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="border rounded p-2 mr-2 text-black"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Promotion Code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="border rounded p-2 mr-2 text-black"
+          required
+        />
+        <input
+          type="date"
+          value={expiryDate}
+          onChange={(e) => setExpiryDate(e.target.value)}
+          className="border rounded p-2 mr-2 text-black"
+          required
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Add Promotion
+        </button>
+      </form>
+
+      <table className="min-w-full border">
+        <thead>
+          <tr>
+            <th className="border p-2">Name</th>
+            <th className="border p-2">Code</th>
+            <th className="border p-2">Expiry Date</th>
+            <th className="border p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {promotions.map((promotion) => (
+            <tr key={promotion.id}>
+              <td className="border p-2">{promotion.name}</td>
+              <td className="border p-2">{promotion.code}</td>
+              <td className="border p-2">{promotion.expiryDate}</td>
+              <td className="border p-2">
+                <button
+                  onClick={() => handleDeletePromotion(promotion.id)}
+                  className="bg-red-500 text-white p-1 rounded"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    </div>
+  );
+};
