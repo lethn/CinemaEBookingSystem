@@ -75,8 +75,14 @@ const dummy_movies = [
 ];
 
 const Home = () => {
+    const [userRole, setUserRole] = useState(null);
     const [currentMovies, setCurrentMovies] = useState([]);
     const [comingSoonMovies, setComingSoonMovies] = useState([]);
+
+    useEffect(() => {
+        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
+        setUserRole(role); // Set role to state
+    }, []);
 
     // const fetchMovies = async () => {
     //     try {
@@ -112,9 +118,11 @@ const Home = () => {
         setComingSoonMovies(comingSoon);
     }, []);
 
+    
+
     return (
         <div>
-            <NavBar />
+            <NavBar userRole={userRole} />
             <SearchBar />
 
             <div className="my-8">

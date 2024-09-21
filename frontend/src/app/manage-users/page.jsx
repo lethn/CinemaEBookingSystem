@@ -2,18 +2,18 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/navBar";
 
-export default function ManageMovies() {
+export default function ManageUsers() {
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
         const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
+        setUserRole(role); // Set role to state
     }, []);
 
     return (
         <div>
             <NavBar userRole={userRole} />
-            Manage Movies
+            Manage Promotions
         </div>
     );
 }
