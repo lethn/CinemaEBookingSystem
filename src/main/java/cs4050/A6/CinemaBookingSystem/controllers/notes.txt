@@ -1,0 +1,17 @@
+Format for JSON body:
+{
+    "title": "Test2",
+    "category": "Fiction",
+    "cast": [
+        "Jacob",
+        "Bob",
+        "John"
+    ],
+    "director": "Tom",
+    "producer": "Alice",
+    "synopsis": "An epic film.",
+    "trailer": "www.google.com",
+    "picture": "www.s3.aws.com",
+    "rating": "PG-13"
+}
+

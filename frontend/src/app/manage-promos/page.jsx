@@ -1,3 +1,4 @@
+"use client"
 import NavBarAdmin from "../components/navBarAdmin";
 
 export default function Register() {

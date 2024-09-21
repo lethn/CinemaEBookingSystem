@@ -1,9 +1,12 @@
+"use client"
 import React from 'react';
 
 const MovieCard = (props) => {
     return (
         <div className="flex flex-col bg-white m-4 p-4 rounded-lg shadow-md">
-            <img src={props.picture} alt={`${props.title} poster`} className="w-full h-64 object-cover rounded-md" />
+            <div>
+            <img src={props.picture} alt={`${props.title} poster`} className="object-contain rounded-md w-[300px] h-[400px]"/>
+            </div>
             <h2 className="text-xl text-black font-bold mt-2">{props.title}</h2>
             <p className="text-gray-700 mt-2">Rating: {props.rating}</p>
             <p className="text-gray-700 mt-2">{props.category}</p>
