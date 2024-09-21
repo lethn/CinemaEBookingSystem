@@ -26,7 +26,7 @@ export default function Register() {
         // Perform registration logic (e.g., API call)
 
         // Redirect to a specified route
-        router.push('/');  // Adjust the path as needed
+        router.push('/register/email-confirmation');  // Adjust the path as needed
     };
 
     return (
