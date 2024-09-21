@@ -5,22 +5,15 @@ import NavBar from "../../components/navBar";
 
 export default function ConfirmEmail() {
     const router = useRouter();
-    const [userCode, setUserCode] = useState(0);
-    const [code, setCode] = useState(0);
+    const [userCode, setUserCode] = useState();
     const [error, setError] = useState('');
-
-    // randonmy generated 6 digit code
-    //setCode(Math.floor(100000 + Math.random() * 900000));
-    console.log(code);
-
-    //send email with code
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(code);
 
         // Basic code validation
-        if (userCode != code) {
+        // update later
+        if (false) {
             setError('Incorrect Code');
             return;
         }
