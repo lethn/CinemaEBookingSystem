@@ -10,11 +10,11 @@ export default function NowPlaying() {
                 Now Playing
             </h1>
             <div className="bg-slate-100 rounded-xl text-black text-center grid grid-cols-5 mx-10">
-            <MovieListing/>
-            <MovieListing/>
-            <MovieListing/>
-            <MovieListing/>
-            <MovieListing/>
+                <MovieListing title="T" rating="R" director="D"/>
+                <MovieListing title="T" rating="R" director="D"/>
+                <MovieListing title="T" rating="R" director="D"/>
+                <MovieListing title="T" rating="R" director="D"/>
+                <MovieListing title="T" rating="R" director="D"/>
             </div>
         </div>
     );
