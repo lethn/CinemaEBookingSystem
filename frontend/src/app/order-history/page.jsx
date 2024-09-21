@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/navBar";
 
-export default function ManageMovies() {
+export default function OrderHistory() {
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export default function ManageMovies() {
     return (
         <div>
             <NavBar userRole={userRole} />
-            Manage Movies
+            Order History
         </div>
     );
 }
