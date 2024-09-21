@@ -1,7 +1,7 @@
 import React from 'react';
 import MoviesCardList from './moviesCardList';
 
-const ComingSoon = (props) => {
+const NowPlaying = (props) => {
     return (
         <div>
             <MoviesCardList movies={props.movies} />
@@ -9,4 +9,4 @@ const ComingSoon = (props) => {
     );
 };
 
-export default ComingSoon;
+export default NowPlaying;
