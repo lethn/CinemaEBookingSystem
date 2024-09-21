@@ -24,12 +24,18 @@ export default function Register() {
         setError('');
 
         // Perform registration logic (e.g., API call)
+
+        // randonmy generated 6 digit code
+        // using Math.floor(100000 + Math.random() * 900000)
+
+        //send email with code
+        // verify email on next page
         
         // Store the role (user or admin) in localStorage
         localStorage.setItem('userRole', "user");
 
         // Redirect to a specified route
-        router.push('/');  // Adjust the path as needed
+        router.push('/register/email-confirmation');  // Adjust the path as needed
     };
 
     return (
