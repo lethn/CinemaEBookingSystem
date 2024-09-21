@@ -1,21 +1,12 @@
-import Link from "next/link";
-import MovieListing from "./movieListing";
+import React from 'react';
+import MoviesCardList from './moviesCardList';
 
-export default function NowPlaying() {
-    // We could maybe do the API calls here instead of on the homepage
-
+const ComingSoon = (props) => {
     return (
         <div>
-            <h1 className="font-bold m-2 text-4xl text-center">
-                Now Playing
-            </h1>
-            <div className="bg-slate-100 rounded-xl text-black text-center grid grid-cols-5 mx-10">
-                <MovieListing title="T" rating="R" director="D"/>
-                <MovieListing title="T" rating="R" director="D"/>
-                <MovieListing title="T" rating="R" director="D"/>
-                <MovieListing title="T" rating="R" director="D"/>
-                <MovieListing title="T" rating="R" director="D"/>
-            </div>
+            <MoviesCardList movies={props.movies} />
         </div>
     );
-}
+};
+
+export default ComingSoon;

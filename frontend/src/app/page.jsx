@@ -1,103 +1,112 @@
-"use client"
+"use client";
 import NavBar from "./components/navBar";
 import ComingSoon from "./components/comingSoon";
 import NowPlaying from "./components/nowPlaying";
 import SearchBar from "./components/searchBar";
-import {useState, useEffect} from "react";
-import YouTube from 'react-youtube';
+import { useState, useEffect } from "react";
 
-// Dummy data for movies
 const movies = [
     {
         id: 1,
-        title: "Avengers: Endgame",
-        description: "After the devastating events of Avengers: Infinity War, the universe is in ruins.",
-        trailerUrl: "https://www.youtube.com/embed/TcMBFSGVi1c",
-        category: "Currently Running"
+        title: "The Galactic Odyssey",
+        category: "Science Fiction",
+        cast: ["Chris Hemsworth", "Natalie Portman", "Mark Ruffalo"],
+        director: "James Cameron",
+        producer: "Kathleen Kennedy",
+        synopsis: "A thrilling adventure through the galaxy, where heroes must unite to battle an ancient alien threat.",
+        trailer: "https://youtube.com/trailer/galacticodyssey",
+        picture: "https://placehold.co/500x750",
+        rating: "PG-13",
+        nowPlaying: true
     },
     {
         id: 2,
-        title: "Spider-Man: Far From Home",
-        description: "Following the events of Avengers: Endgame, Spider-Man must step up.",
-        trailerUrl: "https://www.youtube.com/embed/Nt9L1jCKGnE",
-        category: "Coming Soon"
+        title: "Lost in the Woods",
+        category: "Thriller",
+        cast: ["Emily Blunt", "Jake Gyllenhaal", "Jessica Chastain"],
+        director: "David Fincher",
+        producer: "Ridley Scott",
+        synopsis: "A group of hikers faces their worst nightmares after getting lost in a mysterious forest.",
+        trailer: "https://youtube.com/trailer/lostinthewoods",
+        picture: "https://placehold.co/500x750",
+        rating: "R",
+        nowPlaying: false
     },
     {
         id: 3,
-        title: "The Lion King",
-        description: "After the murder of his father, a young lion prince flees his kingdom.",
-        trailerUrl: "https://www.youtube.com/embed/7TavVZMewpY",
-        category: "Currently Running"
+        title: "Love at Sunset",
+        category: "Romantic Comedy",
+        cast: ["Ryan Gosling", "Emma Stone", "Anne Hathaway"],
+        director: "Nancy Meyers",
+        producer: "J.J. Abrams",
+        synopsis: "Two strangers meet at a tropical resort and find love when they least expect it.",
+        trailer: "https://youtube.com/trailer/loveatsunset",
+        picture: "https://placehold.co/500x750",
+        rating: "PG",
+        nowPlaying: true
+    },
+    {
+        id: 4,
+        title: "The Silent Struggle",
+        category: "Drama",
+        cast: ["Viola Davis", "Denzel Washington", "Octavia Spencer"],
+        director: "Ava DuVernay",
+        producer: "Tyler Perry",
+        synopsis: "A heartfelt story of a family's battle against poverty and their journey towards hope and survival.",
+        trailer: "https://youtube.com/trailer/thesilentstruggle",
+        picture: "https://placehold.co/500x750",
+        rating: "PG-13",
+        nowPlaying: false
+    },
+    {
+        id: 5,
+        title: "Code of Shadows",
+        category: "Action",
+        cast: ["Keanu Reeves", "Charlize Theron", "Idris Elba"],
+        director: "Chad Stahelski",
+        producer: "Christopher Nolan",
+        synopsis: "A rogue assassin must confront his past when he is targeted by a global crime syndicate.",
+        trailer: "https://youtube.com/trailer/codeofshadows",
+        picture: "https://placehold.co/500x750",
+        rating: "R",
+        nowPlaying: true
     }
 ];
 
+
 const Home = () => {
-    const [currentMovies, setCurrentMovies] = useState();
-    const [comingSoonMovies, setComingSoonMovies] = useState();
+    const [currentMovies, setCurrentMovies] = useState([]);
+    const [comingSoonMovies, setComingSoonMovies] = useState([]);
 
-    // Get Current Movies From Database
-    
-    // fetching the json file works, but getting it into the useState or displaying the data does not
-    // same code but inside of a useEffect is commeneted down below
-
-    fetch('http://localhost:8080/movies')
-    .then(response => response.json())
-    .then(json => {
-        console.log(json); // json is printed
-        setCurrentMovies(json); // idk if this works
-    })
-    .catch((err) => {
-        console.log(err.message);
-    });
-    
-    
-    /*
     useEffect(() => {
-        const fetchMovies = async () => {
-            fetch('http://localhost:8080/movies')
-            .then(response => response.json())
-            .then(json => {
-                console.log(json);
-                setCurrentMovies(json);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-        };
-        fetchMovies();
+        // Filter the movies, if nowPlaying = true => current movies
+        //                       nowPlaying = false => comming soon movies
+        const current = movies.filter((movie) => movie.nowPlaying === true);
+        const comingSoon = movies.filter((movie) => movie.nowPlaying === false);
+
+        console.log(current);
+        console.log(comingSoon);
+
+        setCurrentMovies(current);
+        setComingSoonMovies(comingSoon);
     }, []);
-    */
-
-    
-    // Get Comming Soon Movies From Database
-
-
-    // useEffect to re-render page
 
     return (
         <div>
-            <NavBar/>
-            <SearchBar/>
+            <NavBar />
+            <SearchBar />
 
-            <div>
-                <NowPlaying/>
-            </div>
-            <div className="mt-10">
-                <ComingSoon/>
-            </div>
-            <pre>
-                {JSON.stringify(currentMovies, null, 2)}
-            </pre>
-
-            <div>
-
-                {/* Need to install react-youtube for this to work */}
-                {/* Requires video ID only */}
-                <YouTube videoId="TcMBFSGVi1c" />
+            <div className="my-8">
+                <h2 className="text-2xl font-bold m-4">Currently Running Movies</h2>
+                <NowPlaying movies={currentMovies} />
             </div>
 
+            <div className="my-8">
+                <h2 className="text-2xl font-bold m-4">Coming Soon Movies</h2>
+                <ComingSoon movies={comingSoonMovies} />
+            </div>
         </div>
     );
-}
+};
 
 export default Home;
