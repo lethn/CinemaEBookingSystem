@@ -24,6 +24,9 @@ export default function Register() {
         setError('');
 
         // Perform registration logic (e.g., API call)
+        
+        // Store the role (user or admin) in localStorage
+        localStorage.setItem('userRole', "user");
 
         // Redirect to a specified route
         router.push('/');  // Adjust the path as needed
