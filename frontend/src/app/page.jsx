@@ -9,7 +9,7 @@ const dummy_movies = [
     {
         id: 1,
         title: "Interstellar",
-        category: "Science Fiction",
+        category: "Science Fiction / Adventure",
         cast: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
         director: "Christopher Nolan",
         producer: "Emma Thomas, Christopher Nolan",
@@ -22,7 +22,7 @@ const dummy_movies = [
     {
         id: 2,
         title: "Inception",
-        category: "Science Fiction",
+        category: "Science Fiction / Action",
         cast: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
         director: "Christopher Nolan",
         producer: "Emma Thomas, Christopher Nolan",
@@ -35,7 +35,7 @@ const dummy_movies = [
     {
         id: 3,
         title: "The Matrix",
-        category: "Science Fiction",
+        category: "Action / Martial Arts",
         cast: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
         director: "The Wachowskis",
         producer: "Joel Silver",
@@ -48,7 +48,7 @@ const dummy_movies = [
     {
         id: 4,
         title: "Avatar",
-        category: "Science Fiction",
+        category: "Action / Fantasy",
         cast: ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
         director: "James Cameron",
         producer: "James Cameron, Jon Landau",
@@ -61,7 +61,7 @@ const dummy_movies = [
     {
         id: 5,
         title: "Blade Runner 2049",
-        category: "Science Fiction",
+        category: "Science Fiction / Action",
         cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"],
         director: "Denis Villeneuve",
         producer: "Andrew A. Kosove, Broderick Johnson",
@@ -77,6 +77,8 @@ const Home = () => {
     const [userRole, setUserRole] = useState(null);
     const [currentMovies, setCurrentMovies] = useState([]);
     const [comingSoonMovies, setComingSoonMovies] = useState([]);
+    const [searchMovie, setSearchMovie] = useState("");
+    const [searchType, setSearchType] = useState("title");
 
     useEffect(() => {
         const role = localStorage.getItem('userRole'); // Fetch role from localStorage
@@ -117,21 +119,36 @@ const Home = () => {
         setComingSoonMovies(comingSoon);
     }, []);
 
-    
+    const filterMovies = (movies) => {
+        if (!searchMovie) return movies; // If no search term, return all movies
+
+        return movies.filter(movie => {
+            if (searchType === "title") {
+                return movie.title.toLowerCase().includes(searchMovie.toLowerCase());
+            } else if (searchType === "category") {
+                return movie.category.toLowerCase().includes(searchMovie.toLowerCase());
+            }
+            return false;
+        });
+    };
 
     return (
         <div>
             <NavBar userRole={userRole} />
-            <SearchBar />
+            <SearchBar
+                setSearchMovie={setSearchMovie}
+                searchType={searchType}
+                setSearchType={setSearchType}
+            />
 
             <div className="my-8">
                 <h2 className="text-2xl font-bold m-4">Currently Running Movies</h2>
-                <NowPlaying movies={currentMovies} />
+                <NowPlaying movies={filterMovies(currentMovies)} />
             </div>
 
             <div className="my-8">
                 <h2 className="text-2xl font-bold m-4">Coming Soon Movies</h2>
-                <ComingSoon movies={comingSoonMovies} />
+                <ComingSoon movies={filterMovies(comingSoonMovies)} />
             </div>
         </div>
     );

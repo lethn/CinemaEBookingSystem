@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import Modal from './Modal'; // Make sure the path is correct based on your file structure
+import Link from 'next/link';
+import Modal from './Modal'; // Ensure the path is correct based on your file structure
 
 const MovieCard = (props) => {
     const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const openModalHandler = () => setShowModal(true);
+    const closeModalHandler = () => setShowModal(false);
 
     return (
         <div className="flex flex-col bg-white m-4 p-4 rounded-lg shadow-md">
@@ -17,15 +18,15 @@ const MovieCard = (props) => {
             <p className="text-gray-700 mt-2">{props.category}</p>
 
             <div className="flex justify-between mt-2 gap-4">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={openModal}>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={openModalHandler}>
                     Trailer
                 </button>
-                <button
-                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                    onClick={() => alert('More info')}
-                >
-                    Info
-                </button>
+
+                <Link href="/movie" passHref>
+                    <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Info
+                    </button>
+                </Link>
 
                 {props.nowPlaying && (
                     <button
@@ -37,7 +38,7 @@ const MovieCard = (props) => {
                 )}
             </div>
 
-            <Modal isVisible={showModal} onClose={closeModal}>
+            <Modal isVisible={showModal} onClose={closeModalHandler}>
                 <div className="aspect-w-16 aspect-h-9">
                     <iframe
                         width="100%"

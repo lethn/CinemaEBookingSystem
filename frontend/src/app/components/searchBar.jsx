@@ -1,21 +1,19 @@
 "use client"
-import {useRouter} from 'next/navigation';
-import {useState} from 'react';
+import { useState } from 'react';
 
-const SearchBar = ({onSearch}) => {
-    const router = useRouter();
-    const [search, setSearch] = useState('');
-    
+const SearchBar = ({ setSearchMovie, searchType, setSearchType }) => {
+    const [search, setSearch] = useState(""); // State to store input locally
+
     const handleInputChange = (e) => {
-        setSearch(e.target.value);
+        setSearch(e.target.value); // Update the search term on input change
     };
 
-    const handleSearch = () => {
-        if (onSearch) {
-            onSearch(search);
-        }
+    const handleDropdownChange = (e) => {
+        setSearchType(e.target.value); // Update the search type (title/category)
+    };
 
-        router.push("/search-result");
+    const onClickSearchQueryHandler = () => {
+        setSearchMovie(search); // Call searchMovie to update the search term in the parent component
     };
 
     return (
@@ -24,17 +22,25 @@ const SearchBar = ({onSearch}) => {
                 type="text"
                 value={search}
                 onChange={handleInputChange}
-                placeholder="Search Movies..."
+                placeholder="Search Movie"
                 className="text-black w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <select
+                value={searchType}
+                onChange={handleDropdownChange}
+                className="text-black ml-3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                <option value="title">Title</option>
+                <option value="category">Category</option>
+            </select>
             <button
-                onClick={handleSearch}
+                onClick={onClickSearchQueryHandler}
                 className="ml-3 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
             >
-            Search
+                Search
             </button>
         </div>
     );
 }
 
-export default SearchBar
+export default SearchBar;
