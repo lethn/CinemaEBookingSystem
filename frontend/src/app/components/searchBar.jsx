@@ -1,19 +1,22 @@
+// SearchBar.js
 "use client"
 import { useState } from 'react';
 
 const SearchBar = ({ setSearchMovie, searchType, setSearchType }) => {
-    const [search, setSearch] = useState(""); // State to store input locally
+    const [search, setSearch] = useState("");
+    const [selectedType, setSelectedType] = useState(searchType);
 
     const handleInputChange = (e) => {
-        setSearch(e.target.value); // Update the search term on input change
+        setSearch(e.target.value);
     };
 
     const handleDropdownChange = (e) => {
-        setSearchType(e.target.value); // Update the search type (title/category)
+        setSelectedType(e.target.value);
     };
 
     const onClickSearchQueryHandler = () => {
-        setSearchMovie(search); // Call searchMovie to update the search term in the parent component
+        setSearchType(selectedType);
+        setSearchMovie(search);
     };
 
     return (
@@ -26,7 +29,7 @@ const SearchBar = ({ setSearchMovie, searchType, setSearchType }) => {
                 className="text-black w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <select
-                value={searchType}
+                value={selectedType}
                 onChange={handleDropdownChange}
                 className="text-black ml-3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >

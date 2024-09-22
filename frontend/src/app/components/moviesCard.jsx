@@ -42,7 +42,7 @@ const MovieCard = (props) => {
                 <div className="aspect-w-16 aspect-h-9">
                     <iframe
                         width="100%"
-                        height="400px"
+                        height="500px"
                         src={props.trailer.replace("watch?v=", "embed/")}
                         title={`${props.title} trailer`}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

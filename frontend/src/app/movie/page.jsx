@@ -32,7 +32,6 @@ export default function Movie() {
 
             <div className="container mx-auto p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Left Side: Movie Poster */}
                     <div className="flex justify-center">
                         <img
                             src={dummy_movie.picture}
@@ -41,7 +40,6 @@ export default function Movie() {
                         />
                     </div>
 
-                    {/* Right Side: Movie Details */}
                     <div className="flex flex-col justify-between">
                         <div>
                             <h1 className="text-4xl font-bold mb-4">{dummy_movie.title}</h1>
@@ -68,7 +66,6 @@ export default function Movie() {
                             </p>
                         </div>
 
-                        {/* Trailer Embed */}
                         <div className="mt-6">
                             <div className="aspect-w-16 aspect-h-9">
                                 <iframe
@@ -82,7 +79,6 @@ export default function Movie() {
                             </div>
                         </div>
 
-                        {/* Book Tickets Button */}
                         <div className="mt-6">
                             <button
                                 className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"

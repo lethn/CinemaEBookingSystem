@@ -17,7 +17,7 @@ function Modal(props) {
 			id="wrapper"
 			onClick={handleClose}
 		>
-			<div className="w-[600px] flex flex-col">
+			<div className="w-[800px] flex flex-col">
 				<div className="flex justify-between items-center">
 					<div></div>
 					<button
