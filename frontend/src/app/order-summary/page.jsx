@@ -104,6 +104,7 @@ export default function OrderSummary() {
                                 value={cardNumber}
                                 onChange={(e) => setCardNumber(e.target.value)}
                                 className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                required
                             />
                         </div>
 
@@ -115,6 +116,7 @@ export default function OrderSummary() {
                                     value={expirationDate}
                                     onChange={(e) => setExpirationDate(e.target.value)}
                                     className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                    required
                                 />
                             </div>
                             <div className="flex-1">
@@ -124,6 +126,7 @@ export default function OrderSummary() {
                                     value={cvv}
                                     onChange={(e) => setCvv(e.target.value)}
                                     className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                    required
                                 />
                             </div>
                         </div>
