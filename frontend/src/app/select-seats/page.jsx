@@ -1,8 +1,10 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import NavBar from '../components/navBar';
 
 export default function SelectSeats() {
+    const router =useRouter();
     const [userRole, setUserRole] = useState(null);
 
     const [selectedSeats, setSelectedSeats] = useState([]);
@@ -16,6 +18,10 @@ export default function SelectSeats() {
         } else {
         setSelectedSeats([...selectedSeats, seat]);
         }
+    };
+
+    const handleCancel = (e) => {
+        router.push('/');
     };
 
     useEffect(() => {
@@ -57,6 +63,9 @@ export default function SelectSeats() {
                         <p className="text-lg">{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'No seats selected'}</p>
                     </div>
                     <button className='bg-blue-500 p-2 rounded-lg'>Continue</button>
+                    <button onClick={handleCancel} className="ml-4 bg-red-500 text-white px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
                 </div>
                 
             </div>

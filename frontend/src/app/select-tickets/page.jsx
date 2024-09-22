@@ -128,8 +128,8 @@ export default function SelectTickets() {
                                 Submit
                                 </button>
                             )}
-                            <button onClick={handleCancel} className="mt-4 ml-4 bg-red-500 text-white px-4 py-2 rounded">
-                                Cancel
+                                <button onClick={handleCancel} className="mt-4 ml-4 bg-red-500 text-white px-4 py-2 rounded">
+                                    Cancel
                                 </button>
                             </div>
                         </div>
