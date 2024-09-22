@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Modal from './Modal'; // Ensure the path is correct based on your file structure
 
 const MovieCard = (props) => {
+    const router = useRouter();
     const [showModal, setShowModal] = useState(false);
 
     const openModalHandler = () => setShowModal(true);
     const closeModalHandler = () => setShowModal(false);
+
+    const buyTickets = (e) => {
+        e.preventDefault();
+        router.push("/select-tickets");
+    };
 
     return (
         <div className="flex flex-col bg-white m-4 p-4 rounded-lg shadow-md">
@@ -31,7 +38,7 @@ const MovieCard = (props) => {
                 {props.nowPlaying && (
                     <button
                         className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                        onClick={() => alert('Booking Tickets')}
+                        onClick={buyTickets}
                     >
                         Book Tickets
                     </button>

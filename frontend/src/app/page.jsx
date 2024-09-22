@@ -86,39 +86,39 @@ const Home = () => {
         setUserRole(role); // Set role to state
     }, []);
 
-    const fetchMovies = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/movies');
-            const moviesData = response.data;
-            console.log(response.data);
+    // const fetchMovies = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/movies');
+    //         const moviesData = response.data;
+    //         console.log(response.data);
 
-            // Filter the movies
-            const current = moviesData.filter((movie) => movie.nowPlaying === true);
-            const comingSoon = moviesData.filter((movie) => movie.nowPlaying === false);
+    //         // Filter the movies
+    //         const current = moviesData.filter((movie) => movie.nowPlaying === true);
+    //         const comingSoon = moviesData.filter((movie) => movie.nowPlaying === false);
 
-            setCurrentMovies(current);
-            setComingSoonMovies(comingSoon);
-        } catch (error) {
-            console.error('Error fetching movies:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchMovies();
-    }, []);
+    //         setCurrentMovies(current);
+    //         setComingSoonMovies(comingSoon);
+    //     } catch (error) {
+    //         console.error('Error fetching movies:', error);
+    //     }
+    // };
 
     // useEffect(() => {
-    //     // Filter the movies, if nowPlaying = true => current movies
-    //     //                       nowPlaying = false => comming soon movies
-    //     const current = dummy_movies.filter((movie) => movie.nowPlaying === true);
-    //     const comingSoon = dummy_movies.filter((movie) => movie.nowPlaying === false);
-
-    //     console.log(current);
-    //     console.log(comingSoon);
-
-    //     setCurrentMovies(current);
-    //     setComingSoonMovies(comingSoon);
+    //     fetchMovies();
     // }, []);
+
+    useEffect(() => {
+        // Filter the movies, if nowPlaying = true => current movies
+        //                       nowPlaying = false => comming soon movies
+        const current = dummy_movies.filter((movie) => movie.nowPlaying === true);
+        const comingSoon = dummy_movies.filter((movie) => movie.nowPlaying === false);
+
+        console.log(current);
+        console.log(comingSoon);
+
+        setCurrentMovies(current);
+        setComingSoonMovies(comingSoon);
+    }, []);
 
     const filterMovies = (movies) => {
         if (!searchMovie) return movies; // If no search term, return all movies

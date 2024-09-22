@@ -27,6 +27,7 @@ export default function OrderSummary() {
     };
 
     const onClickAddCardHandler = () => {
+        event.preventDefault();
         router.push('/order-confirmation')
     };
 
