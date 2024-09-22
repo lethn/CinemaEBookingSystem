@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import NavBar from "../components/navBar";
 
 const dummy_movie = {
@@ -20,11 +21,18 @@ const dummy_movie = {
 
 export default function Movie() {
     const [userRole, setUserRole] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
         const role = localStorage.getItem("userRole"); // Fetch role from localStorage
         setUserRole(role);
     }, []);
+
+    const buyTickets = (e) => {
+        e.preventDefault();
+        router.push("/select-tickets");
+    };
+
 
     return (
         <div>
@@ -82,7 +90,7 @@ export default function Movie() {
                         <div className="mt-6">
                             <button
                                 className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
-                                onClick={() => alert("Booking Tickets")}
+                                onClick={buyTickets}
                             >
                                 Book Tickets
                             </button>

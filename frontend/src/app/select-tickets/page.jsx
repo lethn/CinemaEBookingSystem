@@ -34,6 +34,7 @@ export default function SelectTickets() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        router.push('/select-seats');
     };
 
     const handleCancel = (e) => {

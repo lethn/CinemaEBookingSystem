@@ -20,6 +20,10 @@ export default function SelectSeats() {
         }
     };
 
+    const handleSubmit = (e) => {
+        router.push('/order-summary')
+    }
+
     const handleCancel = (e) => {
         router.push('/');
     };
@@ -62,10 +66,12 @@ export default function SelectSeats() {
                         <h2 className="text-xl font-semibold">Selected Seats:</h2>
                         <p className="text-lg">{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'No seats selected'}</p>
                     </div>
-                    <button className='bg-blue-500 p-2 rounded-lg'>Continue</button>
-                    <button onClick={handleCancel} className="ml-4 bg-red-500 text-white px-4 py-2 rounded-lg">
-                        Cancel
-                    </button>
+                    <div>
+                        <button onClick={handleSubmit} className='bg-blue-500 p-2 rounded-lg'>Continue</button>
+                        <button onClick={handleCancel} className="ml-4 bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Cancel
+                        </button>
+                    </div>
                 </div>
                 
             </div>
