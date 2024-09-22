@@ -7,13 +7,13 @@ export default function ManageUsers() {
 
     useEffect(() => {
         const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role); // Set role to state
+        setUserRole(role);
     }, []);
 
     return (
         <div>
             <NavBar userRole={userRole} />
-            Manage Promotions
+            Manage Users
         </div>
     );
 }
