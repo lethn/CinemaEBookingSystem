@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import NavBar from '../components/navBar';
 
 export default function SelectTickets() {
+    const router =useRouter();
     const [userRole, setUserRole] = useState(null);
     const [selectedShowtime, setSelectedShowtime] = useState('');
     const [numberOfSeats, setNumberOfSeats] = useState(1);
@@ -32,6 +34,10 @@ export default function SelectTickets() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+    };
+
+    const handleCancel = (e) => {
+        router.push('/');
     };
 
     const movieSchedule = {
@@ -122,6 +128,9 @@ export default function SelectTickets() {
                                 Submit
                                 </button>
                             )}
+                            <button onClick={handleCancel} className="mt-4 ml-4 bg-red-500 text-white px-4 py-2 rounded">
+                                Cancel
+                                </button>
                             </div>
                         </div>
                     </form>

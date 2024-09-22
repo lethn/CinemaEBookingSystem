@@ -11,10 +11,12 @@ export default function OrderHistory() {
     }, []);
 
     // use api call to fetch order history for logged in user
+    // filter data by userID
 
     const dummy_history = [
         {
-            id: "1",
+            id: 1,
+            userID: 200,
             email: "example@gmail.com",
             title: "Blade Runner 2049",
             purchaseDate: "09/21/2024",
@@ -23,7 +25,8 @@ export default function OrderHistory() {
             total: 50.00,
         },
         {
-            id: "2",
+            id: 2,
+            userID: 200,
             email: "example@gmail.com",
             title: "Interstellar",
             purchaseDate: "09/21/2024",
@@ -32,7 +35,8 @@ export default function OrderHistory() {
             total: 25.00,
         },
         {
-            id: "3",
+            id: 3,
+            userID: 200,
             email: "example@gmail.com",
             title: "Morbius",
             purchaseDate: "09/4/2024",
@@ -68,13 +72,10 @@ export default function OrderHistory() {
                                     <td className="border p-2">{order.title}</td>
                                     <td className="border p-2">{order.purchaseDate}</td>
                                     <td className="border p-2">{order.movieDate}</td>
-                                    <td className="border p-2">{order.seats}</td>
+                                    <td className="border p-2">{order.seats.join(", ")}</td>
                                     <td className="border p-2">${order.total}</td>
                                     {/* change to display dollar ammount later*/}
                                 </tr>
-                                
-                            
-                            
                             ))}
                         </tbody>
                     </table>
