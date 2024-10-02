@@ -1,23 +1,27 @@
 package cs4050.A6.CinemaBookingSystem.models.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "payment-card")
+@Table(name = "payment_card")
 @Data
 public class PaymentCard {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_card_id")
     private Long id;
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false) // Cannot be null -- must be associated with a customer
+    private Customer customer;
 
     private String cardNumber; // Need to be encrypted???
-    // Maybe add last 4 digits or friendly name for displaying?
+    // Maybe add last 4 digits or friendly name for displaying???
     private LocalDate expirationDate;
     private String billingAddress;
 

@@ -1,7 +1,7 @@
-package cs4050.A6.CinemaBookingSystem.controllers;
+package cs4050.A6.CinemaBookingSystem.controllers.movie;
 
-import cs4050.A6.CinemaBookingSystem.models.Movie;
-import cs4050.A6.CinemaBookingSystem.repositories.MovieRepository;
+import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
+import cs4050.A6.CinemaBookingSystem.repositories.movie.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

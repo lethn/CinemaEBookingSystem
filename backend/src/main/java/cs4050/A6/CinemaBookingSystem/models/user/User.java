@@ -1,8 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.models.user;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 
 // Defines common user functionality for both admin and customer concrete classes
@@ -10,7 +8,8 @@ import lombok.Data;
 @Data // Defines standard methods and constructors
 public abstract class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     private String firstName;

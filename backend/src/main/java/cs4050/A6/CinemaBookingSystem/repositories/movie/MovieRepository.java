@@ -1,6 +1,6 @@
-package cs4050.A6.CinemaBookingSystem.repositories;
+package cs4050.A6.CinemaBookingSystem.repositories.movie;
 
-import cs4050.A6.CinemaBookingSystem.models.Movie;
+import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

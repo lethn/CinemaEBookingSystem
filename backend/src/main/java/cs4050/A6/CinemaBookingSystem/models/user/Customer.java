@@ -1,18 +1,29 @@
 package cs4050.A6.CinemaBookingSystem.models.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import cs4050.A6.CinemaBookingSystem.models.cinema.Booking;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "customer")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Customer extends User {
-    private CustomerState status;
-    private List<PaymentCard> paymentCards; // Max 3 cards -- validate in add logic
-    // TO DO: Add booking attribute
+    private CustomerState status = CustomerState.INACTIVE;
+
+    // Non-required fields upon creation
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PaymentCard> paymentCards = new ArrayList<>(); // Max 3 cards -- validate in add logic
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Booking> bookings = new ArrayList<>();
 
     // TO DO: Add methods
     public boolean addPaymentCard(String cardNumber, LocalDate expirationDate, String billingAddress) {
