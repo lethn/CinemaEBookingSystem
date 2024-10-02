@@ -38,6 +38,17 @@ public class UserController {
         return ResponseEntity.ok(customers);
     }
 
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Return successful response with JSON encoded body
+        return ResponseEntity.ok(customer.get());
+    }
+
     @PostMapping("/login") // Login for both customers and admins -- checks for admin account first
     public ResponseEntity<User> checkLogin(@RequestBody LoginRequest loginRequest) {
         // Check if admin account
@@ -92,13 +103,12 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/customers")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+    @PostMapping("/customers") // Creates or updates existing customer object
+    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         // Encode password
         String encodedPassword = Utility.encodePassword(customer.getPassword());
         customer.setPassword(encodedPassword);
 
-        // Create customer in database
         customerRepository.save(customer);
 
         // Return successful response with JSON encoded object created
@@ -114,8 +124,8 @@ public class UserController {
         return ResponseEntity.ok(admins);
     }
 
-    @PostMapping("/admins")
-    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
+    @PostMapping("/admins") // Creates or updates existing admin object
+    public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
         // Encode password
         String encodedPassword = Utility.encodePassword(admin.getPassword());
         admin.setPassword(encodedPassword);
