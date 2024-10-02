@@ -1,11 +1,15 @@
 package cs4050.A6.CinemaBookingSystem.models.user;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // Defines common user functionality for both admin and customer concrete classes
 @MappedSuperclass // Allows inheritance by children from this base class in Spring
-@Data // Defines standard methods and constructors
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,5 +19,5 @@ public abstract class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String passwordEncoding; // Encoded using Spring Security Password Encoder
+    private String password; // Encoded using Spring Security Password Encoder during creation -- raw password passed
 }

@@ -1,14 +1,14 @@
 package cs4050.A6.CinemaBookingSystem.models.cinema;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.sql.Update;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,7 +31,7 @@ public class Show {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
-//     TO DO: Update class diagram to include boolean flag
+    //     TO DO: Update class diagram to include boolean flag
 //     isAvailable indicates if the seat is now available or reserved
     public void updateSeatStatus(String seatId, boolean isAvailable) {
         if (isAvailable) {

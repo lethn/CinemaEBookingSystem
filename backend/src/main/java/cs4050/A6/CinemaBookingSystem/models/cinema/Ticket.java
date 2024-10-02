@@ -1,9 +1,9 @@
 package cs4050.A6.CinemaBookingSystem.models.cinema;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity

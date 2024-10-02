@@ -1,7 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.models.cinema;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,4 +15,6 @@ public class Promotion {
     @Column(name = "promotion_id")
     private Long id;
 
+    private String promoCode;
+    private Integer discount; // Discount % -- e.g., 10 means 10% off
 }
