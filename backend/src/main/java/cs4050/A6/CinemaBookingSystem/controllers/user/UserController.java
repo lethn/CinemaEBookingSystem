@@ -1,7 +1,10 @@
 package cs4050.A6.CinemaBookingSystem.controllers.user;
 
+import cs4050.A6.CinemaBookingSystem.models.user.Admin;
 import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.models.user.CustomerState;
+import cs4050.A6.CinemaBookingSystem.models.user.User;
+import cs4050.A6.CinemaBookingSystem.repositories.user.AdminRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.security.LoginRequest;
 import cs4050.A6.CinemaBookingSystem.utility.Utility;
@@ -15,14 +18,16 @@ import java.util.Optional;
 // CORS Configuration for specific endpoint (front-end)
 @CrossOrigin(origins = "http://localhost:3000")
 
-// Setups various public-facing REST endpoints for interacting with customer accounts
+// Setups various public-facing REST endpoints for interacting with admin and customer accounts
 @RestController
-public class CustomerController {
+public class UserController {
     private final CustomerRepository customerRepository;
+    private final AdminRepository adminRepository;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository) {
+    public UserController(CustomerRepository customerRepository, AdminRepository adminRepository) {
         this.customerRepository = customerRepository;
+        this.adminRepository = adminRepository;
     }
 
     @GetMapping("/customers")
@@ -33,18 +38,29 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
-    @PostMapping("/customers/login")
-    public ResponseEntity<Customer> checkCustomerLogin(@RequestBody LoginRequest loginRequest) {
-        // Find customer
+    @PostMapping("/login") // Login for both customers and admins -- checks for admin account first
+    public ResponseEntity<User> checkLogin(@RequestBody LoginRequest loginRequest) {
+        // Check if admin account
+        Optional<Admin> existingAdmin = adminRepository.findByEmail(loginRequest.getEmail());
+        if (existingAdmin.isPresent()) {
+            // Admin account, now validate password
+            if (!Utility.isValidPassword(loginRequest.getPassword(), existingAdmin.get().getPassword())) {
+                return ResponseEntity.badRequest().build(); // Invalid password
+            } else {
+                return ResponseEntity.ok(existingAdmin.get());
+            }
+        }
+
+        // Not an admin, so check for customer account
         Optional<Customer> existingCustomer = customerRepository.findByEmail(loginRequest.getEmail());
         if (existingCustomer.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Does not exist
+            return ResponseEntity.notFound().build(); // Neither type of account exists
         }
 
         // Verify customer is not inactive/not suspended
         var customerState = existingCustomer.get().getStatus();
         if (customerState == CustomerState.INACTIVE || customerState == CustomerState.SUSPENDED) {
-            return ResponseEntity.badRequest().build(); // Invalid account
+            return ResponseEntity.badRequest().build(); // Invalid customer account
         }
 
         // Validate password against saved
@@ -87,5 +103,26 @@ public class CustomerController {
 
         // Return successful response with JSON encoded object created
         return ResponseEntity.ok(customer);
+    }
+
+    // Admin specific functionality
+    @GetMapping("/admins")
+    public ResponseEntity<List<Admin>> getAdmins() {
+        List<Admin> admins = adminRepository.findAll();
+
+        // Return successful response with JSON encoded body
+        return ResponseEntity.ok(admins);
+    }
+
+    @PostMapping("/admins")
+    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
+        // Encode password
+        String encodedPassword = Utility.encodePassword(admin.getPassword());
+        admin.setPassword(encodedPassword);
+
+        adminRepository.save(admin);
+
+        // Return successful response with JSON encoded object created
+        return ResponseEntity.ok(admin);
     }
 }

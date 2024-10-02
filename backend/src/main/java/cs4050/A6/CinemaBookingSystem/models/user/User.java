@@ -20,4 +20,5 @@ public abstract class User {
     private String lastName;
     private String email;
     private String password; // Encoded using Spring Security Password Encoder during creation -- raw password passed
+    private UserType userType;
 }
