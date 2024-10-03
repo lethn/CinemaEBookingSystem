@@ -49,6 +49,9 @@ public class ShowController {
             return ResponseEntity.notFound().build(); // Does not exist
         }
 
+        // Add total seats based on room
+        show.setAllSeats(existingShowroom.get().getSeats());
+
         // Save show to DB
         var result = showRepository.save(show);
 

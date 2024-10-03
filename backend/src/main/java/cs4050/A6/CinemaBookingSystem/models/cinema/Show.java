@@ -21,18 +21,18 @@ public class Show {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "show_id")
     private Long id;
-    @ElementCollection(targetClass = String.class)
-    private Set<String> reservedSeats; // Stores seat ids that are already reserved -- non-present ids are available
 
     private int durationInMinutes;
     private LocalDateTime time;
 
     // Non-required fields upon creation
+    @ElementCollection(targetClass = String.class)
+    private List<String> allSeats; // All seats based on parent showroom -- no reservation information
+    @ElementCollection(targetClass = String.class)
+    private Set<String> reservedSeats; // Stores seat ids that are already reserved -- non-present ids are available
     @OneToMany(cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
-    //     TO DO: Update class diagram to include boolean flag
-//     isAvailable indicates if the seat is now available or reserved
     public void updateSeatStatus(String seatId, boolean isAvailable) {
         if (isAvailable) {
             // Make available

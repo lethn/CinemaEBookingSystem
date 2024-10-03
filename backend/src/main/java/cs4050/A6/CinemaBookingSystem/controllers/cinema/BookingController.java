@@ -70,6 +70,7 @@ public class BookingController {
         booking.setTotalCost(cost);
 
         // Need to do any actual logic for charging card?
+        // TO DO: reserve seat
 
         // Save and update customer/show objects
         var result = bookingRepository.save(booking);
