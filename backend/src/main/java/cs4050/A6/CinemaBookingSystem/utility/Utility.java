@@ -34,8 +34,8 @@ public class Utility {
         return true;
     }
 
-    public static String encodePassword(String password) {
-        return encoder.encode(password);
+    public static String encode(String data) {
+        return encoder.encode(data);
     }
 
     // Checks whether a supplied password matches a user's encoded password

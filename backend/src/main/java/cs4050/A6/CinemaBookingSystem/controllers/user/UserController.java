@@ -106,7 +106,7 @@ public class UserController {
     @PostMapping("/customers") // Creates or updates existing customer object
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         // Encode password
-        String encodedPassword = Utility.encodePassword(customer.getPassword());
+        String encodedPassword = Utility.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
 
         customerRepository.save(customer);
@@ -127,7 +127,7 @@ public class UserController {
     @PostMapping("/admins") // Creates or updates existing admin object
     public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
         // Encode password
-        String encodedPassword = Utility.encodePassword(admin.getPassword());
+        String encodedPassword = Utility.encode(admin.getPassword());
         admin.setPassword(encodedPassword);
 
         adminRepository.save(admin);

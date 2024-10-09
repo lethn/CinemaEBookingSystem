@@ -17,8 +17,8 @@ public class PaymentCard {
     @Column(name = "payment_card_id")
     private Long id;
 
-    private String friendlyName; // Friendly name for easy displaying???
-    private String cardNumber; // Need to be encrypted???
+    private String friendlyName; // Friendly name for easy displaying
+    private String cardNumber; // Encoded using Spring Security Password Encoder during creation -- raw password passed
     private LocalDate expirationDate;
     private String billingAddress;
 }

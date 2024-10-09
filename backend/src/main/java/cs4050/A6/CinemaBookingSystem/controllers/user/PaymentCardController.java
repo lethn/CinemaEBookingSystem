@@ -1,5 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.controllers.user;
 
+import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
 import cs4050.A6.CinemaBookingSystem.models.user.PaymentCard;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.PaymentCardRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 // CORS Configuration for specific endpoint (front-end)
 @CrossOrigin(origins = "http://localhost:3000")
@@ -53,11 +55,27 @@ public class PaymentCardController {
             return ResponseEntity.badRequest().build(); // Too many cards
         }
 
+        // Encode card number
+        String encodedCardNumber = Utility.encode(paymentCard.getCardNumber());
+        paymentCard.setCardNumber(encodedCardNumber);
+
         var result = paymentCardRepository.save(paymentCard);
         existingCustomer.get().getPaymentCards().add(result);
         customerRepository.save(existingCustomer.get());
 
         // Return successful response with JSON encoded object created
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/paymentCards/{id}")
+    public ResponseEntity<PaymentCard> deletePaymentCard(@PathVariable("id") Long id) {
+        Optional<PaymentCard> existingCard = paymentCardRepository.findById(id);
+        if (existingCard.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        paymentCardRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }
