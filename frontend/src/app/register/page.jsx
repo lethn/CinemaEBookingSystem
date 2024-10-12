@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import NavBar from "../components/navBar";
+import axios from "axios";
 
 export default function Register() {
     const router = useRouter();
@@ -34,6 +35,21 @@ export default function Register() {
         setError('');
 
         // Perform registration logic (e.g., API call)
+        try {
+            const response = axios.post(
+                'http://localhost:8080/customers',
+                {
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "email": email,
+                    "password": password,
+                    "userType": "CUSTOMER"
+                }
+            );
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error creating customer:', error);
+        }  
 
         // Redirect to a specified route
         router.push('/register-confirmation');
