@@ -14,7 +14,14 @@ export default function RegisterConfirmation() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
+
+        // Check for correct verification code
+        // Update user status to ACTIVE in DB
+        // return user to homepage logged in
+
         if (verificationCode === '123456') {
+
+            // set userID in localStorage
             localStorage.setItem('userRole', "user");
             router.push("/");
         } else {
