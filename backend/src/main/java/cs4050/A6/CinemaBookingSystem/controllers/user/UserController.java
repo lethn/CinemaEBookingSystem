@@ -7,6 +7,7 @@ import cs4050.A6.CinemaBookingSystem.models.user.User;
 import cs4050.A6.CinemaBookingSystem.repositories.user.AdminRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.security.LoginRequest;
+import cs4050.A6.CinemaBookingSystem.services.EmailService;
 import cs4050.A6.CinemaBookingSystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,13 @@ import java.util.Optional;
 public class UserController {
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public UserController(CustomerRepository customerRepository, AdminRepository adminRepository) {
+    public UserController(CustomerRepository customerRepository, AdminRepository adminRepository, EmailService emailService) {
         this.customerRepository = customerRepository;
         this.adminRepository = adminRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("/customers")
@@ -83,8 +86,8 @@ public class UserController {
         return ResponseEntity.ok(existingCustomer.get());
     }
 
-    @PostMapping("/customers/verify")
-    public ResponseEntity<Customer> verifyCustomerAccount(@RequestParam Long customerId) {
+    @GetMapping("/customers/verify") // Verifies user account -- called when user clicks on email
+    public ResponseEntity<Customer> verifyCustomerAccount(@RequestParam Long customerId, @RequestParam String token) {
         // Find customer
         Optional<Customer> existingCustomer = customerRepository.findById(customerId);
         if (existingCustomer.isEmpty()) {
@@ -97,11 +100,19 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
+        // Check code
+        if (!existingCustomer.get().getVerificationCode().equals(token)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         existingCustomer.get().setStatus(CustomerState.ACTIVE);
+        existingCustomer.get().setVerificationCode(""); // Reset code
         var result = customerRepository.save(existingCustomer.get());
 
         return ResponseEntity.ok(result);
     }
+
+    // TO DO: ADD RESET PASSWORD
 
     @PostMapping("/customers") // Creates or updates existing customer object
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
@@ -111,11 +122,31 @@ public class UserController {
 
         customerRepository.save(customer);
 
-        // Return successful response with JSON encoded object created
+        // Generate verification code
+        String token = Utility.generateUniqueToken();
+
+        // Store code
+        customer.setVerificationCode(token);
+        customerRepository.save(customer);
+
+        // Send email
+        emailService.sendVerificationEmail(customer.getEmail(), token);
+
         return ResponseEntity.ok(customer);
     }
 
-    // Admin specific functionality
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
+        Optional<Customer> existingCustomer = customerRepository.findById(id);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        customerRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/admins")
     public ResponseEntity<List<Admin>> getAdmins() {
         List<Admin> admins = adminRepository.findAll();
@@ -134,5 +165,17 @@ public class UserController {
 
         // Return successful response with JSON encoded object created
         return ResponseEntity.ok(admin);
+    }
+
+    @DeleteMapping("/admins/{id}")
+    public ResponseEntity<Admin> deleteAdmin(@PathVariable("id") Long id) {
+        Optional<Admin> existingAdmin = adminRepository.findById(id);
+        if (existingAdmin.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        adminRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }

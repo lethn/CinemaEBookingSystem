@@ -15,6 +15,8 @@ public class Promotion {
     @Column(name = "promotion_id")
     private Long id;
 
+    @Column(nullable = false)
     private String promoCode;
+    @Column(nullable = false)
     private Integer discount; // Discount % -- e.g., 10 means 10% off
 }

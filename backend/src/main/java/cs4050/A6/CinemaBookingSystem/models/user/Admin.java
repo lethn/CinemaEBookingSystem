@@ -10,6 +10,4 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true) // Specifies to call super implementation
 public class Admin extends User {
-
-    // TO DO: Define methods
 }

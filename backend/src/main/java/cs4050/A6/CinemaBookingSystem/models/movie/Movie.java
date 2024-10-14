@@ -18,21 +18,31 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id")
     private Long id; // Auto-generated unique identifier
+    @Column(nullable = false)
     @ElementCollection(targetClass = String.class) // Annotation required to prevent compile-error
     private List<String> cast;
 
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String category;
+    @Column(nullable = false)
     private String director;
+    @Column(nullable = false)
     private String producer;
+    @Column(nullable = false)
     private String synopsis;
+    @Column(nullable = false)
     private String trailer;
+    @Column(nullable = false)
     private String picture;
+    @Column(nullable = false)
     private String rating; // E.g., 'PG-13'
+    @Column(nullable = false)
     private boolean nowPlaying; // Whether movie is currently showing
 
     // Non-required fields upon creation
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Show> shows = new ArrayList<>();
 
     // All basic methods (getters, setters, etc.) automatically defined by Lombok

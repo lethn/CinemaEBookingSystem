@@ -17,10 +17,11 @@ public class Showroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "showroom_id")
     private Long id;
+    @Column(nullable = false)
     @ElementCollection(targetClass = String.class)
     private List<String> seats;
 
     // Optional fields upon creation
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Show> shows = new ArrayList<>();
 }

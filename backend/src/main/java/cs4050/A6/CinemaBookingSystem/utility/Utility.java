@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 // Utility class for methods that do not belong to a particular class instance
 public class Utility {
@@ -41,5 +42,10 @@ public class Utility {
     // Checks whether a supplied password matches a user's encoded password
     public static boolean isValidPassword(String password, String encoding) {
         return encoder.matches(password, encoding);
+    }
+
+    // Generates a random token for verifying email or resetting password
+    public static String generateUniqueToken() {
+        return UUID.randomUUID().toString();
     }
 }

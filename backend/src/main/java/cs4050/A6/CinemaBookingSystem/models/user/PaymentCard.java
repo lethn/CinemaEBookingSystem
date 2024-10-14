@@ -1,5 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,18 @@ public class PaymentCard {
     @Column(name = "payment_card_id")
     private Long id;
 
+    @Column(nullable = false)
     private String friendlyName; // Friendly name for easy displaying
-    private String cardNumber; // Encoded using Spring Security Password Encoder during creation -- raw password passed
+    @Column(nullable = false)
+    private String cardNumber; // Encoded using Spring Security during creation
+    @Column(nullable = false)
     private LocalDate expirationDate;
+    @Column(nullable = false)
     private String billingAddress;
+
+    // Ignore -- ensures corresponding entries are deleted
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private Customer customer;
 }

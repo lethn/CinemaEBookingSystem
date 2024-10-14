@@ -1,6 +1,5 @@
 package cs4050.A6.CinemaBookingSystem.controllers.user;
 
-import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
 import cs4050.A6.CinemaBookingSystem.models.user.PaymentCard;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.PaymentCardRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
@@ -59,6 +58,8 @@ public class PaymentCardController {
         String encodedCardNumber = Utility.encode(paymentCard.getCardNumber());
         paymentCard.setCardNumber(encodedCardNumber);
 
+        // Update relationship on both sides
+        paymentCard.setCustomer(existingCustomer.get());
         var result = paymentCardRepository.save(paymentCard);
         existingCustomer.get().getPaymentCards().add(result);
         customerRepository.save(existingCustomer.get());

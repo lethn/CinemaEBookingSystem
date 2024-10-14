@@ -26,9 +26,4 @@ public abstract class User {
     private String password; // Encoded using Spring Security Password Encoder during creation -- raw password passed
     @Column(nullable = false)
     private UserType userType;
-
-    // TO DO: add non-null, unique annotations as needed -- add validation logic as needed (e.g., showing)
-    // ADD @UniqueConstraint for composite key
-    // Need validation logic in methods for some of this
-    // Add logic to check seats
 }

@@ -1,10 +1,13 @@
 package cs4050.A6.CinemaBookingSystem.models.cinema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +20,27 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(nullable = false)
     private List<Ticket> tickets = new ArrayList<>();
+    @Column(nullable = false) // Used for storing charged card -- refund use case
+    private Long paymentCardId;
 
-    // TO DO: Figure out a way to include relevant info from showing in this so can display show info in order history
-//    @ManyToOne
-//    @JoinColumn(name="show_id", nullable = false)
-//    private Show show;
-    // Also add payment card friendly name?
+    // Information to display in booking history page where user can cancel a booking -- just movie name and time
+    @Column(nullable = false)
+    private String movieTitle;
+    @Column(nullable = false)
+    private LocalDateTime showTime;
+
+    // Ignore -- ensures corresponding entries are deleted
+    @ManyToOne
+    @JoinColumn(name = "show_id")
+    @JsonIgnore
+    private Show show;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private Customer customer;
 
     // Fields set upon creation
     private String promoCode = "";

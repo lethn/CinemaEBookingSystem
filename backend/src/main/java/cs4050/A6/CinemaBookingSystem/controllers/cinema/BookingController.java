@@ -1,7 +1,10 @@
 package cs4050.A6.CinemaBookingSystem.controllers.cinema;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Booking;
+import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
+import cs4050.A6.CinemaBookingSystem.models.cinema.Ticket;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.BookingRepository;
+import cs4050.A6.CinemaBookingSystem.repositories.cinema.PaymentCardRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.PromotionRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 // CORS Configuration for specific endpoint (front-end)
 @CrossOrigin(origins = "http://localhost:3000")
@@ -22,13 +26,15 @@ public class BookingController {
     private final CustomerRepository customerRepository;
     private final ShowRepository showRepository;
     private final PromotionRepository promotionRepository;
+    private final PaymentCardRepository paymentCardRepository;
 
     @Autowired
-    public BookingController(BookingRepository bookingRepository, CustomerRepository customerRepository, ShowRepository showRepository, PromotionRepository promotionRepository) {
+    public BookingController(BookingRepository bookingRepository, CustomerRepository customerRepository, ShowRepository showRepository, PromotionRepository promotionRepository, PaymentCardRepository paymentCardRepository) {
         this.bookingRepository = bookingRepository;
         this.customerRepository = customerRepository;
         this.showRepository = showRepository;
         this.promotionRepository = promotionRepository;
+        this.paymentCardRepository = paymentCardRepository;
     }
 
     @GetMapping("/bookings")
@@ -41,17 +47,31 @@ public class BookingController {
     }
 
     @PostMapping("/bookings") // Specify customerId, showId, promoCode (optional) in URL, booking in body
-    public ResponseEntity<Booking> createBooking(@RequestParam Long customerId, @RequestParam Long showId, @RequestParam(required = false) String promoCode, @RequestBody Booking booking) {
+    public ResponseEntity<Booking> createBooking(@RequestParam Long customerId, @RequestParam Long showId, @RequestParam Long paymentCardId, @RequestParam(required = false) String promoCode, @RequestBody Booking booking) {
         // Get existing customer
         var existingCustomer = customerRepository.findById(customerId);
         if (existingCustomer.isEmpty()) {
             return ResponseEntity.notFound().build(); // Does not exist
+        } else {
+            booking.setCustomer(existingCustomer.get());
         }
 
-        // Get existing show
+        // Get existing show and set movie name / time
         var existingShow = showRepository.findById(showId);
         if (existingShow.isEmpty()) {
             return ResponseEntity.notFound().build(); // Does not exist
+        } else {
+            booking.setShow(existingShow.get());
+            booking.setShowTime(existingShow.get().getTime());
+            booking.setMovieTitle(existingShow.get().getMovie().getTitle());
+        }
+
+        // Get existing card
+        var existingCard = paymentCardRepository.findById(paymentCardId);
+        if (existingCard.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        } else {
+            booking.setPaymentCardId(existingCard.get().getId());
         }
 
         // Get existing promotion (if specified)
@@ -69,8 +89,14 @@ public class BookingController {
         double cost = Utility.calculateTotalCost(booking.getTickets(), booking.getDiscountPercentage());
         booking.setTotalCost(cost);
 
-        // Need to do any actual logic for charging card?
-        // TO DO: reserve seat
+        // CHECK: Need to do any actual logic for charging card?
+
+        // Reserve seats
+        for (Ticket ticket : booking.getTickets()) {
+            String seatId = ticket.getSeatId();
+
+            existingShow.get().updateSeatStatus(seatId, false);
+        }
 
         // Save and update customer/show objects
         var result = bookingRepository.save(booking);
@@ -81,5 +107,32 @@ public class BookingController {
 
         // Return successful response with JSON encoded object created
         return ResponseEntity.ok(booking);
+    }
+
+    @DeleteMapping("/bookings/{id}")
+    public ResponseEntity<Booking> deleteBooking(@PathVariable Long id) {
+        Optional<Booking> existingBooking = bookingRepository.findById(id);
+        if (existingBooking.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Update show to update booked seats status -- booking itself automatically removed from list inside show
+        Optional<Show> existingShow = showRepository.findById(existingBooking.get().getShow().getId());
+        if (existingShow.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            // Free seats
+            for (Ticket ticket : existingBooking.get().getTickets()) {
+                String seatId = ticket.getSeatId();
+
+                existingShow.get().updateSeatStatus(seatId, true);
+            }
+
+            showRepository.save(existingShow.get());
+        }
+
+        bookingRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }

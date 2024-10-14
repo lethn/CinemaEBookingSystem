@@ -4,7 +4,4 @@ import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ShowRepository extends JpaRepository<Show, Long> {
-    // Default methods inherited...
-
-    // Custom methods
 }
