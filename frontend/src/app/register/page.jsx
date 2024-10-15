@@ -47,12 +47,11 @@ export default function Register() {
                 }
             );
             console.log(response.data);
+            // Redirect to a specified route
+            router.push('/register-confirmation');
         } catch (error) {
             console.error('Error creating customer:', error);
         }
-
-        // Redirect to a specified route
-        router.push('/register-confirmation');
     };
 
     return (

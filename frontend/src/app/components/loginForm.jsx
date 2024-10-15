@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import axios from "axios";
 
 export default function LoginForm({ redirectTo, role }) {
     const router = useRouter();
@@ -10,10 +11,26 @@ export default function LoginForm({ redirectTo, role }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Perform login logic (e.g., API call)
+        try {
+            const response = axios.post(
+                'http://localhost:8080/login',
+                {
+                    email: username,
+                    password: password,
+                }
+            );
+            console.log(response.data);
+
+            
+
+            router.push(redirectTo);
+        } catch (error) {
+            console.error(error);
+        }
+        
         // Store the role (user or admin) in localStorage
         localStorage.setItem('userRole', role);
-
-        router.push(redirectTo);
     };
 
     return (
@@ -21,12 +38,16 @@ export default function LoginForm({ redirectTo, role }) {
             <input
                 type="text"
                 placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
                 required
             /> <br />
             <input
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
                 required
             /> <br />
