@@ -1,5 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.controllers.user;
 
+import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.models.user.Admin;
 import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.models.user.CustomerState;
@@ -53,13 +54,14 @@ public class UserController {
     }
 
     @PostMapping("/login") // Login for both customers and admins -- checks for admin account first
-    public ResponseEntity<User> checkLogin(@RequestBody LoginRequest loginRequest) {
+    // Use '?' to allow different return types
+    public ResponseEntity<?> checkLogin(@RequestBody LoginRequest loginRequest) {
         // Check if admin account
         Optional<Admin> existingAdmin = adminRepository.findByEmail(loginRequest.getEmail());
         if (existingAdmin.isPresent()) {
             // Admin account, now validate password
             if (!Utility.isValidPassword(loginRequest.getPassword(), existingAdmin.get().getPassword())) {
-                return ResponseEntity.badRequest().build(); // Invalid password
+                return ResponseEntity.badRequest().body(new BadRequestError("Found admin account, but invalid password.")); // Invalid password
             } else {
                 return ResponseEntity.ok(existingAdmin.get());
             }
@@ -73,13 +75,15 @@ public class UserController {
 
         // Verify customer is not inactive/not suspended
         var customerState = existingCustomer.get().getStatus();
-        if (customerState == CustomerState.INACTIVE || customerState == CustomerState.SUSPENDED) {
-            return ResponseEntity.badRequest().build(); // Invalid customer account
+        if (customerState == CustomerState.INACTIVE) {
+            return ResponseEntity.badRequest().body(new BadRequestError("Customer account is inactive. Please verify account prior to login."));
+        } else if (customerState == CustomerState.SUSPENDED) {
+            ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
         }
 
         // Validate password against saved
         if (!Utility.isValidPassword(loginRequest.getPassword(), existingCustomer.get().getPassword())) {
-            return ResponseEntity.badRequest().build(); // Invalid password
+            return ResponseEntity.badRequest().body(new BadRequestError("Found customer account, but invalid password."));
         }
 
         // Return successful response with corresponding customer object
