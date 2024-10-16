@@ -12,25 +12,26 @@ export default function LoginForm({ redirectTo, role }) {
         e.preventDefault();
 
         // Perform login logic (e.g., API call)
-        try {
-            const response = axios.post(
-                'http://localhost:8080/login',
-                {
-                    email: username,
-                    password: password,
-                }
-            );
+        axios.post('http://localhost:8080/login',
+            {
+                email: username,
+                password: password,
+            }
+        ).then((response) => {
             console.log(response.data);
 
-            
+            // Store the role (user or admin) in localStorage
+            // TO DO: set role as response.userType (CUSOMER, ADMIN)
+            // must change elsewhere in frontend to reflect change
+            // need some way to have user data persist across pages or know which user is logged in
+
+            localStorage.setItem('userRole', role);
 
             router.push(redirectTo);
-        } catch (error) {
-            console.error(error);
-        }
-        
-        // Store the role (user or admin) in localStorage
-        localStorage.setItem('userRole', role);
+        }).catch((error) => {
+            console.log(error);
+            alert('Email or Password is incorrect or user is unverified');
+        });
     };
 
     return (

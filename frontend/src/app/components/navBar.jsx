@@ -5,7 +5,7 @@ export default function NavBar({ userRole }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (userRole) {
+        if (userRole == "user" || userRole == "admin") {
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
