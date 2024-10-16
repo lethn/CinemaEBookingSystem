@@ -16,8 +16,9 @@ public class EmailService {
 
     public void sendVerificationEmail(String email, String token) {
         String subject = "Email Verification Code for Your New Account";
-        String verificationEndpoint = "http://localhost:8080/customers/verify?token=" + token;
-        String content = "Click here to verify your account: " + verificationEndpoint;
+
+        String verificationPage = "..."; // TO DO: Update to URL of verify page on frontend
+        String content = "Visit the following page to verify your account: " + verificationPage + ". Enter the following code: " + token;
 
         SimpleMailMessage message = new SimpleMailMessage(); // Use Spring mail library
         message.setFrom("jdd88779@uga.edu"); // Source email -- TO DO: UPDATE/FIX
@@ -28,11 +29,11 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    // Only for customer reset
     public void sendPasswordResetEmail(String email, String token) {
         String subject = "Password Reset Code for Your Account";
-        String resetEndpoint = "http://localhost:8080/customers/resetPassowrd?token=" + token;
-        String content = "Click here to reset your password: " + resetEndpoint;
+
+        String resetPage = "..."; // TO DO: Update to URL of reset password page on frontend
+        String content = "Visit the following page to reset your password: " + resetPage + ". Enter the following code: " + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("jdd88779@uga.edu"); // Source email -- TO DO: UPDATE/FIX

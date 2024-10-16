@@ -104,8 +104,8 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        // Check code
-        if (!existingCustomer.get().getVerificationCode().equals(token)) {
+        // Check code (verify not empty)
+        if (!token.isEmpty() && !existingCustomer.get().getVerificationCode().equals(token)) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -116,7 +116,66 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    // TO DO: ADD RESET PASSWORD
+    @PostMapping("/customers/password-reset/generate") // Generates a password reset code and sends this to the user via email
+    public ResponseEntity<?> generatePasswordReset(@RequestParam String email) {
+        // Find customer
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Customer does not exist
+        }
+
+        // Check if inactive or suspended
+        var customerState = existingCustomer.get().getStatus();
+        if (customerState == CustomerState.INACTIVE) {
+            return ResponseEntity.badRequest().body(new BadRequestError("Customer account is inactive. Please verify account prior to login."));
+        } else if (customerState == CustomerState.SUSPENDED) {
+            ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
+        }
+
+        // Generate reset code
+        String token = Utility.generateUniqueToken();
+
+        // Store code
+        existingCustomer.get().setPasswordResetCode(token);
+        var result = customerRepository.save(existingCustomer.get());
+
+        // Send email
+        emailService.sendPasswordResetEmail(existingCustomer.get().getEmail(), token);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/customers/password-reset/reset") // Resets the user's password to the new password, assuming token is valid
+    public ResponseEntity<?> resetPassword(@RequestParam String email, @RequestParam String token, @RequestParam String newPassword) {
+        // TO DO: MOVE TO OWN METHOD
+        // Find customer
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Check if inactive or suspended
+        var customerState = existingCustomer.get().getStatus();
+        if (customerState == CustomerState.INACTIVE) {
+            return ResponseEntity.badRequest().body(new BadRequestError("Customer account is inactive. Please verify account prior to login."));
+        } else if (customerState == CustomerState.SUSPENDED) {
+            ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
+        }
+
+        // Check reset code (verify not empty code)
+        if (!token.isEmpty() && !existingCustomer.get().getPasswordResetCode().equals(token)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Encrypt and store new password
+        String encodedPassword = Utility.encode(newPassword);
+        existingCustomer.get().setPassword(encodedPassword);
+
+        existingCustomer.get().setPasswordResetCode(""); // Reset code
+        var result = customerRepository.save(existingCustomer.get());
+
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping("/customers") // Creates or updates existing customer object
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
