@@ -90,10 +90,10 @@ public class UserController {
         return ResponseEntity.ok(existingCustomer.get());
     }
 
-    @GetMapping("/customers/verify") // Verifies user account -- called when user clicks on email
-    public ResponseEntity<Customer> verifyCustomerAccount(@RequestParam Long customerId, @RequestParam String token) {
+    @GetMapping("/customers/verify") // Verifies user account -- called by frontend when user inputs email and token into verification page
+    public ResponseEntity<Customer> verifyCustomerAccount(@RequestParam String email, @RequestParam String token) {
         // Find customer
-        Optional<Customer> existingCustomer = customerRepository.findById(customerId);
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
         if (existingCustomer.isEmpty()) {
             return ResponseEntity.notFound().build(); // Does not exist
         }

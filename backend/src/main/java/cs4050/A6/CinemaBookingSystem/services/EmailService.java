@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
     private final JavaMailSenderImpl mailSender;
+    private final String fromEmail = "cinemaproject.no.reply@gmail.com";
 
     @Autowired
     public EmailService(JavaMailSenderImpl mailSender) {
@@ -18,10 +19,10 @@ public class EmailService {
         String subject = "Email Verification Code for Your New Account";
 
         String verificationPage = "..."; // TO DO: Update to URL of verify page on frontend
-        String content = "Visit the following page to verify your account: " + verificationPage + ". Enter the following code: " + token;
+        String content = "Visit the following page to verify your account: " + verificationPage + ". Use the following code: " + token;
 
         SimpleMailMessage message = new SimpleMailMessage(); // Use Spring mail library
-        message.setFrom("jdd88779@uga.edu"); // Source email -- TO DO: UPDATE/FIX
+        message.setFrom(fromEmail);
         message.setTo(email);
         message.setSubject(subject);
         message.setText(content);
@@ -33,10 +34,10 @@ public class EmailService {
         String subject = "Password Reset Code for Your Account";
 
         String resetPage = "..."; // TO DO: Update to URL of reset password page on frontend
-        String content = "Visit the following page to reset your password: " + resetPage + ". Enter the following code: " + token;
+        String content = "Visit the following page to reset your password: " + resetPage + ". Use the following code: " + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jdd88779@uga.edu"); // Source email -- TO DO: UPDATE/FIX
+        message.setFrom(fromEmail);
         message.setTo(email);
         message.setSubject(subject);
         message.setText(content);
