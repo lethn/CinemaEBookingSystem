@@ -35,23 +35,24 @@ export default function Register() {
         setError('');
 
         // Perform registration logic (e.g., API call)
-        try {
-            const response = axios.post(
-                'http://localhost:8080/customers',
-                {
-                    "firstName": firstName,
-                    "lastName": lastName,
-                    "email": email,
-                    "password": password,
-                    "userType": "CUSTOMER"
-                }
-            );
+        axios.post(
+            'http://localhost:8080/customers',
+            {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "password": password,
+                "userType": "CUSTOMER"
+            }
+        ).then((response) => {
+            console.log(response.data);
             console.log(response.data);
             // Redirect to a specified route
             router.push('/register-confirmation');
-        } catch (error) {
-            console.error('Error creating customer:', error);
-        }
+        }).catch((error) => {
+            console.log(error);
+            alert("Email is already asociated with an account");
+        });
     };
 
     return (
