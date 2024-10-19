@@ -72,7 +72,6 @@ export default function EditProfile() {
                 //"streetAddress": address this is for if address is added to user
             }).then((response) => {
             console.log(response.data);
-            //send changes email code goes here...
             alert("Edit profile successfully!");
         }).catch((error) => {
             console.error('error: ', error);
@@ -102,7 +101,6 @@ export default function EditProfile() {
                         "password": newPassword
                     }).then((response) => {
                     console.log(response.data);
-                    //send changes email code goes here...
                     alert("Edit password successfully!");
                 }).catch((error) => {
                     console.error('error: ', error);
@@ -125,7 +123,6 @@ export default function EditProfile() {
         const fullYear = `20${year}`;
         const day = '01';
         const expDate = `${fullYear}-${month}-${day}`;
-        console.log(expDate);
         axios.post(`http://localhost:8080/paymentCards?customerId=${userID}`,
             {
                 "friendlyName": cardName,
