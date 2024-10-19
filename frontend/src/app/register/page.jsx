@@ -23,6 +23,7 @@ export default function Register() {
     const [cardNumber, setCardNumber] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
     const [cvv, setCvv] = useState("");
+    const [emailPromotions, setEmailPromotions] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -254,6 +255,16 @@ export default function Register() {
                                 maxLength={3}
                             />
                         </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <input 
+                            type='checkbox'
+                            value={emailPromotions}
+                            onChange={(e) => setEmailPromotions(e.target.value)}
+                            className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                        />
+                        <label className='font-medium mb-1 text-black'>Recieve email promotions?</label>
                     </div>
 
                     <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">

@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import NavBar from '../components/navBar';
 
 export default function SelectSeats() {
-    const router =useRouter();
-    const [userRole, setUserRole] = useState(null);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
 
+    const router = useRouter();
     const [selectedSeats, setSelectedSeats] = useState([]);
 
     const rows = 'ABCDEFGH'.split('');
@@ -28,14 +28,9 @@ export default function SelectSeats() {
         router.push('/');
     };
 
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
-
     return(
         <div>
-            <NavBar userRole={userRole}/>
+            <NavBar userType={userType}/>
             <div className='p-4'>
                 <h1 className="text-2xl font-bold mb-4">Select Your Seats</h1>
                 <div className='p-4 flex justify-center'>

@@ -1,19 +1,15 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import NavBar from '../components/navBar';
 
 export default function SelectTickets() {
-    const router =useRouter();
-    const [userRole, setUserRole] = useState(null);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+
+    const router = useRouter();
     const [selectedShowtime, setSelectedShowtime] = useState('');
     const [numberOfSeats, setNumberOfSeats] = useState(1);
     const [ages, setAges] = useState([]);
-
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
 
     const handleShowtimeSelect = (showtime) => {
         setSelectedShowtime(showtime);
@@ -64,7 +60,7 @@ export default function SelectTickets() {
 
     return(
         <div>
-            <NavBar userRole={userRole}/>
+            <NavBar userType={userType}/>
             <div className='p-2 grid grid-cols-3'>
                 <div className='text-black bg-white w-5/6 m-4 p-4 rounded-lg shadow-md flex justify-center items-center flex-col'>
                     <img src={dummy_movie.picture} alt='Poster' className='w-2/3 justify-center flex '/>
