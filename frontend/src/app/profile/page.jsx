@@ -18,6 +18,7 @@ export default function EditProfile() {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [postalCode, setPostalCode] = useState('');
+    const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [cvv, setCvv] = useState('');
@@ -75,12 +76,32 @@ export default function EditProfile() {
     }
 
     const onClickAddCardHandler = () => {
-        alert("Add card successfully!");
+
+        axios.post(`http://localhost:8080/paymentCards?customerId=${userID}`,
+            {
+                "friendlyName": cardName,
+                "cardNumber": cardNumber,
+                "expirationDate": "2014-01-01",//expirationDate needs to be formatted to match db
+                "billingAddress": "TO DO"
+            }
+        ).then((response) => {
+            console.log(response.data);
+            alert("Add card successfully!");
+        }).catch((error) => {
+            console.log(error);
+            alert("Error while adding card");
+        });
     };
 
     const handleDeleteCard = (id) => {
 
-        // TO DO: remove card from DB and user
+        axios.delete(`http://localhost:8080/paymentCards/${id}`).then((response) => {
+            console.log(response.data);
+            alert("card deleted successfully!");
+        }).catch((error) => {
+            console.log(error);
+            alert("Error while deleting card");
+        });
 
         setCards(cards.filter((card) => card.id !== id));
     };
@@ -276,6 +297,18 @@ export default function EditProfile() {
                         <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
                         <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
                             {error && <p className="text-red-500 mb-4">{error}</p>}
+
+
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1 text-black">Card Name</label>
+                                <input
+                                    type="text"
+                                    value={cardName}
+                                    onChange={(e) => setCardName(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                    required
+                                />
+                            </div>
 
                             <div className="mb-4">
                                 <label className="text-lg font-medium mb-1 text-black">Card Number</label>
