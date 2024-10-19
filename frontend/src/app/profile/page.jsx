@@ -11,7 +11,7 @@ export default function EditProfile() {
     const [lastName, setLastName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [streetAddress, setStreetAddress] = useState('');
@@ -24,7 +24,7 @@ export default function EditProfile() {
     const [cvv, setCvv] = useState('');
     const [cards, setCards] = useState([]);
     const [error, setError] = useState('');
-
+    const [emailPromo, setPromo] = useState(true); //idk if this is how we want this done but i am setting just so i can use it for now
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/customers/${userID}`);
@@ -33,7 +33,8 @@ export default function EditProfile() {
             setFirstName(userData.firstName);
             setLastName(userData.lastName);
             setEmail(userData.email);
-            setCards(userData.paymentCards)
+            setCards(userData.paymentCards);
+            setPromo(userData.subscribedToPromotions);
         } catch (error) {
             console.error('Error fetching user:', error);
         }
@@ -59,19 +60,62 @@ export default function EditProfile() {
     }, []);
     */
 
-    const onClickEditProfileHandler = () => {
-        alert("Edit profile successfully!");
+    const onClickEditProfileHandler = (e) => {
+        e.preventDefault();
+    //address = streetAddress+ " "+ city + " " + state + " " + postalCode; if we decide to add address to user
+        axios.patch(`http://localhost:8080/customers/${userID}`,
+            {
+                "firstName": firstName,
+                "lastName": lastName,
+                //things to implement past here
+                "subscribeToPromotion": emailPromo //we need a checkbox or something for this in the box
+                //"streetAddress": address this is for if address is added to user
+            }).then((response) => {
+            console.log(response.data);
+            //send changes email code goes here...
+            alert("Edit profile successfully!");
+        }).catch((error) => {
+            console.error('error: ', error);
+            alert('error');
+        });
     };
 
-    const onClickChangePasswordHandler = () => {
-
-        // check user's current password
-
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
-            alert("Passwords do not match");
-        }
-
+    const onClickChangePasswordHandler = (e) => {
+        e.preventDefault();
+        //check user enter right current password through auth?
+        axios.post(`http://localhost:8080/login`,
+            {
+                "email": email,
+                "password": currentPassword
+            }).then((response) => {
+            console.log(response.data);
+            if (newPassword !== confirmPassword) {
+                setError('Passwords do not match');
+                alert("Passwords do not match");
+            }else if(newPassword.length < 8) {
+                setError('Invalid password. Password must be at least 8 characters.');
+                alert('Password must be at least 8 characters');
+            }
+            else{
+                axios.patch(`http://localhost:8080/customers/${userID}`,
+                    {
+                        "password": newPassword
+                    }).then((response) => {
+                    console.log(response.data);
+                    //send changes email code goes here...
+                    alert("Edit password successfully!");
+                }).catch((error) => {
+                    console.error('error: ', error);
+                    alert('Internal Server error.');
+                });
+            }
+        }).catch((error) => {
+            console.error('error: ', error);
+            alert('Current password failed to authenticate.');
+        });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
         setError('');
     }
 
@@ -251,6 +295,7 @@ export default function EditProfile() {
                                     Current Password <span className="text-red-500">*</span>
                                 </label>
                                 <input
+                                    //type = "text"
                                     type="password"
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -265,9 +310,10 @@ export default function EditProfile() {
                                     New Password <span className="text-red-500">*</span>
                                 </label>
                                 <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    type = "text"
+                                    //type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
                                     className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                                     required
                                 />
@@ -279,6 +325,7 @@ export default function EditProfile() {
                                     Confirm New Password <span className="text-red-500">*</span>
                                 </label>
                                 <input
+                                    //type= "text"
                                     type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
