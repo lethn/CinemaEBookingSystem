@@ -1,66 +1,77 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from "../contexts/user";
+import Link from "next/link";
 import axios from "axios";
 
 export default function LoginForm({ redirectTo, role }) {
     const router = useRouter();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const { signIn, isLoggedIn } = useContext(AuthContext);
+    
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Perform login logic (e.g., API call)
-        axios.post('http://localhost:8080/login',
-            {
-                email: username,
-                password: password,
-            }
-        ).then((response) => {
-            console.log(response.data);
-
-            // Store the role (user or admin) in localStorage
-            // TO DO: set role as response.userType (CUSOMER, ADMIN)
-            // must change elsewhere in frontend to reflect change
-            // need some way to have user data persist across pages or know which user is logged in
-
-            localStorage.setItem('userRole', role);
-
-            router.push(redirectTo);
-        }).catch((error) => {
-            console.log(error);
+        try {
+            await signIn(email, password);
+        } catch (error) {
             alert('Email or Password is incorrect or user is unverified');
-        });
+            console.error("Error signing in:", error);
+        }
     };
 
     return (
-        <div>
-            <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
+        <div className="bg-white p-8 shadow-lg w-80 rounded-lg">
+            <form className='flex flex-col' onSubmit={handleSubmit}>
+                <label className="font-medium text-black">
+                    Username<span className="text-red-500">*</span>
+                </label>
                 <input
                     type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
+                    placeholder="Enter your username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black"
                     required
-                /> <br />
+                /> 
+                
+                <label className="font-medium text-black">
+                    Password <span className="text-red-500">*</span>
+                </label>
                 <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full p-3 mb-4 border border-gray-300 rounded-md text-black"
+                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black"
                     required
-                /> <br />
+                />
+
                 <button type="submit"
-                    className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
+                    className="bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
                     Login
                 </button>
             </form>
-            <div className="mt-4">
-                <a className=" text-2xl font-semibold mb-2" href="/forgot-password">Forgot Password?</a>
-            </div>
-        </div>
+
+            <p className="font-medium mt-4 text-center">
+                <Link
+                    className="text-blue-600 hover:text-blue-900 hover:underline"
+                    href="/forgot-password">
+                    Forgot Password
+                </Link>
+            </p>
+
+            <p className="font-medium text-center">
+                <span className="text-black">Not a user? </span>
+                <Link
+                    className="text-blue-600 hover:text-blue-900 hover:underline"
+                    href="/register">
+                    Sign Up Here
+                </Link>
+            </p>
+        </div>  
     )
 }

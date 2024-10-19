@@ -20,23 +20,21 @@ const dummy_movie = {
 };
 
 export default function Movie() {
-    const [userRole, setUserRole] = useState(null);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const router = useRouter();
-
-    useEffect(() => {
-        const role = localStorage.getItem("userRole"); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
 
     const buyTickets = (e) => {
         e.preventDefault();
-        router.push("/select-tickets");
+        if (userType === "CUSTOMER") {
+            router.push("/select-tickets");
+        } else {
+            alert("You must be a customer and log in to book tickets");
+        }
     };
-
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
 
             <div className="container mx-auto p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -89,8 +87,12 @@ export default function Movie() {
 
                         <div className="mt-6">
                             <button
-                                className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
+                                className={`px-4 py-2 rounded ${userType === "CUSTOMER"
+                                    ? "bg-green-500 hover:bg-green-600 text-white"
+                                    : "bg-gray-300 cursor-not-allowed text-white"
+                                    }`}
                                 onClick={buyTickets}
+                                disabled={userType !== "CUSTOMER"}
                             >
                                 Book Tickets
                             </button>

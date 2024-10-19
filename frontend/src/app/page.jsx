@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "./contexts/user"
 import NavBar from "./components/navBar";
 import ComingSoon from "./components/comingSoon";
 import NowPlaying from "./components/nowPlaying";
@@ -75,22 +76,23 @@ const dummy_movies = [
 ];
 
 const Home = () => {
-    const [userRole, setUserRole] = useState(null);
+    const { isLoggedIn } = useContext(AuthContext);
+    const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+
     const [currentMovies, setCurrentMovies] = useState([]);
     const [comingSoonMovies, setComingSoonMovies] = useState([]);
     const [searchMovie, setSearchMovie] = useState("");
     const [searchType, setSearchType] = useState("title");
-
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role); // Set role to state
-    }, []);
 
     const fetchMovies = async () => {
         try {
             const response = await axios.get('http://localhost:8080/movies');
             const moviesData = response.data;
             console.log(response.data);
+            console.log(isLoggedIn);
+            console.log(userID);
+            console.log(userType);
 
             // Filter the movies
             const current = moviesData.filter((movie) => movie.nowPlaying === true);
@@ -135,7 +137,7 @@ const Home = () => {
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
             <SearchBar
                 setSearchMovie={setSearchMovie}
                 searchType={searchType}

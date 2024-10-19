@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import NavBar from "../components/navBar";
 
 export default function EditProfile() {
-    const [userRole, setUserRole] = useState(null);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
@@ -35,12 +36,6 @@ export default function EditProfile() {
         setCards(dunnyCards);
     }, []);
 
-
-    useEffect(() => {
-        const role = localStorage.getItem("userRole"); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
-
     const onClickEditProfileHandler = () => {
         alert("Edit profile successfully!");
     };
@@ -70,9 +65,9 @@ export default function EditProfile() {
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
+            
             <div className="flex flex-col justify-center items-center m-8 p-8">
-                
                 <div className='grid grid-cols-2'>
                     <div className='p-4'>
                         <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>

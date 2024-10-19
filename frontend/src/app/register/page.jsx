@@ -46,26 +46,25 @@ export default function Register() {
             }
         ).then((response) => {
             console.log(response.data);
-            console.log(response.data);
-            // Redirect to a specified route
             router.push('/register-confirmation');
         }).catch((error) => {
             console.log(error);
             alert("Email is already asociated with an account");
         });
+
     };
 
     return (
         <div>
             <NavBar />
             <div className="flex flex-col justify-center items-center m-8 p-8">
-                <h2 className="text-4xl font-semibold mb-6">Registration</h2>
+                <h2 className="text-3xl font-semibold mb-6">Registration</h2>
                 <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
                     {error && <p className="text-red-500 mb-4">{error}</p>}
 
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black"> 
+                            <label className="font-medium mb-1 text-black">
                                 First Name <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -77,7 +76,7 @@ export default function Register() {
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">
+                            <label className="font-medium mb-1 text-black">
                                 Last Name <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -89,7 +88,7 @@ export default function Register() {
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">
+                            <label className="font-medium mb-1 text-black">
                                 Date of Birth <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -103,7 +102,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4">
-                        <label className="text-lg font-medium mb-1 text-black">
+                        <label className="font-medium mb-1 text-black">
                             Email <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -116,7 +115,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4">
-                        <label className="text-lg font-medium mb-1 text-black">
+                        <label className="font-medium mb-1 text-black">
                             Password <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -129,7 +128,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4">
-                        <label className="text-lg font-medium mb-1 text-black">
+                        <label className="font-medium mb-1 text-black">
                             Confirm Password <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -142,7 +141,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4">
-                        <label className="text-lg font-medium mb-1 text-black">Street Address</label>
+                        <label className="font-medium mb-1 text-black">Street Address</label>
                         <input
                             type="text"
                             value={streetAddress}
@@ -153,7 +152,7 @@ export default function Register() {
 
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">City</label>
+                            <label className="font-medium mb-1 text-black">City</label>
                             <input
                                 type="text"
                                 value={city}
@@ -162,7 +161,7 @@ export default function Register() {
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">State</label>
+                            <label className="font-medium mb-1 text-black">State</label>
                             <input
                                 type="text"
                                 value={state}
@@ -171,7 +170,7 @@ export default function Register() {
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">Postal Code</label>
+                            <label className="font-medium mb-1 text-black">Postal Code</label>
                             <input
                                 type="text"
                                 value={postalCode}
@@ -182,7 +181,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4">
-                        <label className="text-lg font-medium mb-1 text-black">Card Number (Optional)</label>
+                        <label className="font-medium mb-1 text-black">Payment Card Number</label>
                         <input
                             type="text"
                             value={cardNumber}
@@ -193,7 +192,7 @@ export default function Register() {
 
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
+                            <label className="font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
                             <input
                                 type="text"
                                 value={expirationDate}
@@ -202,7 +201,7 @@ export default function Register() {
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="text-lg font-medium mb-1 text-black">CVV</label>
+                            <label className="font-medium mb-1 text-black">CVV</label>
                             <input
                                 type="text"
                                 value={cvv}

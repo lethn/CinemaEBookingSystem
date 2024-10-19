@@ -3,13 +3,8 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/navBar";
 
 export default function OrderHistory() {
-    const [userRole, setUserRole] = useState(null);
-
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
-
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+    
     // use api call to fetch order history for logged in user
     // filter data by userID
 
@@ -49,7 +44,8 @@ export default function OrderHistory() {
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
+
             <div className="flex justify-center m-12 p-12">
                 <div className="bg-white p-12 m-auto shadow-lg rounded-lg">
                     <table className="min-w-full border text-black">

@@ -1,20 +1,15 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/user";
+import { useRouter } from "next/navigation";
 
-export default function NavBar({ userRole }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        if (userRole == "user" || userRole == "admin") {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, [userRole]);
+export default function NavBar({ userType }) {
+    const { isLoggedIn, signOut } = useContext(AuthContext);
+    const router = useRouter();
 
     const handleLogout = () => {
-        localStorage.removeItem('userRole'); // Clear the stored role
-        window.location.href = '/'; // Redirect to home or refresh page
+        signOut();
+        router.push("/");
     };
 
     return (
@@ -47,7 +42,7 @@ export default function NavBar({ userRole }) {
                     </>
                 )}
 
-                {isLoggedIn && userRole === "user" && (
+                {isLoggedIn && userType === "CUSTOMER" && (
                     <>
                         <li>
                             <Link href="/profile" className="px-3 py-1 rounded hover:bg-stone-600">
@@ -67,7 +62,7 @@ export default function NavBar({ userRole }) {
                     </>
                 )}
 
-                {isLoggedIn && userRole === "admin" && (
+                {isLoggedIn && userType === "ADMIN" && (
                     <>
                         <li>
                             <Link href="/profile" className="px-3 py-1 rounded hover:bg-stone-600">

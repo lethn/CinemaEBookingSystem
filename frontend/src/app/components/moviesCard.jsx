@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Modal from './Modal'; // Ensure the path is correct based on your file structure
+import Modal from './Modal';
 
 const MovieCard = (props) => {
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
 
@@ -12,7 +13,11 @@ const MovieCard = (props) => {
 
     const buyTickets = (e) => {
         e.preventDefault();
-        router.push("/select-tickets");
+        if (userType === "CUSTOMER") {
+            router.push("/select-tickets");
+        } else {
+            alert("You must be a customer and log in to book tickets");
+        }
     };
 
     return (
@@ -37,8 +42,12 @@ const MovieCard = (props) => {
 
                 {props.nowPlaying && (
                     <button
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                        className={`px-4 py-2 rounded ${userType === "CUSTOMER"
+                                ? "bg-green-500 hover:bg-green-600 text-white"
+                                : "bg-gray-300 cursor-not-allowed text-white"
+                            }`}
                         onClick={buyTickets}
+                        disabled={userType !== "CUSTOMER"}
                     >
                         Book Tickets
                     </button>
