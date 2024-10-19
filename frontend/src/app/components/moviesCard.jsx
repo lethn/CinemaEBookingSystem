@@ -22,29 +22,29 @@ const MovieCard = (props) => {
     };
 
     return (
-        <div className="flex flex-col bg-white m-4 p-4 rounded-lg shadow-md">
+        <div className="flex flex-col bg-neutral-800/60 m-4 p-4 rounded-lg shadow-md">
             <div>
-                <img src={props.picture} alt={`${props.title} poster`} className="object-contain rounded-md w-[300px] h-[400px]" />
+                <img src={props.picture} alt={`${props.title} poster`} className="object-contain rounded-lg w-[300px] h-[400px]" />
             </div>
-            <h2 className="text-xl text-black font-bold mt-2">{props.title}</h2>
-            <p className="text-gray-700 mt-2">Rating: {props.rating}</p>
-            <p className="text-gray-700 mt-2">{props.category}</p>
+            <h2 className="text-xl text-white font-bold mt-2">{props.title}</h2>
+            <p className="text-white mt-2">Rating: {props.rating}</p>
+            <p className="text-white mt-2">{props.category}</p>
 
             <div className="flex justify-between mt-2 gap-4">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={openModalHandler}>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" onClick={openModalHandler}>
                     Trailer
                 </button>
 
                 <Link href={`/movie/${props.id}`} passHref>
-                    <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    <button className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out">
                         Info
                     </button>
                 </Link>
 
                 {props.nowPlaying && (
                     <button
-                        className={`px-4 py-2 rounded ${userType === "CUSTOMER"
-                                ? "bg-green-500 hover:bg-green-600 text-white"
+                        className={`px-4 py-2 rounded-lg transition duration-300 ease-in-out ${userType === "CUSTOMER"
+                                ? "bg-green-500 hover:bg-green-700 text-white"
                                 : "bg-gray-300 cursor-not-allowed text-white"
                             }`}
                         onClick={buyTickets}

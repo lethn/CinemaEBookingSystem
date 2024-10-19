@@ -8,8 +8,7 @@ export default function Login() {
             <NavBar />
             <div className="flex flex-col min-h-screen">
                 <div className="flex flex-col p-24 mx-auto items-center">
-                    <h2 className="text-3xl font-semibold mb-6">Login</h2>
-                    <LoginForm redirectTo="/" role="user" />
+                    <LoginForm />
                 </div>
 
                 {/* <div className="mr-4 p-40">

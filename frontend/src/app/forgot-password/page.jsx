@@ -64,7 +64,7 @@ export default function Login() {
                                 required
                             />
                             <button type="submit"
-                                className="w-full bg-red-800 text-white p-3 rounded-md hover:bg-red-900">
+                                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Reset Password
                             </button>
                         </form>
@@ -87,7 +87,7 @@ export default function Login() {
                                 placeholder="Email Verification Code"
                                 value={verificationCode}
                                 onChange={(e) => setVerificationCode(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black"
+                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black focus:outline-none"
                                 required
                             />
                             <label className="font-medium text-black">
@@ -99,7 +99,7 @@ export default function Login() {
                                 placeholder="New Password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black"
+                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black focus:outline-none"
                                 required
                             />
                             <label className="font-medium text-black">
@@ -111,13 +111,13 @@ export default function Login() {
                                 placeholder="Confirm New Password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="text-black w-full p-3 border border-gray-300 rounded-md"
+                                className="block w-full p-3 mt-1 mb-4 text-black w-full p-3 border border-gray-300 rounded-md focus:outline-none"
                                 required
                             />
 
                             <button
                                 type="submit"
-                                className="w-full bg-red-800 text-white p-3 mt-6 rounded-md hover:bg-red-900">
+                                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Confirm
                             </button>
                         </form>

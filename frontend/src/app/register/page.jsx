@@ -98,178 +98,179 @@ export default function Register() {
     return (
         <div>
             <NavBar />
-            <div className="flex flex-col justify-center items-center m-8 p-8">
-                <h2 className="text-3xl font-semibold mb-6">Registration</h2>
-                <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
-
-                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+            <div className="flex flex-col justify-center items-center m-8 p-8 ">
+                <form className="bg-neutral-800/80 text-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
+                    <h2 className="text-4xl font-semibold mb-10">Registration</h2>
+                    
+                    <div className="flex flex-col px-2 mx-2 md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">
+                            <label className="font-medium mb-1">
                                 First Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                                 required
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">
+                            <label className="font-medium mb-1">
                                 Last Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                                 required
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">
+                            <label className="font-medium mb-1">
                                 Date of Birth <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="date"
                                 value={dateOfBirth}
                                 onChange={(e) => setDateOfBirth(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                                 required
                             />
                         </div>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="font-medium mb-1 text-black">
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">
                             Email <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             required
                         />
                     </div>
 
-                    <div className="mb-4">
-                        <label className="font-medium mb-1 text-black">
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">
                             Password <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             ref={passwordRef}
                             minLength={8}
                             required
                         />
                     </div>
 
-                    <div className="mb-4">
-                        <label className="font-medium mb-1 text-black">
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">
                             Confirm Password <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             minLength={8}
                             required
                         />
                     </div>
 
-                    <div className="mb-4">
-                        <label className="font-medium mb-1 text-black">Street Address</label>
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">Street Address</label>
                         <input
                             type="text"
                             value={streetAddress}
                             onChange={(e) => setStreetAddress(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                         />
                     </div>
 
-                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4 px-2 mx-2">
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">City</label>
+                            <label className="font-medium mb-1">City</label>
                             <input
                                 type="text"
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">State</label>
+                            <label className="font-medium mb-1">State</label>
                             <input
                                 type="text"
                                 value={state}
                                 onChange={(e) => setState(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">Postal Code</label>
+                            <label className="font-medium mb-1">Postal Code</label>
                             <input
                                 type="text"
                                 value={postalCode}
                                 onChange={handlePostalCode}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                                 maxLength={5}
                             />
                         </div>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="font-medium mb-1 text-black">Payment Card Number</label>
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">Payment Card Number</label>
                         <input
                             type="text"
                             value={cardNumber}
                             onChange={handleCardNumber}
-                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             maxLength={16}
                         />
                     </div>
 
-                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 px-2 mx-2">
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
+                            <label className="font-medium mb-1">Expiration Date (MM/YY)</label>
                             <input
                                 type="text"
                                 value={expirationDate}
                                 onChange={handleExpirationDate}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="font-medium mb-1 text-black">CVV</label>
+                            <label className="font-medium mb-1">CVV</label>
                             <input
                                 type="text"
                                 value={cvv}
                                 onChange={handleCvv}
-                                className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
                                 maxLength={3}
                             />
                         </div>
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-4 px-2 mx-2">
                         <input 
                             type='checkbox'
                             value={emailPromotions}
                             onChange={(e) => setEmailPromotions(e.target.value)}
                             className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
                         />
-                        <label className='font-medium mb-1 text-black'>Recieve email promotions?</label>
+                        <label className='font-medium mb-1'>Receive email promotions?</label>
                     </div>
-
-                    <button type="submit" className="text-xl bg-red-800 text-white p-3 px-6 rounded-md hover:bg-red-900 w-full">
-                        Register
-                    </button>
+                    <div className='px-2 mx-2'>
+                        <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                            Register
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

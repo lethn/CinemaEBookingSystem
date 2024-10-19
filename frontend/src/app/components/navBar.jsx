@@ -13,10 +13,10 @@ export default function NavBar({ userType }) {
     };
 
     return (
-        <div className="bg-red-900">
+        <div className="bg-navBarRed">
             <ul className="flex justify-end items-center">
                 <li className="mr-auto">
-                    <Link href='/' className="text-white text-2xl hover:text-red-950 px-3">
+                    <Link href='/' className="text-white text-bold text-2xl hover:text-black px-3 transition duration-300 ease-in-out">
                         eCinema
                     </Link>
                 </li>
@@ -25,14 +25,14 @@ export default function NavBar({ userType }) {
                     <>
                         <li>
                             <Link href="/login">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Login
                             </button>
                             </Link>
                         </li>
                         <li>
                             <Link href="/register">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Register
                             </button>
                             </Link>
@@ -44,20 +44,20 @@ export default function NavBar({ userType }) {
                     <>
                         <li>
                             <Link href="/profile">
-                                <button className="px-4 py-3 hover:bg-red-950">
+                                <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                     Profile
                                 </button>
                             </Link>
                         </li>
                         <li>
                             <Link href="/order-history">
-                                <button className="px-4 py-3 hover:bg-red-950">
+                                <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                     Order History
                                 </button>
                             </Link>
                         </li>
                         <li>
-                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-950">
+                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Logout
                             </button>
                         </li>
@@ -68,34 +68,34 @@ export default function NavBar({ userType }) {
                     <>
                         <li>
                             <Link href="/profile">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Profile
                             </button>
                             </Link>
                         </li>
                         <li>
                             <Link href="/manage-movies">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Manage Movies
                             </button>
                             </Link>
                         </li>
                         <li>
                             <Link href="/manage-promotions">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Manage Promotions
                             </button>
                             </Link>
                         </li>
                         <li>
                             <Link href="/manage-users">
-                            <button className="px-4 py-3 hover:bg-red-950">
+                            <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Manage Users
                             </button>
                             </Link>
                         </li>
                         <li>
-                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-950">
+                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                 Logout
                             </button>
                         </li>
