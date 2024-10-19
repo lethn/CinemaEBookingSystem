@@ -119,13 +119,18 @@ export default function EditProfile() {
         setError('');
     }
 
-    const onClickAddCardHandler = () => {
-
+    const onClickAddCardHandler = (e) => {
+        e.preventDefault();
+        const [month, year] = expirationDate.split('/');
+        const fullYear = `20${year}`;
+        const day = '01';
+        const expDate = `${fullYear}-${month}-${day}`;
+        console.log(expDate);
         axios.post(`http://localhost:8080/paymentCards?customerId=${userID}`,
             {
                 "friendlyName": cardName,
                 "cardNumber": cardNumber,
-                "expirationDate": "2014-01-01",//expirationDate needs to be formatted to match db
+                "expirationDate": expDate,//expirationDate needs to be formatted to match db
                 "billingAddress": "TO DO"
             }
         ).then((response) => {
