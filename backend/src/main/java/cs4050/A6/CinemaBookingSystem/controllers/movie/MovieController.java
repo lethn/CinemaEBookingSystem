@@ -2,6 +2,7 @@ package cs4050.A6.CinemaBookingSystem.controllers.movie;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
+import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.repositories.movie.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,17 @@ public class MovieController {
 
         // Return successful response with JSON encoded body
         return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/movies/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Return successful response with JSON encoded body
+        return ResponseEntity.ok(movie.get());
     }
 
     @GetMapping("/movies/shows") // Get all showings for a particular movie

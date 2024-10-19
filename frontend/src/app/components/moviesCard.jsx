@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ const MovieCard = (props) => {
                     Trailer
                 </button>
 
-                <Link href="/movie" passHref>
+                <Link href={`/movie/${props.id}`} passHref>
                     <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                         Info
                     </button>
