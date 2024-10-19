@@ -32,6 +32,7 @@ export default function EditProfile() {
             setFirstName(userData.firstName);
             setLastName(userData.lastName);
             setEmail(userData.email);
+            setCards(userData.paymentCards)
         } catch (error) {
             console.error('Error fetching user:', error);
         }
@@ -51,9 +52,11 @@ export default function EditProfile() {
         }
     ];
 
+    /*
     useEffect(() => {
         setCards(dummyCards);
     }, []);
+    */
 
     const onClickEditProfileHandler = () => {
         alert("Edit profile successfully!");
@@ -79,7 +82,7 @@ export default function EditProfile() {
 
         // TO DO: remove card from DB and user
 
-        setPromotions(cards.filter((card) => card.id !== id));
+        setCards(cards.filter((card) => card.id !== id));
     };
 
     const handleExpirationDate = (e) => {
