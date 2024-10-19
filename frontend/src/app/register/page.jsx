@@ -57,7 +57,8 @@ export default function Register() {
                 "lastName": lastName,
                 "email": email,
                 "password": password,
-                "userType": "CUSTOMER"
+                "userType": "CUSTOMER",
+                "subscribedToPromotions": emailPromotions
             }
         ).then((response) => {
             console.log(response.data);
@@ -260,8 +261,8 @@ export default function Register() {
                     <div className="mb-4 px-2 mx-2">
                         <input 
                             type='checkbox'
-                            value={emailPromotions}
-                            onChange={(e) => setEmailPromotions(e.target.value)}
+                            checked={emailPromotions}
+                            onChange={(e) => setEmailPromotions(e.target.checked)}
                             className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
                         />
                         <label className='font-medium mb-1'>Receive email promotions?</label>
