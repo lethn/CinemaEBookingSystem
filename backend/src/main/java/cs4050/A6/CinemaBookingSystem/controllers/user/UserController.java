@@ -4,7 +4,6 @@ import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.models.user.Admin;
 import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.models.user.CustomerState;
-import cs4050.A6.CinemaBookingSystem.models.user.User;
 import cs4050.A6.CinemaBookingSystem.repositories.user.AdminRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.security.LoginRequest;
@@ -15,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 // CORS Configuration for specific endpoint (front-end)
@@ -90,7 +90,8 @@ public class UserController {
         return ResponseEntity.ok(existingCustomer.get());
     }
 
-    @GetMapping("/customers/verify") // Verifies user account -- called by frontend when user inputs email and token into verification page
+    @GetMapping("/customers/verify")
+    // Verifies user account -- called by frontend when user inputs email and token into verification page
     public ResponseEntity<Customer> verifyCustomerAccount(@RequestParam String email, @RequestParam String token) {
         // Find customer
         Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
@@ -116,7 +117,8 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/customers/password-reset/generate") // Generates a password reset code and sends this to the user via email
+    @PostMapping("/customers/password-reset/generate")
+    // Generates a password reset code and sends this to the user via email
     public ResponseEntity<?> generatePasswordReset(@RequestParam String email) {
         // Find customer
         Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
@@ -145,7 +147,8 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/customers/password-reset/reset") // Resets the user's password to the new password, assuming token is valid
+    @PostMapping("/customers/password-reset/reset")
+    // Resets the user's password to the new password, assuming token is valid
     public ResponseEntity<?> resetPassword(@RequestParam String email, @RequestParam String token, @RequestParam String newPassword) {
         // TO DO: MOVE TO OWN METHOD
         // Find customer
@@ -177,8 +180,8 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/customers") // Creates or updates existing customer object
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
+    @PostMapping("/customers")
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         // Encode password
         String encodedPassword = Utility.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
@@ -196,6 +199,40 @@ public class UserController {
         emailService.sendVerificationEmail(customer.getEmail(), token);
 
         return ResponseEntity.ok(customer);
+    }
+
+    @PatchMapping("/customers/{id}") // Updates specified fields on existing customer object
+    // Allows updating of an existing customer via a patch request -- only contains fields that are user-updatable
+    // Any field that is null (meaning wasn't included in JSON body) is assumed to not be changing
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") Long id, @RequestBody Map<String, Object> patch) {
+        Optional<Customer> existingCustomer = customerRepository.findById(id);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Extract non-null fields
+        for (String key : patch.keySet()) {
+            Object value = patch.get(key);
+
+            if (value == null) {
+                continue;
+            }
+
+            switch (key) {
+                case "firstName" -> existingCustomer.get().setFirstName((String) value);
+                case "lastName" -> existingCustomer.get().setLastName((String) value);
+                case "password" -> {
+                    String encodedPassword = Utility.encode((String) value);
+                    existingCustomer.get().setPassword(encodedPassword);
+                }
+
+                case "subscribedToPromotions" -> existingCustomer.get().setSubscribedToPromotions((boolean) value);
+            }
+        }
+
+        var result = customerRepository.save(existingCustomer.get());
+
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/customers/{id}")

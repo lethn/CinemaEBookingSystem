@@ -19,6 +19,8 @@ import java.util.List;
 public class Customer extends User {
     @Column(nullable = false)
     private CustomerState status = CustomerState.INACTIVE;
+    @Column(nullable = false) // Whether user is subscribed to promotion lists
+    private boolean subscribedToPromotions = false;
 
     private String verificationCode;
     private String passwordResetCode;
