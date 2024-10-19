@@ -24,7 +24,7 @@ export default function EditProfile() {
     const [cvv, setCvv] = useState('');
     const [cards, setCards] = useState([]);
     const [error, setError] = useState('');
-    const [emailPromo, setPromo] = useState(true); //idk if this is how we want this done but i am setting just so i can use it for now
+    const [emailPromotions, setEmailPromotions] = useState(false); //idk if this is how we want this done but i am setting just so i can use it for now
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/customers/${userID}`);
@@ -34,7 +34,7 @@ export default function EditProfile() {
             setLastName(userData.lastName);
             setEmail(userData.email);
             setCards(userData.paymentCards);
-            setPromo(userData.subscribedToPromotions);
+            setEmailPromotions(userData.subscribedToPromotions);
         } catch (error) {
             console.error('Error fetching user:', error);
         }
@@ -68,7 +68,7 @@ export default function EditProfile() {
                 "firstName": firstName,
                 "lastName": lastName,
                 //things to implement past here
-                "subscribeToPromotion": emailPromo //we need a checkbox or something for this in the box
+                "subscribeToPromotion": emailPromotions //we need a checkbox or something for this in the box
                 //"streetAddress": address this is for if address is added to user
             }).then((response) => {
             console.log(response.data);
@@ -281,6 +281,16 @@ export default function EditProfile() {
                                         maxLength={5}
                                     />
                                 </div>
+                            </div>
+
+                            <div className="mb-4">
+                                <input 
+                                    type='checkbox'
+                                    value={emailPromotions}
+                                    onChange={(e) => setEmailPromotions(e.target.value)}
+                                    className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                                />
+                                <label className='font-medium mb-1 text-black'>Receive email promotions?</label>
                             </div>
 
                             <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
