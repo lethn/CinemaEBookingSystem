@@ -44,4 +44,17 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    public void sendProfileChangesEmail(String email) {
+        String subject = "Profile Changes Made";
+        String content = "Your profile information has been successfully updated. " +
+                "Check your account page to see what's changed!";
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(content);
+
+        mailSender.send(message);
+    }
 }
