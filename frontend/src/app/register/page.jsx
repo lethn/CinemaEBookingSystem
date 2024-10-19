@@ -1,40 +1,40 @@
 "use client";
-import { useState } from 'react';
+import { useState, useContext, useRef } from 'react';
+import { AuthContext } from '../contexts/user';
 import { useRouter } from 'next/navigation';
 import NavBar from "../components/navBar";
 import axios from "axios";
 
 export default function Register() {
     const router = useRouter();
+    const { setEmailForRegistration } = useContext(AuthContext);
+    const passwordRef = useRef(null);
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [streetAddress, setStreetAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [postalCode, setPostalCode] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [expirationDate, setExpirationDate] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [error, setError] = useState('');
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [streetAddress, setStreetAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [expirationDate, setExpirationDate] = useState("");
+    const [cvv, setCvv] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Basic validation
         if (password !== confirmPassword) {
-            setError('Passwords do not match');
+            setPassword("");
+            setConfirmPassword("");
+            alert('Passwords do not match');
+            passwordRef.current.focus();
             return;
         }
 
-        // Clear any previous errors
-        setError('');
-
-        // Perform registration logic (e.g., API call)
         axios.post(
             'http://localhost:8080/customers',
             {
@@ -46,12 +46,12 @@ export default function Register() {
             }
         ).then((response) => {
             console.log(response.data);
+            setEmailForRegistration(email);
             router.push('/register-confirmation');
         }).catch((error) => {
             console.log(error);
-            alert("Email is already asociated with an account");
+            alert("Email is already associated with an account");
         });
-
     };
 
     return (
@@ -60,7 +60,6 @@ export default function Register() {
             <div className="flex flex-col justify-center items-center m-8 p-8">
                 <h2 className="text-3xl font-semibold mb-6">Registration</h2>
                 <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
-                    {error && <p className="text-red-500 mb-4">{error}</p>}
 
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                         <div className="flex-1">
@@ -123,6 +122,7 @@ export default function Register() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            ref={passwordRef}
                             required
                         />
                     </div>
