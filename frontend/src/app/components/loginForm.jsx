@@ -25,7 +25,7 @@ export default function LoginForm() {
             <h2 className="text-4xl font-semibold mb-6">Login</h2>
             <form className='flex flex-col p-2 m-2' onSubmit={handleSubmit}>
                 <label className="font-medium text-white">
-                    Username<span className="text-red-500">*</span>
+                    Username <span className="text-red-500">*</span>
                 </label>
                 <input
                     type="text"

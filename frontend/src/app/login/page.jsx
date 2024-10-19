@@ -10,16 +10,6 @@ export default function Login() {
                 <div className="flex flex-col p-24 mx-auto items-center">
                     <LoginForm />
                 </div>
-
-                {/* <div className="mr-4 p-40">
-                    <h2 className="text-2xl font-semibold mb-2">User Login</h2>
-                    <LoginForm redirectTo="/" role="user" />
-                </div>
-
-                <div className="mr-4 p-40">
-                    <h2 className="text-2xl font-semibold mb-2">Admin Login</h2>
-                    <LoginForm redirectTo="/" role="admin" />
-                </div> */}
             </div>
         </div>
     );
