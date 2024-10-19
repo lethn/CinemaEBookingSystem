@@ -267,7 +267,7 @@ export default function Register() {
                         <label className='font-medium mb-1 text-black'>Recieve email promotions?</label>
                     </div>
 
-                    <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                    <button type="submit" className="text-xl bg-red-800 text-white p-3 px-6 rounded-md hover:bg-red-900 w-full">
                         Register
                     </button>
                 </form>

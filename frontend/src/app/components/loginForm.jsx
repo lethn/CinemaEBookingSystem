@@ -27,7 +27,7 @@ export default function LoginForm({ redirectTo, role }) {
         <div className="bg-white p-8 shadow-lg w-80 rounded-lg">
             <form className='flex flex-col' onSubmit={handleSubmit}>
                 <label className="font-medium text-black">
-                    Username<span className="text-red-500">*</span>
+                    Username
                 </label>
                 <input
                     type="text"
@@ -39,7 +39,7 @@ export default function LoginForm({ redirectTo, role }) {
                 /> 
                 
                 <label className="font-medium text-black">
-                    Password <span className="text-red-500">*</span>
+                    Password
                 </label>
                 <input
                     type="password"
@@ -51,14 +51,14 @@ export default function LoginForm({ redirectTo, role }) {
                 />
 
                 <button type="submit"
-                    className="bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
+                    className="bg-red-800 text-white p-3 rounded-md hover:bg-red-900">
                     Login
                 </button>
             </form>
 
             <p className="font-medium mt-4 text-center">
                 <Link
-                    className="text-blue-600 hover:text-blue-900 hover:underline"
+                    className="text-red-800 hover:text-red-900 hover:underline"
                     href="/forgot-password">
                     Forgot Password
                 </Link>
@@ -67,7 +67,7 @@ export default function LoginForm({ redirectTo, role }) {
             <p className="font-medium text-center">
                 <span className="text-black">Not a user? </span>
                 <Link
-                    className="text-blue-600 hover:text-blue-900 hover:underline"
+                    className="text-red-800 hover:text-red-900 hover:underline"
                     href="/register">
                     Sign Up Here
                 </Link>
