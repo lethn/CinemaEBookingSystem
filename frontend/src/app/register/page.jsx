@@ -98,7 +98,7 @@ export default function Register() {
     return (
         <div>
             <NavBar />
-            <div className="flex flex-col justify-center items-center m-8 p-8 ">
+            <div className="flex flex-col justify-center items-center m-8 p-8">
                 <form className="bg-neutral-800/80 text-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSubmit}>
                     <h2 className="text-4xl font-semibold mb-10">Registration</h2>
                     

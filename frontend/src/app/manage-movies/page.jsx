@@ -71,7 +71,6 @@ const dummy_movies = [
 ];
 
 export default function ManageMovies() {
-    const [userRole, setUserRole] = useState(null);
     const [movies, setMovies] = useState([]);
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
@@ -82,33 +81,35 @@ export default function ManageMovies() {
     const [trailer, setTrailer] = useState('');
     const [picture, setPicture] = useState('');
     const [rating, setRating] = useState('');
-    const [nowPlaying, setNowPlaying] = useState(false);
+
+    const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     
 
-    // const fetchMovies = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:8080/movies');
-    //         const moviesData = response.data;
-    //         console.log(response.data);
-
-    //         setMovies(moviesData);
-    //     } catch (error) {
-    //         console.error('Error fetching movies:', error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchMovies();
-    // }, []);
+    const fetchMovies = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/movies');
+            setMovies(response.data);
+            console.log(response.data);
+            console.log(isLoggedIn);
+            console.log(userID);
+            console.log(userType);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
+    };
 
     useEffect(() => {
         setMovies(dummy_movies);
+        //fetchMovies();
     }, []);
 
+    /*
     useEffect(() => {
         const role = localStorage.getItem('userRole'); // Fetch role from localStorage
         setUserRole(role);
     }, []);
+    */
 
     const handleDeleteMovie = (id) => {
         setMovies(movies.filter((movie) => movie.id !== id));
@@ -123,7 +124,7 @@ export default function ManageMovies() {
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
             <h1 className="text-2xl font-bold mb-4 ml-4">Manage Movies</h1>
 
             <form onSubmit={handleAddMovie} className="ml-4">

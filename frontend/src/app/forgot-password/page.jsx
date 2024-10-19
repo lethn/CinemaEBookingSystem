@@ -1,46 +1,97 @@
 "use client"
 import NavBar from "../components/navBar";
 import { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-
-export default function Login() {
+export default function ForgotPassword() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [emailSent, setEmailSent] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
+    const [isCodeVerified, setIsCodeVerified] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const [customerID, setCustomerID] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmitRequestCode = async (e) => {
         e.preventDefault();
+        try {
+            // Fetch all customers and find the one with the matching email
+            const customersResponse = await axios.get(`http://localhost:8080/customers`);
+            const customers = customersResponse.data;
+            const customer = customers.find(c => c.email === email);
 
-        // send email
+            if (!customer) {
+                alert("Email does not exist in our records.");
+                return;
+            }
 
-        setEmailSent(true);
+            setCustomerID(customer.id);
+
+            // Generate the password reset code
+            const response = await axios.post(`http://localhost:8080/customers/password-reset/generate`, null, {
+                params: { email }
+            });
+            console.log(response.data);
+            setEmailSent(true);
+        } catch (error) {
+            console.error('Error sending password reset request', error);
+            alert('Failed to send reset email. Please try again.');
+        }
     };
 
-    const handleSubmitPassword = (e) => {
+    const handleVerifyCode = async (e) => {
         e.preventDefault();
 
-        // Basic validation
+        try {
+            const response = await axios.get(`http://localhost:8080/customers/${customerID}`);
+            if (response.status === 200) {
+                const customer = response.data;
+                if (customer.passwordResetCode === verificationCode) {
+                    setIsCodeVerified(true);
+                } else {
+                    alert('Invalid verification code.');
+                }
+            } else {
+                alert('Customer not found.');
+            }
+        } catch (error) {
+            console.error('Error verifying code', error);
+            alert('Failed to verify code. Please try again.');
+        }
+    };
+
+    const handleSubmitPassword = async (e) => {
+        e.preventDefault();
+
         if (newPassword !== confirmPassword) {
-            setError('Passwords do not match');
-            alert(error);
+            setNewPassword("");
+            setConfirmPassword("");
+            alert('New passwords do not match');
             return;
         }
 
-        // Clear any previous errors
-        setError('');
+        if (newPassword.length < 8) {
+            setNewPassword("");
+            setConfirmPassword("");
+            alert('Password must be at least 8 characters');
+            return;
+        }
 
-        if (verificationCode === '123456') {
+        try {
+            const response = await axios.post(`http://localhost:8080/customers/password-reset/reset?email=${email}&token=${verificationCode}&newPassword=${newPassword}`);
 
-            // TO DO: change password for user in DB
-
-            // set userID in localStorage
-            localStorage.setItem('userRole', "user");
-            router.push("/");
-        } else {
-            alert('Invalid verification code.');
+            console.log(response.data);
+            if (response.status === 200) {
+                alert("Reset password successfully!")
+                router.push('/login');
+            } else {
+                alert('Invalid verification code or failed to reset password.');
+            }
+        } catch (error) {
+            console.error('Error resetting password', error);
+            alert('Failed to reset password. Please try again.');
         }
     };
 
@@ -50,77 +101,84 @@ export default function Login() {
             <div className="flex flex-col min-h-screen">
                 {!emailSent && (
                     <div className="flex flex-col p-24 mx-auto items-center">
-                        <h2 className="text-3xl font-semibold mb-6">Forgot Password?</h2>
-                        <form className="bg-white p-8 shadow-lg w-80 rounded-lg" onSubmit={handleSubmit}>
-                        <label className="font-medium text-black">
-                            Email
-                        </label>
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black"
-                                required
-                            />
-                            <button type="submit"
-                                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
-                                Reset Password
-                            </button>
-                        </form>
+                        <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg m-4">
+                            <h2 className="text-4xl font-semibold mb-6">Forgot Password?</h2>
+                            <form className="flex flex-col p-2 m-2" onSubmit={handleSubmitRequestCode}>
+                                <label className="font-medium">Email</label>
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    required
+                                />
+                                <button type="submit"
+                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    Reset Password
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 )}
 
-                {emailSent && (
+                {emailSent && !isCodeVerified && (
                     <div className="flex flex-col p-24 mx-auto items-center">
-                        <label htmlFor="verificationCode" className="text-3xl font-semibold mb-6">
-                            Create New Password
-                        </label>
-                        <form onSubmit={handleSubmitPassword} className="bg-white p-8 shadow-lg w-80 rounded-lg">
-                            <p className="text-black mb-2">A 6-digit verification code has been sent to your email: <strong>{email}</strong></p>
-                            <label className="font-medium text-black">
-                                Verification Code
-                            </label>
-                            <input
-                                type="text"
-                                id="verificationCode"
-                                placeholder="Email Verification Code"
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black focus:outline-none"
-                                required
-                            />
-                            <label className="font-medium text-black">
-                                New Password
-                            </label>
-                            <input
-                                type="text"
-                                id="newPassword"
-                                placeholder="New Password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-md text-black focus:outline-none"
-                                required
-                            />
-                            <label className="font-medium text-black">
-                                Confirm Password
-                            </label>
-                            <input
-                                type="text"
-                                id="confirmPassword"
-                                placeholder="Confirm New Password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="block w-full p-3 mt-1 mb-4 text-black w-full p-3 border border-gray-300 rounded-md focus:outline-none"
-                                required
-                            />
+                        <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg m-4">
+                            <h2 className="text-4xl font-semibold mb-6">Enter Verification Code</h2>
+                            <form onSubmit={handleVerifyCode} className="flex flex-col p-2 m-2">
+                                <p className="text-white mb-4">
+                                    A verification code has been sent to your email: <strong>{email}</strong>
+                                </p>
+                                <label className="font-medium text-white">Verification Code</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Verification Code"
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    Verify Code
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                )}
 
-                            <button
-                                type="submit"
-                                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
-                                Confirm
-                            </button>
-                        </form>
+                {isCodeVerified && (
+                    <div className="flex flex-col p-24 mx-auto items-center">
+                        <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg m-4">
+                            <h2 className="text-4xl font-semibold mb-6">Create New Password</h2>
+                            <form onSubmit={handleSubmitPassword} className="flex flex-col p-2 m-2">
+                                <label className="font-medium text-white">New Password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Enter New Password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    required
+                                />
+                                <label className="font-medium text-white">Confirm Password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Confirm New Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    Confirm
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 )}
             </div>

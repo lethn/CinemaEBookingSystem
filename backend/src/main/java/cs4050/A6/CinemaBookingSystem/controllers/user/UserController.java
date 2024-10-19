@@ -232,6 +232,7 @@ public class UserController {
 
         var result = customerRepository.save(existingCustomer.get());
 
+        emailService.sendProfileChangesEmail(existingCustomer.get().getEmail());//hopefully this sends a changes email
         return ResponseEntity.ok(result);
     }
 
