@@ -68,7 +68,7 @@ export default function EditProfile() {
                 "firstName": firstName,
                 "lastName": lastName,
                 //things to implement past here
-                "subscribeToPromotion": emailPromotions //we need a checkbox or something for this in the box
+                "subscribedToPromotions": emailPromotions //we need a checkbox or something for this in the box
                 //"streetAddress": address this is for if address is added to user
             }).then((response) => {
             console.log(response.data);
@@ -286,8 +286,8 @@ export default function EditProfile() {
                             <div className="mb-4">
                                 <input 
                                     type='checkbox'
-                                    value={emailPromotions}
-                                    onChange={(e) => setEmailPromotions(e.target.value)}
+                                    checked ={emailPromotions}
+                                    onChange={(e) => setEmailPromotions(e.target.checked)}
                                     className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
                                 />
                                 <label className='font-medium mb-1 text-black'>Receive email promotions?</label>
