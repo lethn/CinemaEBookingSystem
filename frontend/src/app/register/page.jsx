@@ -58,7 +58,11 @@ export default function Register() {
                 "email": email,
                 "password": password,
                 "userType": "CUSTOMER",
-                "subscribedToPromotions": emailPromotions
+                "subscribedToPromotions": emailPromotions,
+                "streetAddress": streetAddress,
+                "city" : city,
+                "state" : state,
+                "postalCode": postalCode
             }
         ).then((response) => {
             console.log(response.data);

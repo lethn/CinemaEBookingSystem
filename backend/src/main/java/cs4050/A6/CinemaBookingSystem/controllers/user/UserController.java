@@ -225,8 +225,11 @@ public class UserController {
                     String encodedPassword = Utility.encode((String) value);
                     existingCustomer.get().setPassword(encodedPassword);
                 }
-
                 case "subscribedToPromotions" -> existingCustomer.get().setSubscribedToPromotions((boolean) value);
+                case "streetAddress" -> existingCustomer.get().setStreetAddress((String) value);
+                case "city" -> existingCustomer.get().setCity((String) value);
+                case "state" -> existingCustomer.get().setState((String) value);
+                case "postalCode" -> existingCustomer.get().setPostalCode((String) value);
             }
         }
 

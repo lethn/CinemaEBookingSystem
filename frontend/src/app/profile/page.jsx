@@ -35,6 +35,10 @@ export default function EditProfile() {
             setEmail(userData.email);
             setCards(userData.paymentCards);
             setEmailPromotions(userData.subscribedToPromotions);
+            setStreetAddress(userData.streetAddress);
+            setCity(userData.city);
+            setState(userData.state);
+            setPostalCode(userData.postalCode);
         } catch (error) {
             console.error('Error fetching user:', error);
         }
@@ -68,8 +72,11 @@ export default function EditProfile() {
                 "firstName": firstName,
                 "lastName": lastName,
                 //things to implement past here
-                "subscribedToPromotions": emailPromotions //we need a checkbox or something for this in the box
-                //"streetAddress": address this is for if address is added to user
+                "subscribedToPromotions": emailPromotions, //we need a checkbox or something for this in the box
+                "streetAddress": streetAddress,
+                "city" : city,
+                "state" : state,
+                "postalCode": postalCode
             }).then((response) => {
             console.log(response.data);
             alert("Edit profile successfully!");

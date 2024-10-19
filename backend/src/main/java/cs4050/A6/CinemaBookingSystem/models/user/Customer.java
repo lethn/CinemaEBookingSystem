@@ -21,6 +21,11 @@ public class Customer extends User {
     private CustomerState status = CustomerState.INACTIVE;
     @Column(nullable = false) // Whether user is subscribed to promotion lists
     private boolean subscribedToPromotions = false;
+    //address items
+    private String streetAddress;
+    private String city;
+    private String state;
+    private String postalCode;
 
     private String verificationCode;
     private String passwordResetCode;
