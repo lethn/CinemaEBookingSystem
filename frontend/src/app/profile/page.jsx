@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect } from 'react';
 import NavBar from "../components/navBar";
+import axios from "axios";
 
 export default function EditProfile() {
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -22,7 +24,24 @@ export default function EditProfile() {
     const [cards, setCards] = useState([]);
     const [error, setError] = useState('');
 
-    const dunnyCards = [
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/customers/${userID}`);
+            const userData = response.data;
+            console.log(userData);
+            setFirstName(userData.firstName);
+            setLastName(userData.lastName);
+            setEmail(userData.email);
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    const dummyCards = [
         {
             id: 1,
             friendlyName: "My Valid Card",
@@ -33,7 +52,7 @@ export default function EditProfile() {
     ];
 
     useEffect(() => {
-        setCards(dunnyCards);
+        setCards(dummyCards);
     }, []);
 
     const onClickEditProfileHandler = () => {
@@ -61,6 +80,32 @@ export default function EditProfile() {
         // TO DO: remove card from DB and user
 
         setPromotions(cards.filter((card) => card.id !== id));
+    };
+
+    const handleExpirationDate = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5); // Limit input to MM/YY format
+        }
+        setExpirationDate(value);
+    };
+
+    const handleCardNumber = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCardNumber(value);
+    };
+
+    const handleCvv = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCvv(value);
+    };
+
+    const handlePostalCode = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setPostalCode(value);
     };
 
     return (
@@ -123,6 +168,7 @@ export default function EditProfile() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                                     required
+                                    readOnly
                                 />
                             </div>
 
@@ -160,8 +206,9 @@ export default function EditProfile() {
                                     <input
                                         type="text"
                                         value={postalCode}
-                                        onChange={(e) => setPostalCode(e.target.value)}
+                                        onChange={handlePostalCode}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        maxLength={5}
                                     />
                                 </div>
                             </div>
@@ -232,8 +279,11 @@ export default function EditProfile() {
                                 <input
                                     type="text"
                                     value={cardNumber}
-                                    onChange={(e) => setCardNumber(e.target.value)}
+                                    onChange={handleCardNumber}
                                     className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                    maxLength={16}
+                                    minLength={16}
+                                    required
                                 />
                             </div>
 
@@ -243,8 +293,11 @@ export default function EditProfile() {
                                     <input
                                         type="text"
                                         value={expirationDate}
-                                        onChange={(e) => setExpirationDate(e.target.value)}
+                                        onChange={handleExpirationDate}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        maxLength={5}
+                                        minLength={5}
+                                        required
                                     />
                                 </div>
                                 <div className="flex-1">
@@ -252,8 +305,11 @@ export default function EditProfile() {
                                     <input
                                         type="text"
                                         value={cvv}
-                                        onChange={(e) => setCvv(e.target.value)}
+                                        onChange={handleCvv}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        maxLength={3}
+                                        minLength={3}
+                                        required
                                     />
                                 </div>
                             </div>

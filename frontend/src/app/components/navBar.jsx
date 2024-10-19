@@ -13,30 +13,28 @@ export default function NavBar({ userType }) {
     };
 
     return (
-        <div className="bg-black py-2 px-4">
-            <ul className="flex justify-end items-center space-x-4">
+        <div className="bg-red-900">
+            <ul className="flex justify-end items-center">
                 <li className="mr-auto">
-                    <label className="text-white text-2xl">
+                    <Link href='/' className="text-white text-2xl hover:text-red-950 px-3">
                         eCinema
-                    </label>
-                </li>
-
-                <li>
-                    <Link href="/" className="px-3 py-1 rounded hover:bg-stone-600">
-                        Home
                     </Link>
                 </li>
 
                 {!isLoggedIn && (
                     <>
                         <li>
-                            <Link href="/login" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/login">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Login
+                            </button>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/register" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/register">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Register
+                            </button>
                             </Link>
                         </li>
                     </>
@@ -45,17 +43,21 @@ export default function NavBar({ userType }) {
                 {isLoggedIn && userType === "CUSTOMER" && (
                     <>
                         <li>
-                            <Link href="/profile" className="px-3 py-1 rounded hover:bg-stone-600">
-                                Profile
+                            <Link href="/profile">
+                                <button className="px-4 py-3 hover:bg-red-950">
+                                    Profile
+                                </button>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/order-history" className="px-3 py-1 rounded hover:bg-stone-600">
-                                Order History
+                            <Link href="/order-history">
+                                <button className="px-4 py-3 hover:bg-red-950">
+                                    Order History
+                                </button>
                             </Link>
                         </li>
                         <li>
-                            <button onClick={handleLogout} className="px-3 py-1 rounded hover:bg-stone-600">
+                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-950">
                                 Logout
                             </button>
                         </li>
@@ -65,27 +67,35 @@ export default function NavBar({ userType }) {
                 {isLoggedIn && userType === "ADMIN" && (
                     <>
                         <li>
-                            <Link href="/profile" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/profile">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Profile
+                            </button>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/manage-movies" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/manage-movies">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Manage Movies
+                            </button>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/manage-promotions" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/manage-promotions">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Manage Promotions
+                            </button>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/manage-users" className="px-3 py-1 rounded hover:bg-stone-600">
+                            <Link href="/manage-users">
+                            <button className="px-4 py-3 hover:bg-red-950">
                                 Manage Users
+                            </button>
                             </Link>
                         </li>
                         <li>
-                            <button onClick={handleLogout} className="px-3 py-1 rounded hover:bg-stone-600">
+                            <button onClick={handleLogout} className="px-4 py-3 hover:bg-red-950">
                                 Logout
                             </button>
                         </li>

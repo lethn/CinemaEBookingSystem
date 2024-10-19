@@ -27,10 +27,24 @@ export default function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (!((cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3) ||
+        (cardNumber.length == 0 && expirationDate.length == 0 && cvv.length == 0))) {
+            alert('Card information is incorrect');
+            return;
+        }
+
         if (password !== confirmPassword) {
             setPassword("");
             setConfirmPassword("");
             alert('Passwords do not match');
+            passwordRef.current.focus();
+            return;
+        }
+
+        if (password.length < 8) {
+            setPassword("");
+            setConfirmPassword("");
+            alert('Password must be at least 8 characters');
             passwordRef.current.focus();
             return;
         }
@@ -52,6 +66,32 @@ export default function Register() {
             console.log(error);
             alert("Email is already associated with an account");
         });
+    };
+
+    const handleExpirationDate = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5); // Limit input to MM/YY format
+        }
+        setExpirationDate(value);
+    };
+
+    const handleCardNumber = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCardNumber(value);
+    };
+
+    const handleCvv = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCvv(value);
+    };
+
+    const handlePostalCode = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setPostalCode(value);
     };
 
     return (
@@ -123,6 +163,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                             ref={passwordRef}
+                            minLength={8}
                             required
                         />
                     </div>
@@ -136,6 +177,7 @@ export default function Register() {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            minLength={8}
                             required
                         />
                     </div>
@@ -174,8 +216,9 @@ export default function Register() {
                             <input
                                 type="text"
                                 value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
+                                onChange={handlePostalCode}
                                 className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                maxLength={5}
                             />
                         </div>
                     </div>
@@ -185,8 +228,9 @@ export default function Register() {
                         <input
                             type="text"
                             value={cardNumber}
-                            onChange={(e) => setCardNumber(e.target.value)}
+                            onChange={handleCardNumber}
                             className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                            maxLength={16}
                         />
                     </div>
 
@@ -196,7 +240,7 @@ export default function Register() {
                             <input
                                 type="text"
                                 value={expirationDate}
-                                onChange={(e) => setExpirationDate(e.target.value)}
+                                onChange={handleExpirationDate}
                                 className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                             />
                         </div>
@@ -205,8 +249,9 @@ export default function Register() {
                             <input
                                 type="text"
                                 value={cvv}
-                                onChange={(e) => setCvv(e.target.value)}
+                                onChange={handleCvv}
                                 className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                maxLength={3}
                             />
                         </div>
                     </div>
