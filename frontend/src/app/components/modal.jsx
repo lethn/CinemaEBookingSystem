@@ -24,7 +24,7 @@ function Modal(props) {
 						className="text-white text-2xl bg-red-500 w-10 h-10 rounded-full duration-300 hover:bg-red-600 -mr-8"
 						onClick={() => props.onClose()}
 					>
-						X
+						✖
 					</button>
 				</div>
 				<div className="p-2 rounded w-full mt-2 m-auto">{props.children}</div>

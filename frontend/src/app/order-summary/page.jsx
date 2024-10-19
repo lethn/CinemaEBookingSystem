@@ -4,17 +4,13 @@ import { useRouter } from 'next/navigation';
 import NavBar from "../components/navBar";
 
 export default function OrderSummary() {
-    const [userRole, setUserRole] = useState(null);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+
     const [cardNumber, setCardNumber] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [cvv, setCvv] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
-
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
 
     const [tickets, setTickets] = useState([
         { id: 1, seat: 'A1', price: 12 },
@@ -42,7 +38,7 @@ export default function OrderSummary() {
 
     return (
         <div>
-            <NavBar userRole={userRole} />
+            <NavBar userType={userType} />
             <div className="p-4">
                 <h1 className="text-3xl font-bold my-2">Order Summary for Movie: Inception</h1>
                 <div className="grid grid-cols-3">
