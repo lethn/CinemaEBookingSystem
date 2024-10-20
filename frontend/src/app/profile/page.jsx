@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../contexts/user';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import NavBar from "../components/navBar";
 import RestrictedPage from '../components/restrictedPage';
 import axios from "axios";
@@ -14,9 +15,15 @@ export default function EditProfile() {
     const [lastName, setLastName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+
     const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [streetAddress, setStreetAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -28,7 +35,19 @@ export default function EditProfile() {
     const [cards, setCards] = useState([]);
     const [error, setError] = useState('');
     const [emailPromotions, setEmailPromotions] = useState(false); //idk if this is how we want this done but i am setting just so i can use it for now
-    
+
+    const toggleCurrentPasswordVisibility = () => {
+        setShowCurrentPassword(!showCurrentPassword);
+    };
+
+    const toggleNewPasswordVisibility = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/customers/${userID}`);
@@ -210,7 +229,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                             required
                                         />
                                     </div>
@@ -222,7 +241,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                             required
                                         />
                                     </div>
@@ -236,7 +255,7 @@ export default function EditProfile() {
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border bg-neutral-300/80 focus:outline-none"
                                         required
                                         readOnly
                                     />
@@ -248,7 +267,7 @@ export default function EditProfile() {
                                         type="text"
                                         value={streetAddress}
                                         onChange={(e) => setStreetAddress(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                     />
                                 </div>
 
@@ -259,7 +278,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={city}
                                             onChange={(e) => setCity(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                         />
                                     </div>
                                     <div className="flex-1">
@@ -268,7 +287,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={state}
                                             onChange={(e) => setState(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                         />
                                     </div>
                                     <div className="flex-1">
@@ -277,7 +296,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={postalCode}
                                             onChange={handlePostalCode}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                             maxLength={5}
                                         />
                                     </div>
@@ -301,49 +320,71 @@ export default function EditProfile() {
                             <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickChangePasswordHandler}>
                                 {error && <p className="text-red-500 mb-4">{error}</p>}
                                 <h2 className="text-4xl font-semibold mb-6">Change Password</h2>
+
                                 {/* field for entering current password */}
-                                <div className="mb-4">
+                                <div className="mb-4 relative">
                                     <label className="text-lg font-medium mb-1">
                                         Current Password <span className="text-red-500">*</span>
                                     </label>
-                                    <input
-                                        //type = "text"
-                                        type="password"
-                                        value={currentPassword}
-                                        onChange={(e) => setCurrentPassword(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        required
-                                    />
+                                    <div className="flex items-center relative">
+                                        <input
+                                            type={showCurrentPassword ? "text" : "password"}
+                                            value={currentPassword}
+                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            required
+                                        />
+                                        <div
+                                            onClick={toggleCurrentPasswordVisibility}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                        >
+                                            {showCurrentPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* field for entering new password */}
-                                <div className="mb-4">
+                                <div className="mb-4 relative">
                                     <label className="text-lg font-medium mb-1">
                                         New Password <span className="text-red-500">*</span>
                                     </label>
-                                    <input
-                                        type="text"
-                                        //type="password"
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        required
-                                    />
+                                    <div className="flex items-center relative">
+                                        <input
+                                            type={showNewPassword ? "text" : "password"}
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            required
+                                        />
+                                        <div
+                                            onClick={toggleNewPasswordVisibility}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                        >
+                                            {showNewPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* field for confirming new password */}
-                                <div className="mb-4">
+                                <div className="mb-4 relative">
                                     <label className="text-lg font-medium mb-1">
                                         Confirm New Password <span className="text-red-500">*</span>
                                     </label>
-                                    <input
-                                        //type= "text"
-                                        type="password"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        required
-                                    />
+                                    <div className="flex items-center relative">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            required
+                                        />
+                                        <div
+                                            onClick={toggleConfirmPasswordVisibility}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                        >
+                                            {showConfirmPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
@@ -359,23 +400,27 @@ export default function EditProfile() {
                                 <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1">Card Name</label>
+                                    <label className="text-lg font-medium mb-1">
+                                        Card Name <span className="text-red-500">*</span>
+                                    </label>
                                     <input
                                         type="text"
                                         value={cardName}
                                         onChange={(e) => setCardName(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1">Card Number</label>
+                                    <label className="text-lg font-medium mb-1">
+                                        Card Number <span className="text-red-500">*</span>
+                                    </label>
                                     <input
                                         type="text"
                                         value={cardNumber}
                                         onChange={handleCardNumber}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                         maxLength={16}
                                         minLength={16}
                                         required
@@ -384,24 +429,28 @@ export default function EditProfile() {
 
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">Expiration Date (MM/YY)</label>
+                                        <label className="text-lg font-medium mb-1">
+                                            Expiration Date (MM/YY) <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             value={expirationDate}
                                             onChange={handleExpirationDate}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                             maxLength={5}
                                             minLength={5}
                                             required
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">CVV</label>
+                                        <label className="text-lg font-medium mb-1">
+                                            CVV <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             value={cvv}
                                             onChange={handleCvv}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
                                             maxLength={3}
                                             minLength={3}
                                             required
@@ -417,7 +466,7 @@ export default function EditProfile() {
                             {/* display current cards, fetch from user data */}
 
                             <div className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
-                            <h2 className="text-4xl font-semibold mb-6 text-white">Current Cards</h2>
+                                <h2 className="text-4xl font-semibold mb-6 text-white">Current Cards</h2>
                                 <table className="table-auto border min-w-full border-white">
                                     <thead>
                                         <tr>

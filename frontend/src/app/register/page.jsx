@@ -2,6 +2,7 @@
 import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../contexts/user';
 import { useRouter } from 'next/navigation';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import NavBar from "../components/navBar";
 import axios from "axios";
 
@@ -12,10 +13,13 @@ export default function Register() {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
     const [email, setEmail] = useState("");
+
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [streetAddress, setStreetAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -25,6 +29,14 @@ export default function Register() {
     const [cvv, setCvv] = useState("");
     const [cardName, setCardName] = useState('');
     const [emailPromotions, setEmailPromotions] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -170,18 +182,6 @@ export default function Register() {
                                 required
                             />
                         </div>
-                        <div className="flex-1">
-                            <label className="font-medium mb-1">
-                                Date of Birth <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="date"
-                                value={dateOfBirth}
-                                onChange={(e) => setDateOfBirth(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
-                                required
-                            />
-                        </div>
                     </div>
 
                     <div className="mb-4 px-2 mx-2">
@@ -201,29 +201,45 @@ export default function Register() {
                         <label className="font-medium mb-1">
                             Password <span className="text-red-500">*</span>
                         </label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
-                            ref={passwordRef}
-                            minLength={8}
-                            required
-                        />
+                        <div className="relative flex items-center">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full p-3 pr-10 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                ref={passwordRef}
+                                minLength={8}
+                                required
+                            />
+                            <div
+                                onClick={togglePasswordVisibility}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            >
+                                {showPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="mb-4 px-2 mx-2">
                         <label className="font-medium mb-1">
                             Confirm Password <span className="text-red-500">*</span>
                         </label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
-                            minLength={8}
-                            required
-                        />
+                        <div className="relative flex items-center">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"} 
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="w-full p-3 pr-10 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                minLength={8}
+                                required
+                            />
+                            <div
+                                onClick={toggleConfirmPasswordVisibility}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            >
+                                {showConfirmPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="mb-4 px-2 mx-2">
@@ -268,7 +284,7 @@ export default function Register() {
                     </div>
                     
                     <div className="mb-4 px-2 mx-2">
-                        <label className="font-medium mb-1">Payment Card Name</label>
+                        <label className="font-medium mb-1">Card Name</label>
                         <input
                             type="text"
                             value={cardName}
@@ -279,7 +295,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-4 px-2 mx-2">
-                        <label className="font-medium mb-1">Payment Card Number</label>
+                        <label className="font-medium mb-1">Card Number</label>
                         <input
                             type="text"
                             value={cardNumber}
