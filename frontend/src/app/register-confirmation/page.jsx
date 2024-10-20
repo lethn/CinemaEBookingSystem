@@ -2,7 +2,7 @@
 import { useState, useContext, useRef } from "react";
 import { AuthContext } from "../contexts/user";
 import { useRouter } from "next/navigation";
-import axios from "axios"; // Import axios for API requests
+import axios from "axios";
 import NavBar from "../components/navBar";
 
 export default function RegisterConfirmation() {
@@ -38,32 +38,26 @@ export default function RegisterConfirmation() {
     return (
         <div>
             <NavBar />
-            <div className="flex justify-center m-12 p-12">
-                <div className="bg-white p-12 m-auto shadow-lg rounded-lg">
-                    <p className="text-center text-black font-bold text-4xl pb-8">Thank you for registering!</p>
-                    <p className="text-center text-black mt-2 text-lg">
-                        A 6-digit verification code has been sent to your email: <strong>{registeredEmail}</strong>
-                    </p>
-
-                    <form onSubmit={handleSubmit} className="mt-6">
-                        <label htmlFor="verificationCode" className="block text-black text-xl font-semibold mb-2">
-                            Confirm Email
-                        </label>
+            <div className="flex flex-col p-24 mx-auto items-center">
+                <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg m-4">
+                    <h2 className="text-4xl font-semibold mb-6">Thank you for registering!</h2>
+                    <form onSubmit={handleSubmit} className="flex flex-col p-2 m-2">
+                        <p className="text-white mb-4">
+                            A verification code has been sent to your email: <strong>{registeredEmail}</strong>
+                        </p>
+                        <label className="block text-xl font-semibold mb-2">Confirm Email</label>
                         <input
                             type="text"
-                            id="verificationCode"
-                            placeholder="Email Verification Code"
+                            placeholder="Enter Verification Code"
                             value={verificationCode}
                             onChange={(e) => setVerificationCode(e.target.value)}
-                            className="text-black w-full p-3 border border-gray-300 rounded-md"
-                            ref={verifyCodeRef}
+                            className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
                             required
+                            ref={verifyCodeRef}
                         />
-
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white p-3 mt-6 rounded-md hover:bg-blue-700"
-                        >
+                            className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                             Confirm
                         </button>
                     </form>
