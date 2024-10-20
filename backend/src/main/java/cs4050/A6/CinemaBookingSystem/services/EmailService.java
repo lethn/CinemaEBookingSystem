@@ -18,8 +18,7 @@ public class EmailService {
     public void sendVerificationEmail(String email, String token) {
         String subject = "Email Verification Code for Your New Account";
 
-        String verificationPage = "..."; // TO DO: Update to URL of verify page on frontend
-        String content = "Visit the following page to verify your account: " + verificationPage + ". Use the following code: " + token;
+        String content = "Please use the following code to verify your account: " + token + ".";
 
         SimpleMailMessage message = new SimpleMailMessage(); // Use Spring mail library
         message.setFrom(fromEmail);
@@ -33,8 +32,7 @@ public class EmailService {
     public void sendPasswordResetEmail(String email, String token) {
         String subject = "Password Reset Code for Your Account";
 
-        String resetPage = "..."; // TO DO: Update to URL of reset password page on frontend
-        String content = "Visit the following page to reset your password: " + resetPage + ". Use the following code: " + token;
+        String content = "Please use the following code to reset your password: " + token + ".";
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);

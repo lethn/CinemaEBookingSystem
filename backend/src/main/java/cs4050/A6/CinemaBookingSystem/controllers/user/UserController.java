@@ -193,12 +193,12 @@ public class UserController {
 
         // Store code
         customer.setVerificationCode(token);
-        customerRepository.save(customer);
+        var result = customerRepository.save(customer);
 
         // Send email
         emailService.sendVerificationEmail(customer.getEmail(), token);
 
-        return ResponseEntity.ok(customer);
+        return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/customers/{id}") // Updates specified fields on existing customer object
