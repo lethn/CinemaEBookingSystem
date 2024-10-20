@@ -28,6 +28,7 @@ export default function EditProfile() {
     const [cards, setCards] = useState([]);
     const [error, setError] = useState('');
     const [emailPromotions, setEmailPromotions] = useState(false); //idk if this is how we want this done but i am setting just so i can use it for now
+    
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/customers/${userID}`);
@@ -137,12 +138,13 @@ export default function EditProfile() {
             {
                 "friendlyName": cardName,
                 "cardNumber": cardNumber,
-                "expirationDate": expDate,//expirationDate needs to be formatted to match db
+                "expirationDate": expDate, // expirationDate needs to be formatted to match db
                 "billingAddress": "TO DO"
             }
         ).then((response) => {
             console.log(response.data);
-            alert("Add card successfully!");
+            alert("Added card successfully!");
+            fetchUserData();
         }).catch((error) => {
             console.log(error);
             alert("Error while adding card");
@@ -153,7 +155,7 @@ export default function EditProfile() {
 
         axios.delete(`http://localhost:8080/paymentCards/${id}`).then((response) => {
             console.log(response.data);
-            alert("card deleted successfully!");
+            alert("Card deleted successfully!");
         }).catch((error) => {
             console.log(error);
             alert("Error while deleting card");
@@ -430,19 +432,20 @@ export default function EditProfile() {
                             <div className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
                                 <h1>Current Cards</h1>
 
-                                <table className="min-w-full border">
+                                <table className="table-auto border min-w-full ">
                                     <thead>
                                         <tr>
                                             <th className="border p-2 text-lg font-medium mb-1 text-black">Card Name</th>
-                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th>
+                                            {/* <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th> */}
                                             <th className="border p-2 text-lg font-medium mb-1 text-black">Expiration</th>
+                                            <th className=" p-2 text-lg font-medium mb-1 text-black">Delete Card</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {cards.map((card) => (
                                             <tr key={card.id}>
                                                 <td className="border p-2">{card.friendlyName}</td>
-                                                <td className="border p-2">{card.cardNumber}</td>
+                                                {/* <td className="border p-2">{card.cardNumber}</td> */}
                                                 <td className="border p-2">{card.expirationDate}</td>
                                                 <td className="border p-2">
                                                     <button
