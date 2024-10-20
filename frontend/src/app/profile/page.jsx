@@ -198,13 +198,12 @@ export default function EditProfile() {
                 <div className="flex flex-col justify-center items-center m-8 p-8">
                     <div className='grid grid-cols-2'>
                         <div className='p-4'>
-                            <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>
-                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickEditProfileHandler}>
+                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickEditProfileHandler}>
                                 {error && <p className="text-red-500 mb-4">{error}</p>}
-
+                                <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">
+                                        <label className="text-lg font-medium mb-1">
                                             First Name <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -216,7 +215,7 @@ export default function EditProfile() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">
+                                        <label className="text-lg font-medium mb-1">
                                             Last Name <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -227,22 +226,10 @@ export default function EditProfile() {
                                             required
                                         />
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">
-                                            Date of Birth <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            type="date"
-                                            value={dateOfBirth}
-                                            onChange={(e) => setDateOfBirth(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                            required
-                                        />
-                                    </div>
                                 </div>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">
+                                    <label className="text-lg font-medium mb-1">
                                         Email <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -256,7 +243,7 @@ export default function EditProfile() {
                                 </div>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">Street Address</label>
+                                    <label className="text-lg font-medium mb-1">Street Address</label>
                                     <input
                                         type="text"
                                         value={streetAddress}
@@ -267,7 +254,7 @@ export default function EditProfile() {
 
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">City</label>
+                                        <label className="text-lg font-medium mb-1">City</label>
                                         <input
                                             type="text"
                                             value={city}
@@ -276,7 +263,7 @@ export default function EditProfile() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">State</label>
+                                        <label className="text-lg font-medium mb-1">State</label>
                                         <input
                                             type="text"
                                             value={state}
@@ -285,7 +272,7 @@ export default function EditProfile() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">Postal Code</label>
+                                        <label className="text-lg font-medium mb-1">Postal Code</label>
                                         <input
                                             type="text"
                                             value={postalCode}
@@ -303,20 +290,20 @@ export default function EditProfile() {
                                         onChange={(e) => setEmailPromotions(e.target.checked)}
                                         className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
                                     />
-                                    <label className='font-medium mb-1 text-black'>Receive email promotions?</label>
+                                    <label className='font-medium mb-1'>Receive email promotions?</label>
                                 </div>
 
-                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Save Profile
                                 </button>
                             </form>
 
-                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickChangePasswordHandler}>
+                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickChangePasswordHandler}>
                                 {error && <p className="text-red-500 mb-4">{error}</p>}
-
+                                <h2 className="text-4xl font-semibold mb-6">Change Password</h2>
                                 {/* field for entering current password */}
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">
+                                    <label className="text-lg font-medium mb-1">
                                         Current Password <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -331,7 +318,7 @@ export default function EditProfile() {
 
                                 {/* field for entering new password */}
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">
+                                    <label className="text-lg font-medium mb-1">
                                         New Password <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -346,7 +333,7 @@ export default function EditProfile() {
 
                                 {/* field for confirming new password */}
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">
+                                    <label className="text-lg font-medium mb-1">
                                         Confirm New Password <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -359,20 +346,20 @@ export default function EditProfile() {
                                     />
                                 </div>
 
-                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Reset Password
                                 </button>
                             </form>
                         </div>
 
                         <div className='p-4'>
-                            <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
-                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
-                                {error && <p className="text-red-500 mb-4">{error}</p>}
 
+                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
+                                {error && <p className="text-red-500 mb-4">{error}</p>}
+                                <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">Card Name</label>
+                                    <label className="text-lg font-medium mb-1">Card Name</label>
                                     <input
                                         type="text"
                                         value={cardName}
@@ -383,7 +370,7 @@ export default function EditProfile() {
                                 </div>
 
                                 <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1 text-black">Card Number</label>
+                                    <label className="text-lg font-medium mb-1">Card Number</label>
                                     <input
                                         type="text"
                                         value={cardNumber}
@@ -397,7 +384,7 @@ export default function EditProfile() {
 
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
+                                        <label className="text-lg font-medium mb-1">Expiration Date (MM/YY)</label>
                                         <input
                                             type="text"
                                             value={expirationDate}
@@ -409,7 +396,7 @@ export default function EditProfile() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1 text-black">CVV</label>
+                                        <label className="text-lg font-medium mb-1">CVV</label>
                                         <input
                                             type="text"
                                             value={cvv}
@@ -422,35 +409,34 @@ export default function EditProfile() {
                                     </div>
                                 </div>
 
-                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Add New Card
                                 </button>
                             </form>
 
                             {/* display current cards, fetch from user data */}
 
-                            <div className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
-                                <h1>Current Cards</h1>
-
-                                <table className="table-auto border min-w-full ">
+                            <div className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
+                            <h2 className="text-4xl font-semibold mb-6 text-white">Current Cards</h2>
+                                <table className="table-auto border min-w-full border-white">
                                     <thead>
                                         <tr>
-                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Card Name</th>
+                                            <th className="border p-2 text-lg font-medium mb-1 text-white">Card Name</th>
                                             {/* <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th> */}
-                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Expiration</th>
-                                            <th className=" p-2 text-lg font-medium mb-1 text-black">Delete Card</th>
+                                            <th className="border p-2 text-lg font-medium mb-1 text-white">Expiration</th>
+                                            <th className=" p-2 text-lg font-medium mb-1 text-white">Delete Card</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {cards.map((card) => (
                                             <tr key={card.id}>
-                                                <td className="border p-2">{card.friendlyName}</td>
+                                                <td className="border p-2 text-white">{card.friendlyName}</td>
                                                 {/* <td className="border p-2">{card.cardNumber}</td> */}
-                                                <td className="border p-2">{card.expirationDate}</td>
+                                                <td className="border p-2 text-white">{card.expirationDate}</td>
                                                 <td className="border p-2">
                                                     <button
                                                         onClick={() => handleDeleteCard(card.id)}
-                                                        className="bg-red-500 text-white p-1 rounded"
+                                                        className="bg-red-600 text-white p-1 rounded hover:bg-red-800 transition duration-300 ease-in-out"
                                                     >
                                                         Delete
                                                     </button>

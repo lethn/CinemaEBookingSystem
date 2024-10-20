@@ -24,8 +24,11 @@ public class PaymentCard {
     private String cardNumber; // Encoded using Spring Security during creation
     @Column(nullable = false)
     private LocalDate expirationDate;
+
+    // TO DO: DELETE EVENTUALLY (WILL HAVE TO RE-INIT DB)
     @Column(nullable = false)
-    private String billingAddress;
+    @JsonIgnore
+    private String billingAddress = "";
 
     // Ignore -- ensures corresponding entries are deleted
     @ManyToOne
