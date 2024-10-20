@@ -28,7 +28,7 @@ const MovieCard = (props) => {
                 <p className="text-white border-2 border-white flex items-center justify-center px-1">{props.rating}</p>
             </div>
             <div className="relative">
-                <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px]" />
+                <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px] h-[440px] object-fill" />
                 
                 {/* Region that will slide up over the image */}
                 <div className="absolute bottom-0 left-0 w-full bg-neutral-900/80 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
