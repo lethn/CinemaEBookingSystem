@@ -23,13 +23,14 @@ export default function Register() {
     const [cardNumber, setCardNumber] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
     const [cvv, setCvv] = useState("");
+    const [cardName, setCardName] = useState('');
     const [emailPromotions, setEmailPromotions] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!((cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3) ||
-        (cardNumber.length == 0 && expirationDate.length == 0 && cvv.length == 0))) {
+        if (!((cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3 && cardName.length != 0) ||
+        (cardNumber.length == 0 && expirationDate.length == 0 && cvv.length == 0 && cardName.length == 0))) {
             alert('Card information is incorrect');
             return;
         }
@@ -66,12 +67,49 @@ export default function Register() {
             }
         ).then((response) => {
             console.log(response.data);
+            
+            const id = response.data.id;
+
+            addCard(id);
+
             setEmailForRegistration(email);
             router.push('/register-confirmation');
         }).catch((error) => {
             console.log(error);
             alert("Email is already associated with an account");
         });
+    };
+
+
+    const addCard = (id) => {
+        
+        if (cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3) {
+
+            const [month, year] = expirationDate.split('/');
+            const fullYear = `20${year}`;
+            const day = '01';
+            const expDate = `${fullYear}-${month}-${day}`;
+
+            axios.post(`http://localhost:8080/paymentCards?customerId=${id}`,
+                {
+                    "friendlyName": cardName,
+                    "cardNumber": cardNumber,
+                    "expirationDate": expDate, // expirationDate needs to be formatted to match db
+                    "billingAddress": "TO DO"
+                }
+            ).then((response) => {
+                console.log(response.data);
+                alert("Added card successfully!");
+                fetchUserData();
+            }).catch((error) => {
+                console.log(error);
+            });
+
+            return;
+        } else {
+            return;
+        }
+
     };
 
     const handleExpirationDate = (e) => {
@@ -227,6 +265,17 @@ export default function Register() {
                                 maxLength={5}
                             />
                         </div>
+                    </div>
+                    
+                    <div className="mb-4 px-2 mx-2">
+                        <label className="font-medium mb-1">Payment Card Name</label>
+                        <input
+                            type="text"
+                            value={cardName}
+                            onChange={(e) => setCardName(e.target.value)}
+                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                            maxLength={16}
+                        />
                     </div>
 
                     <div className="mb-4 px-2 mx-2">
