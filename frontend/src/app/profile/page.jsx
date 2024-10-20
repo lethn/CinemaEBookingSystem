@@ -1,9 +1,12 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/user';
 import NavBar from "../components/navBar";
+import RestrictedPage from '../components/restrictedPage';
 import axios from "axios";
 
 export default function EditProfile() {
+    const { isLoggedIn } = useContext(AuthContext);
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
 
@@ -66,7 +69,7 @@ export default function EditProfile() {
 
     const onClickEditProfileHandler = (e) => {
         e.preventDefault();
-    //address = streetAddress+ " "+ city + " " + state + " " + postalCode; if we decide to add address to user
+        //address = streetAddress+ " "+ city + " " + state + " " + postalCode; if we decide to add address to user
         axios.patch(`http://localhost:8080/customers/${userID}`,
             {
                 "firstName": firstName,
@@ -74,16 +77,16 @@ export default function EditProfile() {
                 //things to implement past here
                 "subscribedToPromotions": emailPromotions, //we need a checkbox or something for this in the box
                 "streetAddress": streetAddress,
-                "city" : city,
-                "state" : state,
+                "city": city,
+                "state": state,
                 "postalCode": postalCode
             }).then((response) => {
-            console.log(response.data);
-            alert("Edit profile successfully!");
-        }).catch((error) => {
-            console.error('error: ', error);
-            alert('error');
-        });
+                console.log(response.data);
+                alert("Edit profile successfully!");
+            }).catch((error) => {
+                console.error('error: ', error);
+                alert('error');
+            });
     };
 
     const onClickChangePasswordHandler = (e) => {
@@ -94,30 +97,30 @@ export default function EditProfile() {
                 "email": email,
                 "password": currentPassword
             }).then((response) => {
-            console.log(response.data);
-            if (newPassword !== confirmPassword) {
-                setError('Passwords do not match');
-                alert("Passwords do not match");
-            }else if(newPassword.length < 8) {
-                setError('Invalid password. Password must be at least 8 characters.');
-                alert('Password must be at least 8 characters');
-            }
-            else{
-                axios.patch(`http://localhost:8080/customers/${userID}`,
-                    {
-                        "password": newPassword
-                    }).then((response) => {
-                    console.log(response.data);
-                    alert("Edit password successfully!");
-                }).catch((error) => {
-                    console.error('error: ', error);
-                    alert('Internal Server error.');
-                });
-            }
-        }).catch((error) => {
-            console.error('error: ', error);
-            alert('Current password failed to authenticate.');
-        });
+                console.log(response.data);
+                if (newPassword !== confirmPassword) {
+                    setError('Passwords do not match');
+                    alert("Passwords do not match");
+                } else if (newPassword.length < 8) {
+                    setError('Invalid password. Password must be at least 8 characters.');
+                    alert('Password must be at least 8 characters');
+                }
+                else {
+                    axios.patch(`http://localhost:8080/customers/${userID}`,
+                        {
+                            "password": newPassword
+                        }).then((response) => {
+                            console.log(response.data);
+                            alert("Edit password successfully!");
+                        }).catch((error) => {
+                            console.error('error: ', error);
+                            alert('Internal Server error.');
+                        });
+                }
+            }).catch((error) => {
+                console.error('error: ', error);
+                alert('Current password failed to authenticate.');
+            });
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
@@ -185,277 +188,283 @@ export default function EditProfile() {
         setPostalCode(value);
     };
 
-    return (
-        <div>
-            <NavBar userType={userType} />
-            
-            <div className="flex flex-col justify-center items-center m-8 p-8">
-                <div className='grid grid-cols-2'>
-                    <div className='p-4'>
-                        <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>
-                        <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickEditProfileHandler}>
-                            {error && <p className="text-red-500 mb-4">{error}</p>}
+    if (isLoggedIn) {
+        return (
+            <div>
+                <NavBar userType={userType} />
 
-                            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                <div className="flex-1">
+                <div className="flex flex-col justify-center items-center m-8 p-8">
+                    <div className='grid grid-cols-2'>
+                        <div className='p-4'>
+                            <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>
+                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickEditProfileHandler}>
+                                {error && <p className="text-red-500 mb-4">{error}</p>}
+
+                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">
+                                            First Name <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">
+                                            Last Name <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">
+                                            Date of Birth <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="date"
+                                            value={dateOfBirth}
+                                            onChange={(e) => setDateOfBirth(e.target.value)}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
                                     <label className="text-lg font-medium mb-1 text-black">
-                                        First Name <span className="text-red-500">*</span>
+                                        Email <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        required
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1 text-black">Street Address</label>
+                                    <input
+                                        type="text"
+                                        value={streetAddress}
+                                        onChange={(e) => setStreetAddress(e.target.value)}
+                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">City</label>
+                                        <input
+                                            type="text"
+                                            value={city}
+                                            onChange={(e) => setCity(e.target.value)}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">State</label>
+                                        <input
+                                            type="text"
+                                            value={state}
+                                            onChange={(e) => setState(e.target.value)}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">Postal Code</label>
+                                        <input
+                                            type="text"
+                                            value={postalCode}
+                                            onChange={handlePostalCode}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            maxLength={5}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
+                                    <input
+                                        type='checkbox'
+                                        checked={emailPromotions}
+                                        onChange={(e) => setEmailPromotions(e.target.checked)}
+                                        className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                                    />
+                                    <label className='font-medium mb-1 text-black'>Receive email promotions?</label>
+                                </div>
+
+                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                    Save Profile
+                                </button>
+                            </form>
+
+                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickChangePasswordHandler}>
+                                {error && <p className="text-red-500 mb-4">{error}</p>}
+
+                                {/* field for entering current password */}
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1 text-black">
+                                        Current Password <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        //type = "text"
+                                        type="password"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                        required
+                                    />
+                                </div>
+
+                                {/* field for entering new password */}
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1 text-black">
+                                        New Password <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                        //type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                                         required
                                     />
                                 </div>
-                                <div className="flex-1">
+
+                                {/* field for confirming new password */}
+                                <div className="mb-4">
                                     <label className="text-lg font-medium mb-1 text-black">
-                                        Last Name <span className="text-red-500">*</span>
+                                        Confirm New Password <span className="text-red-500">*</span>
                                     </label>
                                     <input
-                                        type="text"
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
+                                        //type= "text"
+                                        type="password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                                         required
                                     />
                                 </div>
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">
-                                        Date of Birth <span className="text-red-500">*</span>
-                                    </label>
+
+                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                    Reset Password
+                                </button>
+                            </form>
+                        </div>
+
+                        <div className='p-4'>
+                            <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
+                            <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
+                                {error && <p className="text-red-500 mb-4">{error}</p>}
+
+
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1 text-black">Card Name</label>
                                     <input
-                                        type="date"
-                                        value={dateOfBirth}
-                                        onChange={(e) => setDateOfBirth(e.target.value)}
+                                        type="text"
+                                        value={cardName}
+                                        onChange={(e) => setCardName(e.target.value)}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
                                         required
                                     />
                                 </div>
-                            </div>
 
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">
-                                    Email <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">Street Address</label>
-                                <input
-                                    type="text"
-                                    value={streetAddress}
-                                    onChange={(e) => setStreetAddress(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                />
-                            </div>
-
-                            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">City</label>
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1 text-black">Card Number</label>
                                     <input
                                         type="text"
-                                        value={city}
-                                        onChange={(e) => setCity(e.target.value)}
+                                        value={cardNumber}
+                                        onChange={handleCardNumber}
                                         className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">State</label>
-                                    <input
-                                        type="text"
-                                        value={state}
-                                        onChange={(e) => setState(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">Postal Code</label>
-                                    <input
-                                        type="text"
-                                        value={postalCode}
-                                        onChange={handlePostalCode}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        maxLength={5}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="mb-4">
-                                <input 
-                                    type='checkbox'
-                                    checked ={emailPromotions}
-                                    onChange={(e) => setEmailPromotions(e.target.checked)}
-                                    className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
-                                />
-                                <label className='font-medium mb-1 text-black'>Receive email promotions?</label>
-                            </div>
-
-                            <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
-                                Save Profile
-                            </button>
-                        </form>
-
-                        <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickChangePasswordHandler}>
-                            {error && <p className="text-red-500 mb-4">{error}</p>}
-
-                            {/* field for entering current password */}
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">
-                                    Current Password <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    //type = "text"
-                                    type="password"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
-                                />
-                            </div>
-
-                            {/* field for entering new password */}
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">
-                                    New Password <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type = "text"
-                                    //type="password"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
-                                />
-                            </div>
-
-                            {/* field for confirming new password */}
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">
-                                    Confirm New Password <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    //type= "text"
-                                    type="password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
-                                />
-                            </div>
-
-                            <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
-                                Reset Password
-                            </button>
-                        </form>
-                    </div>
-
-                    <div className='p-4'>
-                        <h2 className="text-4xl font-semibold mb-6">Manage Cards</h2>
-                        <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
-                            {error && <p className="text-red-500 mb-4">{error}</p>}
-
-
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">Card Name</label>
-                                <input
-                                    type="text"
-                                    value={cardName}
-                                    onChange={(e) => setCardName(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">Card Number</label>
-                                <input
-                                    type="text"
-                                    value={cardNumber}
-                                    onChange={handleCardNumber}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    maxLength={16}
-                                    minLength={16}
-                                    required
-                                />
-                            </div>
-
-                            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
-                                    <input
-                                        type="text"
-                                        value={expirationDate}
-                                        onChange={handleExpirationDate}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        maxLength={5}
-                                        minLength={5}
+                                        maxLength={16}
+                                        minLength={16}
                                         required
                                     />
                                 </div>
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">CVV</label>
-                                    <input
-                                        type="text"
-                                        value={cvv}
-                                        onChange={handleCvv}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        maxLength={3}
-                                        minLength={3}
-                                        required
-                                    />
+
+                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
+                                        <input
+                                            type="text"
+                                            value={expirationDate}
+                                            onChange={handleExpirationDate}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            maxLength={5}
+                                            minLength={5}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="text-lg font-medium mb-1 text-black">CVV</label>
+                                        <input
+                                            type="text"
+                                            value={cvv}
+                                            onChange={handleCvv}
+                                            className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
+                                            maxLength={3}
+                                            minLength={3}
+                                            required
+                                        />
+                                    </div>
                                 </div>
+
+                                <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
+                                    Add New Card
+                                </button>
+                            </form>
+
+                            {/* display current cards, fetch from user data */}
+
+                            <div className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
+                                <h1>Current Cards</h1>
+
+                                <table className="min-w-full border">
+                                    <thead>
+                                        <tr>
+                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Card Name</th>
+                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th>
+                                            <th className="border p-2 text-lg font-medium mb-1 text-black">Expiration</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {cards.map((card) => (
+                                            <tr key={card.id}>
+                                                <td className="border p-2">{card.friendlyName}</td>
+                                                <td className="border p-2">{card.cardNumber}</td>
+                                                <td className="border p-2">{card.expirationDate}</td>
+                                                <td className="border p-2">
+                                                    <button
+                                                        onClick={() => handleDeleteCard(card.id)}
+                                                        className="bg-red-500 text-white p-1 rounded"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
-                                Add New Card
-                            </button>
-                        </form>
-
-                        {/* display current cards, fetch from user data */}
-
-                        <div className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
-                            <h1>Current Cards</h1>
-
-                            <table className="min-w-full border">
-                            <thead>
-                                <tr>
-                                    <th className="border p-2 text-lg font-medium mb-1 text-black">Card Name</th>
-                                    <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th>
-                                    <th className="border p-2 text-lg font-medium mb-1 text-black">Expiration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {cards.map((card) => (
-                                <tr key={card.id}>
-                                <td className="border p-2">{card.friendlyName}</td>
-                                <td className="border p-2">{card.cardNumber}</td>
-                                <td className="border p-2">{card.expirationDate}</td>
-                                <td className="border p-2">
-                                    <button
-                                    onClick={() => handleDeleteCard(card.id)}
-                                    className="bg-red-500 text-white p-1 rounded"
-                                    >
-                                    Delete
-                                    </button>
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        );
+    }
+
+    return (
+        <RestrictedPage heading1="You must be signed in to view this page" heading2="Please log in to proceed" />
     );
 }

@@ -1,19 +1,25 @@
 "use client"
-import { useState, useEffect } from "react";
-import NavBar from "../components/navBar";
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/user';
+import NavBar from '../components/navBar';
+import RestrictedPage from '../components/restrictedPage';
 
 export default function ManageUsers() {
-    const [userRole, setUserRole] = useState(null);
+    const { isLoggedIn } = useContext(AuthContext);
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
 
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
+    if (isLoggedIn && userType === "ADMIN") {
+        return (
+            <div>
+                <NavBar userType={userType} />
+                <h1 className="text-3xl font-semibold text-white m-2 p-2">
+                    Manage Users
+                </h1>
+            </div>
+        );
+    }
 
     return (
-        <div>
-            <NavBar userRole={userRole} />
-            Manage Users
-        </div>
+        <RestrictedPage heading1="You must be signed in as an admin to view this page" heading2="Please log in to proceed" />
     );
 }

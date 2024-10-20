@@ -1,10 +1,13 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from '../contexts/user';
 import NavBar from "../components/navBar";
+import RestrictedPage from "../components/restrictedPage";
 
 export default function OrderHistory() {
+    const { isLoggedIn } = useContext(AuthContext);
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
-    
+
     // use api call to fetch order history for logged in user
     // filter data by userID
 
@@ -41,42 +44,48 @@ export default function OrderHistory() {
         }
     ];
 
+    if (isLoggedIn && userType === "CUSTOMER") {
+        return (
+            <div>
+                <NavBar userType={userType} />
 
-    return (
-        <div>
-            <NavBar userType={userType} />
-
-            <div className="flex justify-center m-12 p-12">
-                <div className="bg-white p-12 m-auto shadow-lg rounded-lg">
-                    <table className="min-w-full border text-black">
-                        <thead>
-                            <tr>
-                                <th className="border p-2">Order ID</th>
-                                <th className="border p-2">Email</th>
-                                <th className="border p-2">Movie</th>
-                                <th className="border p-2">Purchase Date</th>
-                                <th className="border p-2">Showing Date</th>
-                                <th className="border p-2">Seats</th>
-                                <th className="border p-2">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {dummy_history.map((order) => (
-                                <tr key={order.id}>
-                                    <td className="border p-2">{order.id}</td>
-                                    <td className="border p-2">{order.email}</td>
-                                    <td className="border p-2">{order.title}</td>
-                                    <td className="border p-2">{order.purchaseDate}</td>
-                                    <td className="border p-2">{order.movieDate}</td>
-                                    <td className="border p-2">{order.seats.join(", ")}</td>
-                                    <td className="border p-2">${order.total}</td>
-                                    {/* change to display dollar ammount later*/}
+                <div className="flex justify-center m-12 p-12">
+                    <div className="bg-white p-12 m-auto shadow-lg rounded-lg">
+                        <table className="min-w-full border text-black">
+                            <thead>
+                                <tr>
+                                    <th className="border p-2">Order ID</th>
+                                    <th className="border p-2">Email</th>
+                                    <th className="border p-2">Movie</th>
+                                    <th className="border p-2">Purchase Date</th>
+                                    <th className="border p-2">Showing Date</th>
+                                    <th className="border p-2">Seats</th>
+                                    <th className="border p-2">Total</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {dummy_history.map((order) => (
+                                    <tr key={order.id}>
+                                        <td className="border p-2">{order.id}</td>
+                                        <td className="border p-2">{order.email}</td>
+                                        <td className="border p-2">{order.title}</td>
+                                        <td className="border p-2">{order.purchaseDate}</td>
+                                        <td className="border p-2">{order.movieDate}</td>
+                                        <td className="border p-2">{order.seats.join(", ")}</td>
+                                        <td className="border p-2">${order.total}</td>
+                                        {/* change to display dollar ammount later*/}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        );
+    }
+
+
+    return (
+        <RestrictedPage heading1="You must be signed in as a customer to view this page" heading2="Please log in to proceed" />
     );
 }

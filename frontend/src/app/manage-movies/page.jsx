@@ -1,6 +1,9 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import { AuthContext } from '../contexts/user';
 import NavBar from '../components/navBar';
+import RestrictedPage from '../components/restrictedPage';
 
 const dummy_movies = [
     {
@@ -71,6 +74,10 @@ const dummy_movies = [
 ];
 
 export default function ManageMovies() {
+    const { isLoggedIn } = useContext(AuthContext);
+    const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
+    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
+
     const [movies, setMovies] = useState([]);
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
@@ -81,10 +88,6 @@ export default function ManageMovies() {
     const [trailer, setTrailer] = useState('');
     const [picture, setPicture] = useState('');
     const [rating, setRating] = useState('');
-
-    const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
-    const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
-    
 
     const fetchMovies = async () => {
         try {
@@ -104,13 +107,6 @@ export default function ManageMovies() {
         //fetchMovies();
     }, []);
 
-    /*
-    useEffect(() => {
-        const role = localStorage.getItem('userRole'); // Fetch role from localStorage
-        setUserRole(role);
-    }, []);
-    */
-
     const handleDeleteMovie = (id) => {
         setMovies(movies.filter((movie) => movie.id !== id));
 
@@ -120,132 +116,136 @@ export default function ManageMovies() {
     const handleAddMovie = (e) => {
         alert('impliment later');
         // API POST call to add movie to DB
-      };
+    };
+
+    if (isLoggedIn && userType === "ADMIN") {
+        return (
+            <div>
+                <NavBar userType={userType} />
+                <h1 className="text-2xl font-bold mb-4 ml-4">Manage Movies</h1>
+
+                <form onSubmit={handleAddMovie} className="ml-4">
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Cast"
+                        value={cast}
+                        onChange={(e) => setCast(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Director"
+                        value={director}
+                        onChange={(e) => setDirector(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Producer"
+                        value={producer}
+                        onChange={(e) => setProducer(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Synopsis"
+                        value={synopsis}
+                        onChange={(e) => setSynopsis(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Picture"
+                        value={picture}
+                        onChange={(e) => setPicture(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Trailer"
+                        value={trailer}
+                        onChange={(e) => setTrailer(e.target.value)}
+                        className="border rounded p-2 mr-2 text-black"
+                        required
+                    />
+                    <select className="text-black mr-2" value={rating} onChange={(e) => setRating(e.target.value)}>
+                        <option value="G">G</option>
+                        <option value="PG">PG</option>
+                        <option value="PG-13">PG-13</option>
+                        <option value="R">R</option>
+                    </select>
+                    <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+                        Add Movie
+                    </button>
+                </form>
+
+
+                <table className="min-w-full border m-4 text-xs">
+                    <thead>
+                        <tr>
+                            <th className="border p-2">ID</th>
+                            <th className="border p-2">Title</th>
+                            <th className="border p-2">Cateogry</th>
+                            <th className="border p-2">Cast</th>
+                            <th className="border p-2">Director</th>
+                            <th className="border p-2">Producer</th>
+                            <th className="border p-2">Synopsis</th>
+                            <th className="border p-2">Picture</th>
+                            <th className="border p-2">Trailer</th>
+                            <th className="border p-2">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {movies.map((movie) => (
+                            <tr key={movie.id}>
+                                <td className="border p-2">{movie.id}</td>
+                                <td className="border p-2">{movie.title}</td>
+                                <td className="border p-2">{movie.category}</td>
+                                <td className="border p-2">{movie.cast.join(", ")}</td>
+                                <td className="border p-2">{movie.director}</td>
+                                <td className="border p-2">{movie.producer}</td>
+                                <td className="border p-2">{movie.synopsis}</td>
+                                <td className="border p-2">{movie.picture}</td>
+                                <td className="border p-2">{movie.trailer}</td>
+                                <td className="border p-2">{movie.rating}</td>
+                                <td className="border p-2">
+                                    <button
+                                        onClick={() => handleDeleteMovie(movie.id)}
+                                        className="bg-red-500 text-white p-1 rounded"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 
     return (
-        <div>
-            <NavBar userType={userType} />
-            <h1 className="text-2xl font-bold mb-4 ml-4">Manage Movies</h1>
-
-            <form onSubmit={handleAddMovie} className="ml-4">
-                <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Cast"
-                value={cast}
-                onChange={(e) => setCast(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Director"
-                value={director}
-                onChange={(e) => setDirector(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Producer"
-                value={producer}
-                onChange={(e) => setProducer(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Synopsis"
-                value={synopsis}
-                onChange={(e) => setSynopsis(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Picture"
-                value={picture}
-                onChange={(e) => setPicture(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <input
-                type="text"
-                placeholder="Trailer"
-                value={trailer}
-                onChange={(e) => setTrailer(e.target.value)}
-                className="border rounded p-2 mr-2 text-black"
-                required
-                />
-                <select className="text-black mr-2" value={rating} onChange={(e) => setRating(e.target.value)}>
-                    <option value="G">G</option>
-                    <option value="PG">PG</option>
-                    <option value="PG-13">PG-13</option>
-                    <option value="R">R</option>
-                </select>
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-                Add Movie
-                </button>
-            </form>
-
-
-            <table className="min-w-full border m-4 text-xs">
-                <thead>
-                    <tr>
-                        <th className="border p-2">ID</th>
-                        <th className="border p-2">Title</th>
-                        <th className="border p-2">Cateogry</th>
-                        <th className="border p-2">Cast</th>
-                        <th className="border p-2">Director</th>
-                        <th className="border p-2">Producer</th>
-                        <th className="border p-2">Synopsis</th>
-                        <th className="border p-2">Picture</th>
-                        <th className="border p-2">Trailer</th>
-                        <th className="border p-2">Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {movies.map((movie) => (
-                    <tr key={movie.id}>
-                    <td className="border p-2">{movie.id}</td>
-                    <td className="border p-2">{movie.title}</td>
-                    <td className="border p-2">{movie.category}</td>
-                    <td className="border p-2">{movie.cast.join(", ")}</td>
-                    <td className="border p-2">{movie.director}</td>
-                    <td className="border p-2">{movie.producer}</td>
-                    <td className="border p-2">{movie.synopsis}</td>
-                    <td className="border p-2">{movie.picture}</td>
-                    <td className="border p-2">{movie.trailer}</td>
-                    <td className="border p-2">{movie.rating}</td>
-                    <td className="border p-2">
-                        <button
-                        onClick={() => handleDeleteMovie(movie.id)}
-                        className="bg-red-500 text-white p-1 rounded"
-                        >
-                        Delete
-                        </button>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-
-        
+        <RestrictedPage heading1="You must be signed in as an admin to view this page" heading2="Please log in to proceed" />
     );
 }
