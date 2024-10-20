@@ -198,7 +198,7 @@ export default function EditProfile() {
                 <div className="flex flex-col justify-center items-center m-8 p-8">
                     <div className='grid grid-cols-2'>
                         <div className='p-4'>
-                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4" onSubmit={onClickEditProfileHandler}>
+                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickEditProfileHandler}>
                                 {error && <p className="text-red-500 mb-4">{error}</p>}
                                 <h2 className="text-4xl font-semibold mb-6">Edit Profile</h2>
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
