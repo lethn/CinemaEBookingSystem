@@ -23,12 +23,16 @@ const MovieCard = (props) => {
 
     return (
         <div className="flex flex-col bg-neutral-800/60 shadow-md group overflow-hidden">
-            <div className="flex justify-between items-center px-2 my-2">
-                <h2 className="text-xl text-white font-bold">{props.title}</h2>
-                <p className="text-white border-2 border-white flex items-center justify-center px-1">{props.rating}</p>
-            </div>
+            <Link href={`/movie/${props.id}`} passHref>
+                <div className="flex justify-between items-center px-2 my-2">
+                    <h2 className="text-xl text-white font-bold">{props.title}</h2>
+                    <p className="text-white border-2 border-white flex items-center justify-center px-1">{props.rating}</p>
+                </div>
+            </Link>
             <div className="relative">
-                <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px] h-[440px] object-fill" />
+                <Link href={`/movie/${props.id}`} passHref>
+                    <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px] h-[440px] object-fill" />
+                </Link>
                 
                 {/* Region that will slide up over the image */}
                 <div className="absolute bottom-0 left-0 w-full bg-neutral-900/80 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
@@ -39,12 +43,6 @@ const MovieCard = (props) => {
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" onClick={openModalHandler}>
                     Trailer
                     </button>
-
-                    <Link href={`/movie/${props.id}`} passHref>
-                    <button className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out">
-                        Info
-                    </button>
-                    </Link>
 
                     {props.nowPlaying && (
                     <button

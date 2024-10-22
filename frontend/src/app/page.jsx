@@ -145,12 +145,20 @@ const Home = () => {
             />
 
             <div className="my-8">
-                <h2 className="text-2xl font-bold m-4">Currently Running Movies</h2>
+                <div class="flex items-center">
+                    <div class="flex-grow border-2 border-navBarRed ml-4"></div>
+                    <h2 className="text-2xl font-bold m-4 text-center">Now Playing</h2>
+                    <div class="flex-grow border-2 border-navBarRed mr-4"></div>
+                </div>
                 <NowPlaying movies={filterMovies(currentMovies)} />
             </div>
 
             <div className="my-8">
-                <h2 className="text-2xl font-bold m-4">Coming Soon Movies</h2>
+                <div class="flex items-center">
+                    <div class="flex-grow border-2 border-navBarRed ml-4"></div>
+                    <h2 className="text-2xl font-bold m-4">Coming Soon</h2>
+                    <div class="flex-grow border-2 border-navBarRed mr-4"></div>
+                </div>
                 <ComingSoon movies={filterMovies(comingSoonMovies)} />
             </div>
         </div>
