@@ -19,4 +19,6 @@ public class Promotion {
     private String promoCode;
     @Column(nullable = false)
     private Integer discount; // Discount % -- e.g., 10 means 10% off
+    @Column(nullable = false)
+    private boolean isModifiable = true; // Set to false once admin sends email -- CONFIRM WHETHER AFFECTS DELETION?
 }

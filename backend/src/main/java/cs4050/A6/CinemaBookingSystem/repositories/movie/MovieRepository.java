@@ -12,4 +12,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     // Custom methods
     // Finds all movies whose title contains the specified keyword
     List<Movie> findByTitleContaining(String title);
+
+    // Finds all movies whose category contains the specified keyword
+    List<Movie> findByCategoryContaining(String category);
 }

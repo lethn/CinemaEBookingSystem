@@ -79,12 +79,20 @@ public class MovieController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/movies/search") // Searches for movies by title
+    @GetMapping("/movies/search-title")
     public ResponseEntity<List<Movie>> findMoviesByTitle(@RequestParam String title) {
         // Get all movies with this title as/within their title value
         List<Movie> matches = movieRepository.findByTitleContaining(title);
 
         // Return successful response with JSON encoded body
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/movies/search-category")
+    public ResponseEntity<List<Movie>> findMoviesByCategory(@RequestParam String category) {
+        // Get all movies with this param as/within their category value
+        List<Movie> matches = movieRepository.findByCategoryContaining(category);
+
         return ResponseEntity.ok(matches);
     }
 }

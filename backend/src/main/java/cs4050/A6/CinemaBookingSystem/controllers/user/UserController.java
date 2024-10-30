@@ -1,9 +1,11 @@
 package cs4050.A6.CinemaBookingSystem.controllers.user;
 
+import cs4050.A6.CinemaBookingSystem.models.cinema.Booking;
 import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.models.user.Admin;
 import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.models.user.CustomerState;
+import cs4050.A6.CinemaBookingSystem.models.user.UserType;
 import cs4050.A6.CinemaBookingSystem.repositories.user.AdminRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.security.LoginRequest;
@@ -38,7 +40,6 @@ public class UserController {
     public ResponseEntity<List<Customer>> getCustomers() {
         List<Customer> customers = customerRepository.findAll();
 
-        // Return successful response with JSON encoded body
         return ResponseEntity.ok(customers);
     }
 
@@ -51,6 +52,17 @@ public class UserController {
 
         // Return successful response with JSON encoded body
         return ResponseEntity.ok(customer.get());
+    }
+
+    @GetMapping("/customers/bookings") // Get all showings for a particular movie
+    public ResponseEntity<List<Booking>> getBookingsForCustomer(@RequestParam Long customerId) {
+        Optional<Customer> existingCustomer = customerRepository.findById(customerId);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Return list of showings for this movie
+        return ResponseEntity.ok(existingCustomer.get().getBookings());
     }
 
     @PostMapping("/login") // Login for both customers and admins -- checks for admin account first
@@ -281,5 +293,27 @@ public class UserController {
         adminRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/convert-customer-to-admin") // Converts a customer into an admin
+    public ResponseEntity<Admin> convertCustomerToAdmin(@RequestParam Long customerId) {
+        Optional<Customer> existingCustomer = customerRepository.findById(customerId);
+        if (existingCustomer.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Copy data
+        Admin admin = new Admin();
+        admin.setFirstName(existingCustomer.get().getFirstName());
+        admin.setLastName(existingCustomer.get().getLastName());
+        admin.setEmail(existingCustomer.get().getEmail());
+        admin.setPassword(existingCustomer.get().getPassword());
+        admin.setUserType(UserType.ADMIN);
+
+        // Delete old entry and save new one
+        customerRepository.deleteById(customerId);
+        adminRepository.save(admin);
+
+        return ResponseEntity.ok(admin);
     }
 }

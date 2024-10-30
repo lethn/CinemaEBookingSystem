@@ -1,5 +1,6 @@
 package cs4050.A6.CinemaBookingSystem.services;
 
+import cs4050.A6.CinemaBookingSystem.models.cinema.Promotion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -48,6 +49,20 @@ public class EmailService {
         String content = "Your profile information has been successfully updated. " +
                 "Check your account page to see what's changed!";
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(content);
+
+        mailSender.send(message);
+    }
+
+    public void sendPromotionEmail(String email, Promotion promotion) {
+        String subject = "New Promotion";
+
+        String content = "We have a new promotion available! Use code:  " + promotion.getPromoCode() + " to get " + promotion.getDiscount() + "% off your next order!";
+
+        SimpleMailMessage message = new SimpleMailMessage(); // Use Spring mail library
         message.setFrom(fromEmail);
         message.setTo(email);
         message.setSubject(subject);
