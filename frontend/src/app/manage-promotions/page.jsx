@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import { AuthContext } from '../contexts/user';
 import NavBar from '../components/navBar';
 import RestrictedPage from '../components/restrictedPage';
@@ -9,88 +10,136 @@ export default function ManagePromotions() {
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
 
     const [promotions, setPromotions] = useState([]);
-    const [name, setName] = useState('');
-    const [code, setCode] = useState('');
-    const [expiryDate, setExpiryDate] = useState('');
+    const [promotionCode, setPromotionCode] = useState("");
+    const [discountPercentage, setDiscountPercentage] = useState("");
 
-    const handleAddPromotion = (e) => {
-        e.preventDefault();
-        if (name && code && expiryDate) {
-            const newPromotion = { id: Date.now(), name, code, expiryDate };
-            setPromotions([...promotions, newPromotion]);
-            setName('');
-            setCode('');
-            setExpiryDate('');
+
+    const fetchPromotions = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/promotions');
+            setPromotions(response.data);
+        } catch (error) {
+            console.error('Error fetching promotions:', error);
         }
     };
 
-    const handleDeletePromotion = (id) => {
-        setPromotions(promotions.filter((promo) => promo.id !== id));
+    useEffect(() => {
+        fetchPromotions();
+    }, []);
+
+    const handleAddPromotion = async (e) => {
+        e.preventDefault();
+        const newPromotion = {
+            promoCode: promotionCode,
+            discount: parseFloat(discountPercentage)
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/promotions', newPromotion);
+            setPromotions([...promotions, response.data]);
+            setPromotionCode('');
+            setDiscountPercentage('');
+        } catch (error) {
+            console.error('Error adding promotion:', error);
+        }
+    };
+
+    const handleSendPromotion = (id) => {
+        try {
+            axios.post(`http://localhost:8080/promotions/send-promotion?promotionId=${id}`);
+            setPromotions(promotions.map(promotion =>
+                promotion.id === id ? { ...promotion, modifiable: false } : promotion
+            ));
+            alert('Promotion sent successfully');
+        } catch (error) {
+            console.error('Error sending promotion:', error);
+            alert('Failed to send promotion');
+        }
+    };
+
+    const handleDeletePromotion = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/promotions/${id}`);
+            setPromotions(promotions.filter((promotion) => promotion.id !== id));
+        } catch (error) {
+            console.error('Error deleting promotion:', error);
+        }
     };
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
             <div>
                 <NavBar userType={userType} />
-                <div className="p-4">
-                    <h1 className="text-2xl font-bold mb-4">Manage Promotions</h1>
 
-                    <form onSubmit={handleAddPromotion} className="mb-4">
-                        <input
-                            type="text"
-                            placeholder="Promotion Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="border rounded p-2 mr-2 text-black"
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Promotion Code"
-                            value={code}
-                            onChange={(e) => setCode(e.target.value)}
-                            className="border rounded p-2 mr-2 text-black"
-                            required
-                        />
-                        <input
-                            type="date"
-                            value={expiryDate}
-                            onChange={(e) => setExpiryDate(e.target.value)}
-                            className="border rounded p-2 mr-2 text-black"
-                            required
-                        />
-                        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-                            Add Promotion
-                        </button>
-                    </form>
+                <div className="flex justify-center m-8 p-8">
+                    <div className="p-4">
+                        <form className="bg-neutral-800/80 p-10 shadow-lg rounded-lg" onSubmit={handleAddPromotion}>
+                            <h2 className="text-4xl font-semibold mb-6">Add Promotion</h2>
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1">Promotion Code <span className="text-red-500">*</span></label>
+                                <input
+                                    type="text"
+                                    value={promotionCode}
+                                    onChange={(e) => setPromotionCode(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    required
+                                />
+                            </div>
 
-                    <table className="min-w-full border">
-                        <thead>
-                            <tr>
-                                <th className="border p-2">Name</th>
-                                <th className="border p-2">Code</th>
-                                <th className="border p-2">Expiry Date</th>
-                                <th className="border p-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1">Discount Percentage <span className="text-red-500">*</span></label>
+                                <input
+                                    type="number"
+                                    value={discountPercentage}
+                                    onChange={(e) => setDiscountPercentage(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    min="0"
+                                    max="100"
+                                    required
+                                />
+                            </div>
+
+                            <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 mt-2 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                Add Promotion
+                            </button>
+                        </form>
+                    </div>
+
+                    <div className="p-4 w-full lg:w-1/2">
+                        <div className="bg-neutral-800/80 p-10 shadow-lg rounded-lg w-full">
+                            <h2 className="text-4xl font-semibold mb-6 text-white">Promotion List</h2>
                             {promotions.map((promotion) => (
-                                <tr key={promotion.id}>
-                                    <td className="border p-2">{promotion.name}</td>
-                                    <td className="border p-2">{promotion.code}</td>
-                                    <td className="border p-2">{promotion.expiryDate}</td>
-                                    <td className="border p-2">
+                                <div key={promotion.id} className="flex p-4 m-auto rounded-lg mb-4 text-white bg-neutral-800 justify-between">
+                                    <div>
+                                        <h3 className="font-bold text-white text-2xl">
+                                            {promotion.promoCode}
+                                        </h3>
+                                        <p className="text-white text-xl font-medium">
+                                            Discount: {promotion.discount}%
+                                        </p>
+                                    </div>
+                                    <div className="flex p-2">
                                         <button
+                                            className={`font-semibold px-2 mx-2 rounded-lg text-white ${promotion.modifiable ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'
+                                                }`}
+                                            onClick={() => handleSendPromotion(promotion.id)}
+                                            disabled={!promotion.modifiable}
+                                        >
+                                            Send
+                                        </button>
+                                        <button
+                                            className={`font-semibold px-2 mx-2 rounded-lg text-white ${promotion.modifiable ? 'bg-red-600 hover:bg-red-800' : 'bg-gray-300 cursor-not-allowed'
+                                                }`}
                                             onClick={() => handleDeletePromotion(promotion.id)}
-                                            className="bg-red-500 text-white p-1 rounded"
+                                            disabled={!promotion.modifiable}
                                         >
                                             Delete
                                         </button>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </div>
                             ))}
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -99,4 +148,4 @@ export default function ManagePromotions() {
     return (
         <RestrictedPage heading1="You must be signed in as an admin to view this page" heading2="Please log in to proceed" />
     );
-};
+}
