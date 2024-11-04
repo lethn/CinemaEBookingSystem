@@ -9,7 +9,7 @@ export default function NavBar({ userType }) {
 
     const handleLogout = () => {
         signOut();
-        router.push("/");
+        router.push("/login");
     };
 
     return (

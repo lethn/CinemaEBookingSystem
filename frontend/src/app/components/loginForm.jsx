@@ -1,5 +1,4 @@
-"use client"
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../contexts/user";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
@@ -10,6 +9,18 @@ export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+
+    useEffect(() => {
+        // Load remembered email from localStorage on component mount
+        const storedEmail = localStorage.getItem("rememberedEmail");
+        const storedPassword = localStorage.getItem("rememberedPassword");
+        if (storedEmail) {
+            setEmail(storedEmail);
+            setPassword(storedPassword);
+            setRememberMe(true);
+        }
+    }, []);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -20,6 +31,15 @@ export default function LoginForm() {
 
         try {
             await signIn(email, password);
+
+            // Store or remove email based on "Remember Me" option
+            if (rememberMe) {
+                localStorage.setItem("rememberedEmail", email);
+                localStorage.setItem("rememberedPassword", password);
+            } else {
+                localStorage.removeItem("rememberedEmail");
+                localStorage.removeItem("rememberedPassword");
+            }
         } catch (error) {
             alert('Email or Password is incorrect or user is unverified');
             console.error("Error signing in:", error);
@@ -62,6 +82,16 @@ export default function LoginForm() {
                     </div>
                 </div>
 
+                <div className="flex items-center mb-4">
+                    <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="mr-2"
+                    />
+                    <label className="text-white">Remember Me</label>
+                </div>
+
                 <button type="submit"
                     className="bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                     Login
@@ -85,5 +115,5 @@ export default function LoginForm() {
                 </Link>
             </p>
         </div>
-    )
+    );
 }
