@@ -13,7 +13,6 @@ export default function EditProfile() {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState('');
 
     const [currentPassword, setCurrentPassword] = useState('');
@@ -50,36 +49,48 @@ export default function EditProfile() {
 
     const fetchUserData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/customers/${userID}`);
+            let url = "";
+            if (userType === "ADMIN") {
+                url = `http://localhost:8080/admins/${userID}`
+            } else if (userType === "CUSTOMER") {
+                url = `http://localhost:8080/customers/${userID}`;
+            }
+
+            const response = await axios.get(url);
             const userData = response.data;
             console.log(userData);
+
             setFirstName(userData.firstName);
             setLastName(userData.lastName);
             setEmail(userData.email);
-            setCards(userData.paymentCards);
-            setEmailPromotions(userData.subscribedToPromotions);
-            setStreetAddress(userData.streetAddress);
-            setCity(userData.city);
-            setState(userData.state);
-            setPostalCode(userData.postalCode);
+
+            if (userType === "CUSTOMER") {
+                setCards(userData.paymentCards);
+                setEmailPromotions(userData.subscribedToPromotions);
+                setStreetAddress(userData.streetAddress);
+                setCity(userData.city);
+                setState(userData.state);
+                setPostalCode(userData.postalCode);
+            }
         } catch (error) {
             console.error('Error fetching user:', error);
         }
     };
 
+
     useEffect(() => {
         fetchUserData();
     }, []);
 
-    const dummyCards = [
-        {
-            id: 1,
-            friendlyName: "My Valid Card",
-            cardNumber: "1000000000000000",
-            expirationDate: "2014-01-01",
-            billingAddress: "Main Street, Atlanta GA"
-        }
-    ];
+    // const dummyCards = [
+    //     {
+    //         id: 1,
+    //         friendlyName: "My Valid Card",
+    //         cardNumber: "1000000000000000",
+    //         expirationDate: "2014-01-01",
+    //         billingAddress: "Main Street, Atlanta GA"
+    //     }
+    // ];
 
     /*
     useEffect(() => {
@@ -209,7 +220,55 @@ export default function EditProfile() {
         setPostalCode(value);
     };
 
-    if (isLoggedIn) {
+    if (isLoggedIn && userType === "ADMIN") {
+        return (
+            <div>
+                <NavBar userType={userType} />
+                <div className="flex justify-center items-center m-8 p-8">
+                    <div>
+                        <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl">
+                            <h2 className="text-4xl text-center font-semibold mb-6">Admin Profile</h2>
+
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1">First Name</label>
+                                <input
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    readOnly
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1">Last Name</label>
+                                <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    readOnly
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="text-lg font-medium mb-1">Email</label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    readOnly
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (isLoggedIn && userType === "CUSTOMER") {
         return (
             <div>
                 <NavBar userType={userType} />

@@ -271,6 +271,17 @@ public class UserController {
         return ResponseEntity.ok(admins);
     }
 
+    @GetMapping("/admins/{id}")
+    public ResponseEntity<Admin> getAdminById(@PathVariable Long id) {
+        Optional<Admin> admin = adminRepository.findById(id);
+        if (admin.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Return successful response with JSON encoded body
+        return ResponseEntity.ok(admin.get());
+    }
+
     @PostMapping("/admins") // Creates or updates existing admin object
     public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
         // Encode password
