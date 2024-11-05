@@ -1,10 +1,11 @@
-"use client"
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../contexts/user';
-import NavBar from '../components/navBar';
-import RestrictedPage from '../components/restrictedPage';
-import LoadingPage from '../components/loadingPage';
+"use client";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../contexts/user";
+import NavBar from "../components/navBar";
+import RestrictedPage from "../components/restrictedPage";
+import LoadingPage from "../components/loadingPage";
+import Pagination from "../components/Pagination";
 
 export default function ManagePromotions() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -15,14 +16,23 @@ export default function ManagePromotions() {
     const [discountPercentage, setDiscountPercentage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
+    // Promotions Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const promotionsPerPage = 5;
+    const indexOfLastPromotion = currentPage * promotionsPerPage;
+    const indexOfFirstPromotion = indexOfLastPromotion - promotionsPerPage;
+    const currentPromotions = promotions.slice(indexOfFirstPromotion, indexOfLastPromotion);
+    const totalPages = Math.ceil(promotions.length / promotionsPerPage);
 
     const fetchPromotions = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('http://localhost:8080/promotions');
-            setPromotions(response.data);
+            const response = await axios.get("http://localhost:8080/promotions");
+            console.log(response.data);
+            const reversedPromotions = response.data.reverse();
+            setPromotions(reversedPromotions);
         } catch (error) {
-            console.error('Error fetching promotions:', error);
+            console.error("Error fetching promotions:", error);
         } finally {
             setIsLoading(false);
         }
@@ -36,39 +46,48 @@ export default function ManagePromotions() {
         e.preventDefault();
         const newPromotion = {
             promoCode: promotionCode,
-            discount: parseFloat(discountPercentage)
+            discount: parseFloat(discountPercentage),
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/promotions', newPromotion);
-            setPromotions([...promotions, response.data]);
-            setPromotionCode('');
-            setDiscountPercentage('');
+            const response = await axios.post("http://localhost:8080/promotions", newPromotion);
+            setPromotions([response.data, ...promotions]);
+            setPromotionCode("");
+            setDiscountPercentage("");
+            setCurrentPage(1);
         } catch (error) {
-            console.error('Error adding promotion:', error);
+            console.error("Error adding promotion:", error);
         }
     };
 
     const handleSendPromotion = (id) => {
         try {
             axios.post(`http://localhost:8080/promotions/send-promotion?promotionId=${id}`);
-            setPromotions(promotions.map(promotion =>
+            setPromotions(promotions.map((promotion) =>
                 promotion.id === id ? { ...promotion, modifiable: false } : promotion
             ));
-            alert('Promotion sent successfully');
+            alert("Promotion sent successfully");
         } catch (error) {
-            console.error('Error sending promotion:', error);
-            alert('Failed to send promotion');
+            console.error("Error sending promotion:", error);
+            alert("Failed to send promotion");
         }
     };
 
     const handleDeletePromotion = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/promotions/${id}`);
-            setPromotions(promotions.filter((promotion) => promotion.id !== id));
+            const updatedPromotions = promotions.filter((promotion) => promotion.id !== id);
+            setPromotions(updatedPromotions);
+            if (updatedPromotions.length > 0 && indexOfFirstPromotion >= updatedPromotions.length && currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+            }
         } catch (error) {
-            console.error('Error deleting promotion:', error);
+            console.error("Error deleting promotion:", error);
         }
+    };
+
+    const changePageHandler = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     if (isLoading) {
@@ -117,7 +136,7 @@ export default function ManagePromotions() {
                     <div className="p-4 w-full lg:w-1/2">
                         <div className="bg-neutral-800/80 p-10 shadow-lg rounded-lg w-full">
                             <h2 className="text-4xl font-semibold mb-6 text-white">Promotion List</h2>
-                            {promotions.map((promotion) => (
+                            {currentPromotions.map((promotion) => (
                                 <div key={promotion.id} className="flex p-4 m-auto rounded-lg mb-4 text-white bg-neutral-800 justify-between">
                                     <div>
                                         <h3 className="font-bold text-white text-2xl">
@@ -147,6 +166,13 @@ export default function ManagePromotions() {
                                     </div>
                                 </div>
                             ))}
+
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onChangePage={changePageHandler}
+                                pagesPerRow={15}
+                            />
                         </div>
                     </div>
                 </div>
