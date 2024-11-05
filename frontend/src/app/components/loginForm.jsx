@@ -10,9 +10,9 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Load remembered email from localStorage on component mount
         const storedEmail = localStorage.getItem("rememberedEmail");
         const storedPassword = localStorage.getItem("rememberedPassword");
         if (storedEmail) {
@@ -28,6 +28,7 @@ export default function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             await signIn(email, password);
@@ -43,6 +44,8 @@ export default function LoginForm() {
         } catch (error) {
             alert('Email or Password is incorrect or user is unverified');
             console.error("Error signing in:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -92,25 +95,25 @@ export default function LoginForm() {
                     <label className="text-white">Remember Me</label>
                 </div>
 
-                <button type="submit"
-                    className="bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
-                    Login
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className={`p-3 rounded-lg transition duration-300 ease-in-out ${loading ? "bg-red-400" : "bg-red-600 hover:bg-red-800"
+                        } text-white`}
+                >
+                    {loading ? "Signing in..." : "Login"}
                 </button>
             </form>
 
             <p className="font-medium mt-4 text-center">
-                <Link
-                    className="text-white hover:underline"
-                    href="/forgot-password">
+                <Link className="text-white hover:underline" href="/forgot-password">
                     Forgot Password?
                 </Link>
             </p>
 
             <p className="font-medium text-center mt-2">
                 <span className="text-stone-400">Not a user? </span>
-                <Link
-                    className="text-white hover:underline"
-                    href="/register">
+                <Link className="text-white hover:underline" href="/register">
                     Sign Up Here
                 </Link>
             </p>

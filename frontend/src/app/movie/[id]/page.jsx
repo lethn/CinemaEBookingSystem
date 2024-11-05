@@ -3,24 +3,26 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import NavBar from "@/app/components/navBar";
+import LoadingPage from "@/app/components/loadingPage";
 
 export default function Movie({ params }) {
     const router = useRouter();
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const { id } = params;
     const [movie, setMovie] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (id) {
+            setIsLoading(true);
             axios.get(`http://localhost:8080/movies/${id}`)
                 .then((response) => {
                     setMovie(response.data);
-                    setLoading(false);
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     console.error("Error fetching movie data:", error);
-                    setLoading(false);
+                    setIsLoading(false);
                 });
         }
     }, [id]);
@@ -34,12 +36,21 @@ export default function Movie({ params }) {
         }
     };
 
-    if (loading) {
-        return <strong>Loading...</strong>;
+    if (isLoading) {
+        return <LoadingPage />;
     }
 
     if (!movie) {
-        return <strong>Movie Not Found</strong>;
+        return (
+            <div>
+                <NavBar userType={userType} />
+                <div className="flex justify-center items-center p-40 m-40">
+                    <h1 className="text-center text-4xl font-semibold text-white">
+                        Movie Not Found
+                    </h1>
+                </div>
+            </div>
+        );
     }
 
     return (

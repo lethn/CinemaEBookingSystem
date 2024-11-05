@@ -8,7 +8,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [checkID, setCheckID] = useState(null);
-    const [registeredEmail, setRegisteredEmail] = useState(''); // New state for registered email
+    const [registeredEmail, setRegisteredEmail] = useState('');
     const router = useRouter();
 
     useEffect(() => {

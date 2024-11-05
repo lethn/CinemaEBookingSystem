@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../contexts/user';
 import NavBar from '../components/navBar';
 import RestrictedPage from '../components/restrictedPage';
+import LoadingPage from '../components/loadingPage';
 
 export default function ManagePromotions() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -12,14 +13,18 @@ export default function ManagePromotions() {
     const [promotions, setPromotions] = useState([]);
     const [promotionCode, setPromotionCode] = useState("");
     const [discountPercentage, setDiscountPercentage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
 
     const fetchPromotions = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get('http://localhost:8080/promotions');
             setPromotions(response.data);
         } catch (error) {
             console.error('Error fetching promotions:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -65,6 +70,10 @@ export default function ManagePromotions() {
             console.error('Error deleting promotion:', error);
         }
     };
+
+    if (isLoading) {
+        return <LoadingPage />;
+    }
 
     if (isLoggedIn && userType === "ADMIN") {
         return (

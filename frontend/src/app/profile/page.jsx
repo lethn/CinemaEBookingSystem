@@ -4,6 +4,7 @@ import { AuthContext } from '../contexts/user';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import NavBar from "../components/navBar";
 import RestrictedPage from '../components/restrictedPage';
+import LoadingPage from '../components/loadingPage';
 import axios from "axios";
 
 export default function EditProfile() {
@@ -11,6 +12,7 @@ export default function EditProfile() {
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
 
+    const [isLoading, setIsLoading] = useState(true);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -48,6 +50,7 @@ export default function EditProfile() {
     };
 
     const fetchUserData = async () => {
+        setIsLoading(true);
         try {
             let url = "";
             if (userType === "ADMIN") {
@@ -74,6 +77,8 @@ export default function EditProfile() {
             }
         } catch (error) {
             console.error('Error fetching user:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -219,6 +224,10 @@ export default function EditProfile() {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
         setPostalCode(value);
     };
+
+    if (isLoading) {
+        return <LoadingPage />;
+    }
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
