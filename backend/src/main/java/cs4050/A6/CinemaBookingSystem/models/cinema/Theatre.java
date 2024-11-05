@@ -18,6 +18,8 @@ public class Theatre {
     @Column(name = "theatre_id")
     private Long id;
 
+    private String friendlyName;
+
     // Optional fields upon creation
     @OneToMany(cascade = CascadeType.ALL) // Must include cascade to persist changes
     private List<Showroom> showrooms = new ArrayList<>();

@@ -21,6 +21,8 @@ public class Showroom {
     @ElementCollection(targetClass = String.class)
     private List<String> seats;
 
+    private String friendlyName;
+
     // Optional fields upon creation
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Show> shows = new ArrayList<>();
