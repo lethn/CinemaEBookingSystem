@@ -2,6 +2,7 @@ package cs4050.A6.CinemaBookingSystem.controllers.cinema;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import cs4050.A6.CinemaBookingSystem.models.cinema.Showroom;
+import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowroomRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.movie.MovieRepository;
@@ -50,7 +51,7 @@ public class ShowController {
     }
 
     @PostMapping("/shows") // Specify movieId and showroomId in URL, show in body
-    public ResponseEntity<Show> saveShow(@RequestParam Long movieId, @RequestParam Long showroomId, @RequestBody Show show) {
+    public ResponseEntity<?> saveShow(@RequestParam Long movieId, @RequestParam Long showroomId, @RequestBody Show show) {
         // Get existing movie
         var existingMovie = movieRepository.findById(movieId);
         if (existingMovie.isEmpty()) {
@@ -69,21 +70,21 @@ public class ShowController {
         // Add total seats based on room -- make copy
         show.setAllSeats(new ArrayList<>(existingShowroom.get().getSeats()));
 
-        // Try to save show -- if invalid showroom id and time combo, exception thrown
-        try {
-            var result = showRepository.save(show);
-
-            // Add result to existing movie and showroom
-            existingMovie.get().getShows().add(result);
-            existingShowroom.get().getShows().add(result);
-            movieRepository.save(existingMovie.get());
-            showroomRepository.save(existingShowroom.get());
-
-            // Return successful response with JSON encoded object created
-            return ResponseEntity.ok(show);
-        } catch (Exception ignored) {
-            return ResponseEntity.badRequest().build(); // Invalid combo
+        // Check for time conflict
+        if (hasConflict(existingShowroom.get(), show)) {
+            return ResponseEntity.badRequest().body(new BadRequestError("Time conflict with existing show. Please check time and showroom."));
         }
+
+        var result = showRepository.save(show);
+
+        // Add result to existing movie and showroom
+        existingMovie.get().getShows().add(result);
+        existingShowroom.get().getShows().add(result);
+        movieRepository.save(existingMovie.get());
+        showroomRepository.save(existingShowroom.get());
+
+        // Return successful response with JSON encoded object created
+        return ResponseEntity.ok(show);
     }
 
     @DeleteMapping("/shows/{id}")
@@ -106,5 +107,27 @@ public class ShowController {
         showRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    // Check whether new show conflicts with any existing shows in this room
+    // Assumes that shows cannot run at the same moment (i.e., one cannot start at the same time as another finishes)
+    private boolean hasConflict(Showroom showroom, Show show) {
+        var newStartTime = show.getTime();
+        var newEndTime = show.getTime().plusMinutes(show.getDurationInMinutes());
+
+        var existingShows = showroom.getShows();
+        for (var existingShow : existingShows) {
+            var existingStartTime = existingShow.getTime();
+            var existingEndTime = existingShow.getTime().plusMinutes(existingShow.getDurationInMinutes());
+
+            // Check for conflict
+            boolean startTimeOverlaps = (newStartTime.isEqual(existingStartTime) || newStartTime.isAfter(existingStartTime)) && (newStartTime.isBefore(existingEndTime) || newStartTime.isEqual(existingEndTime));
+            boolean endTimeOverlaps = (newEndTime.isEqual(existingStartTime) || newEndTime.isAfter(existingStartTime)) && (newEndTime.isBefore(existingEndTime) || newEndTime.isEqual(existingEndTime));
+            if (startTimeOverlaps || endTimeOverlaps) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

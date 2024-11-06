@@ -17,11 +17,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-// Q: May not need if only show admin available times to schedule
 // Need to specify a custom name since 'show' is reserved in MySQL
-@Table(name = "showing", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"time", "showroomId"}) // Creates a uniqueness constraint using time and showroomId combo
-})
+@Table(name = "showing")
 // Represents a particular showing for a movie
 public class Show {
     @Id
