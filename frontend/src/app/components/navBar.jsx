@@ -24,6 +24,13 @@ export default function NavBar({ userType }) {
                 {!isLoggedIn && (
                     <>
                         <li>
+                            <Link href="/">
+                                <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
+                                    Home
+                                </button>
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/login">
                                 <button className="px-4 py-3 hover:bg-red-900 transition duration-300 ease-in-out">
                                     Login

@@ -80,12 +80,15 @@ const Home = () => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
 
+    const [isLoading, setIsLoading] = useState(true);
     const [currentMovies, setCurrentMovies] = useState([]);
     const [comingSoonMovies, setComingSoonMovies] = useState([]);
     const [searchMovie, setSearchMovie] = useState("");
     const [searchType, setSearchType] = useState("title");
 
     const fetchMovies = async () => {
+        setIsLoading(true);
+
         try {
             const response = await axios.get('http://localhost:8080/movies');
             const moviesData = response.data;
@@ -102,6 +105,8 @@ const Home = () => {
             setComingSoonMovies(comingSoon);
         } catch (error) {
             console.error('Error fetching movies:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -150,7 +155,13 @@ const Home = () => {
                     <h2 className="text-2xl font-bold m-4 text-center">Now Playing</h2>
                     <div className="flex-grow border-2 border-navBarRed mr-4"></div>
                 </div>
-                <NowPlaying movies={filterMovies(currentMovies)} />
+                {isLoading ? (
+                    <p className="text-center text-gray-400/70">Loading movies...</p>
+                ) : filterMovies(currentMovies).length > 0 ? (
+                    <NowPlaying movies={filterMovies(currentMovies)} />
+                ) : (
+                    <p className="text-center text-gray-400/70">No movies are available at the moment.</p>
+                )}
             </div>
 
             <div className="my-8">
@@ -159,7 +170,13 @@ const Home = () => {
                     <h2 className="text-2xl font-bold m-4">Coming Soon</h2>
                     <div className="flex-grow border-2 border-navBarRed mr-4"></div>
                 </div>
-                <ComingSoon movies={filterMovies(comingSoonMovies)} />
+                {isLoading ? (
+                    <p className="text-center text-gray-400/70">Loading movies...</p>
+                ) : filterMovies(comingSoonMovies).length > 0 ? (
+                    <ComingSoon movies={filterMovies(comingSoonMovies)} />
+                ) : (
+                    <p className="text-center text-gray-400/70">No movies are available at the moment.</p>
+                )}
             </div>
         </div>
     );
