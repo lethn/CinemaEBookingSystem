@@ -160,7 +160,7 @@ const Home = () => {
                 ) : filterMovies(currentMovies).length > 0 ? (
                     <NowPlaying movies={filterMovies(currentMovies)} />
                 ) : (
-                    <p className="text-center text-gray-400/70">No movies are available at the moment.</p>
+                    <p className="text-center text-gray-400/70">No movies available at the moment</p>
                 )}
             </div>
 
@@ -175,7 +175,7 @@ const Home = () => {
                 ) : filterMovies(comingSoonMovies).length > 0 ? (
                     <ComingSoon movies={filterMovies(comingSoonMovies)} />
                 ) : (
-                    <p className="text-center text-gray-400/70">No movies are available at the moment.</p>
+                    <p className="text-center text-gray-400/70">No movies available at the moment</p>
                 )}
             </div>
         </div>

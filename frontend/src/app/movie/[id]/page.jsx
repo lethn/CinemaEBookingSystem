@@ -53,12 +53,22 @@ export default function Movie({ params }) {
         );
     }
 
+    const uniqueShowtimes = Array.from(new Map(
+        movie.shows
+            .map(show => {
+                const showDate = new Date(show.time);
+                const showKey = showDate.toISOString().split("T")[0] + showDate.toTimeString().split(" ")[0];
+                return [showKey, show];
+            })
+            .sort((a, b) => new Date(a[1].time) - new Date(b[1].time))
+    ).values());
+
     return (
         <div>
             <NavBar userType={userType} />
 
             <div className="container mx-auto p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-28">
                     <div className="flex justify-center">
                         <img
                             src={movie.picture}
@@ -68,8 +78,9 @@ export default function Movie({ params }) {
                     </div>
 
                     <div className="flex flex-col justify-between">
-                        <div>
-                            <h1 className="text-4xl font-bold mb-4">{movie.title}</h1>
+                        <h1 className="text-4xl font-bold">{movie.title}</h1>
+                        <div className="border-t border-gray-400/70 mt-4 pt-4">
+                            <h2 className="text-2xl font-semibold mb-4">Description</h2>
                             <p className="text-white mb-4">{movie.synopsis}</p>
                             <p className="text-white mb-2">
                                 <strong>Category: </strong>
@@ -91,10 +102,32 @@ export default function Movie({ params }) {
                                 <strong>Rating: </strong>
                                 {movie.rating}
                             </p>
+
+                            <div className="border-t border-gray-400/70 mt-4 pt-4 mb-2">
+                                <h2 className="text-2xl font-semibold text-white mb-4">Showtimes</h2>
+                                <div className="flex flex-wrap gap-4 justify-center">
+                                    {uniqueShowtimes.length > 0 ? (
+                                        uniqueShowtimes.map(show => {
+                                            const startTime = new Date(show.time);
+                                            const endTime = new Date(startTime.getTime() + show.durationInMinutes * 60000);
+                                            return (
+                                                <div key={show.id} className="flex flex-col items-center bg-gray-700 rounded-lg p-3">
+                                                    <p className="text-white font-bold">
+                                                        {startTime.toLocaleDateString()} | {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })
+                                    ) : (
+                                        <p className="text-gray-400/70">No showtimes available at the moment</p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="border-t border-gray-400/70 mt-4 pt-4">
                             <div className="aspect-w-16 aspect-h-9">
+                                <h2 className="text-2xl font-semibold mb-4">Trailer</h2>
                                 <iframe
                                     width="100%"
                                     height="400px"
@@ -124,3 +157,4 @@ export default function Movie({ params }) {
         </div>
     );
 }
+
