@@ -15,7 +15,7 @@ const MovieCard = (props) => {
     const buyTickets = (e) => {
         e.preventDefault();
         if (userType === "CUSTOMER") {
-            router.push("/select-tickets");
+            router.push(`/select-tickets/${props.id}`);
         } else {
             alert("You must be a customer and log in to book tickets");
         }

@@ -48,7 +48,15 @@ export default function SelectSeats({ params }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.push('/select-seats');
+
+        const queryString = new URLSearchParams({
+            totalTickets,
+            childTickets,
+            adultTickets,
+            seniorTickets
+        }).toString();
+
+        router.push(`/select-seats/${selectedShowtime}?${queryString}`);
     };
 
     const handleCancel = (e) => {

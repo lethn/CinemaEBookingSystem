@@ -30,7 +30,7 @@ export default function Movie({ params }) {
     const buyTickets = (e) => {
         e.preventDefault();
         if (userType === "CUSTOMER") {
-            router.push("/select-tickets");
+            router.push(`/select-tickets/${movie.id}`);
         } else {
             alert("You must be a customer and log in to book tickets");
         }
