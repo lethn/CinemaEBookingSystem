@@ -137,7 +137,7 @@ export default function ManagePromotions() {
                         <div className="bg-neutral-800/80 p-10 shadow-lg rounded-lg w-full min-w-[320px] lg:min-w-[600px] max-w-full overflow-x-auto">
                             <h2 className="text-4xl font-semibold mb-6 text-white">Promotion List</h2>
                             {currentPromotions.length === 0 ? (
-                                <p className="text-white text-lg">No promotions available.</p>
+                                <p className="text-center text-gray-400/70">No promotions available at the moment.</p>
                             ) : (
                                 currentPromotions.map((promotion) => (
                                     <div
