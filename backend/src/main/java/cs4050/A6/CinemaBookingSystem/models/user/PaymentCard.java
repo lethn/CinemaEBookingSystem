@@ -25,11 +25,6 @@ public class PaymentCard {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
-    // TO DO: DELETE EVENTUALLY (WILL HAVE TO RE-INIT DB)
-    @Column(nullable = false)
-    @JsonIgnore
-    private String billingAddress = "";
-
     // Ignore -- ensures corresponding entries are deleted
     @ManyToOne
     @JoinColumn(name = "user_id")

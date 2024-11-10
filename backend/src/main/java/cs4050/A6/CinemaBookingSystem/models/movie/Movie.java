@@ -40,6 +40,8 @@ public class Movie {
     private String rating; // E.g., 'PG-13'
     @Column(nullable = false)
     private boolean nowPlaying; // Whether movie is currently showing
+    @Column(nullable = false)
+    private int durationInMinutes; // Same for every showing of a movie
 
     // Non-required fields upon creation
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)

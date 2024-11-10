@@ -1,6 +1,5 @@
 package cs4050.A6.CinemaBookingSystem.controllers.cinema;
 
-import cs4050.A6.CinemaBookingSystem.models.cinema.Promotion;
 import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import cs4050.A6.CinemaBookingSystem.models.cinema.Showroom;
 import cs4050.A6.CinemaBookingSystem.models.cinema.Theatre;

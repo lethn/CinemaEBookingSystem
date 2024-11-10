@@ -2,6 +2,7 @@ package cs4050.A6.CinemaBookingSystem.controllers.cinema;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import cs4050.A6.CinemaBookingSystem.models.cinema.Showroom;
+import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
 import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowroomRepository;
@@ -50,8 +51,8 @@ public class ShowController {
         return ResponseEntity.ok(show.get());
     }
 
-    @PostMapping("/shows") // Specify movieId and showroomId in URL, show in body
-    public ResponseEntity<?> saveShow(@RequestParam Long movieId, @RequestParam Long showroomId, @RequestBody Show show) {
+    @PostMapping("/shows")
+    public ResponseEntity<?> saveShow(@RequestParam Long movieId, @RequestParam Long showroomId, @RequestParam Long theatreId, @RequestBody Show show) {
         // Get existing movie
         var existingMovie = movieRepository.findById(movieId);
         if (existingMovie.isEmpty()) {
@@ -64,14 +65,16 @@ public class ShowController {
             return ResponseEntity.notFound().build(); // Does not exist
         }
 
-        // Set showroom id for uniqueness
+        // Set query params
         show.setShowroomId(showroomId);
+        show.setTheatreId(theatreId);
         show.setMovie(existingMovie.get());
+
         // Add total seats based on room -- make copy
         show.setAllSeats(new ArrayList<>(existingShowroom.get().getSeats()));
 
         // Check for time conflict
-        if (hasConflict(existingShowroom.get(), show)) {
+        if (hasConflict(existingShowroom.get(), show, existingMovie.get())) {
             return ResponseEntity.badRequest().body(new BadRequestError("Time conflict with existing show. Please check time and showroom."));
         }
 
@@ -111,14 +114,15 @@ public class ShowController {
 
     // Check whether new show conflicts with any existing shows in this room
     // Assumes that shows cannot run at the same moment (i.e., one cannot start at the same time as another finishes)
-    private boolean hasConflict(Showroom showroom, Show show) {
+    private boolean hasConflict(Showroom showroom, Show show, Movie movie) {
+        var duration = movie.getDurationInMinutes();
         var newStartTime = show.getTime();
-        var newEndTime = show.getTime().plusMinutes(show.getDurationInMinutes());
+        var newEndTime = show.getTime().plusMinutes(duration);
 
         var existingShows = showroom.getShows();
         for (var existingShow : existingShows) {
             var existingStartTime = existingShow.getTime();
-            var existingEndTime = existingShow.getTime().plusMinutes(existingShow.getDurationInMinutes());
+            var existingEndTime = existingShow.getTime().plusMinutes(duration);
 
             // Check for conflict
             boolean startTimeOverlaps = (newStartTime.isEqual(existingStartTime) || newStartTime.isAfter(existingStartTime)) && (newStartTime.isBefore(existingEndTime) || newStartTime.isEqual(existingEndTime));
