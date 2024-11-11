@@ -7,73 +7,78 @@ import NowPlaying from "./components/nowPlaying";
 import SearchBar from "./components/searchBar";
 import axios from "axios";
 
-const dummy_movies = [
-    {
-        id: 1,
-        title: "Interstellar",
-        category: "Science Fiction / Adventure",
-        cast: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
-        director: "Christopher Nolan",
-        producer: "Emma Thomas, Christopher Nolan",
-        synopsis: "A group of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        trailer: "https://www.youtube.com/watch?v=zSWdZVtXT7E",
-        picture: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
-        rating: "PG-13",
-        nowPlaying: true
-    },
-    {
-        id: 2,
-        title: "Inception",
-        category: "Science Fiction / Action",
-        cast: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
-        director: "Christopher Nolan",
-        producer: "Emma Thomas, Christopher Nolan",
-        synopsis: "A skilled thief who infiltrates the subconscious is offered a chance to have his past crimes erased in exchange for implanting an idea in someone's mind.",
-        trailer: "https://www.youtube.com/watch?v=YoHD9XEInc0",
-        picture: "https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg",
-        rating: "PG-13",
-        nowPlaying: true
-    },
-    {
-        id: 3,
-        title: "The Matrix",
-        category: "Action / Martial Arts",
-        cast: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
-        director: "The Wachowskis",
-        producer: "Joel Silver",
-        synopsis: "A hacker discovers the reality he lives in is a simulation and joins a rebellion to free humanity from its controllers.",
-        trailer: "https://www.youtube.com/watch?v=m8e-FF8MsqU",
-        picture: "https://m.media-amazon.com/images/I/51vpnbwFHrL._AC_SY679_.jpg",
-        rating: "R",
-        nowPlaying: false
-    },
-    {
-        id: 4,
-        title: "Avatar",
-        category: "Action / Fantasy",
-        cast: ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
-        director: "James Cameron",
-        producer: "James Cameron, Jon Landau",
-        synopsis: "A paraplegic Marine dispatched to the moon Pandora becomes torn between following orders and protecting the world he feels is his home.",
-        trailer: "https://www.youtube.com/watch?v=5PSNL1qE6VY",
-        picture: "https://musicart.xboxlive.com/7/4d4d6500-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080",
-        rating: "PG-13",
-        nowPlaying: true
-    },
-    {
-        id: 5,
-        title: "Blade Runner 2049",
-        category: "Science Fiction / Action",
-        cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"],
-        director: "Denis Villeneuve",
-        producer: "Andrew A. Kosove, Broderick Johnson",
-        synopsis: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard, who's been missing for thirty years.",
-        trailer: "https://www.youtube.com/watch?v=gCcx85zbxz4",
-        picture: "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_.jpg",
-        rating: "R",
-        nowPlaying: false
-    }
-];
+// const dummy_movies = [
+//     {
+//         id: 1,
+//         title: "Interstellar",
+//         category: "Science Fiction / Adventure",
+//         cast: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+//         director: "Christopher Nolan",
+//         producer: "Emma Thomas, Christopher Nolan",
+//         synopsis: "A group of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+//         trailer: "https://www.youtube.com/watch?v=zSWdZVtXT7E",
+//         picture: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+//         rating: "PG-13",
+//         nowPlaying: true,
+//         durationInMinutes: 170
+//     },
+//     {
+//         id: 2,
+//         title: "Inception",
+//         category: "Science Fiction / Action",
+//         cast: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
+//         director: "Christopher Nolan",
+//         producer: "Emma Thomas, Christopher Nolan",
+//         synopsis: "A skilled thief who infiltrates the subconscious is offered a chance to have his past crimes erased in exchange for implanting an idea in someone's mind.",
+//         trailer: "https://www.youtube.com/watch?v=YoHD9XEInc0",
+//         picture: "https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg",
+//         rating: "PG-13",
+//         nowPlaying: true,
+//         durationInMinutes: 150
+//     },
+//     {
+//         id: 3,
+//         title: "The Matrix",
+//         category: "Action / Martial Arts",
+//         cast: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+//         director: "The Wachowskis",
+//         producer: "Joel Silver",
+//         synopsis: "A hacker discovers the reality he lives in is a simulation and joins a rebellion to free humanity from its controllers.",
+//         trailer: "https://www.youtube.com/watch?v=m8e-FF8MsqU",
+//         picture: "https://m.media-amazon.com/images/I/51vpnbwFHrL._AC_SY679_.jpg",
+//         rating: "R",
+//         nowPlaying: false,
+//         durationInMinutes: 135
+//     },
+//     {
+//         id: 4,
+//         title: "Avatar",
+//         category: "Action / Fantasy",
+//         cast: ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
+//         director: "James Cameron",
+//         producer: "James Cameron, Jon Landau",
+//         synopsis: "A paraplegic Marine dispatched to the moon Pandora becomes torn between following orders and protecting the world he feels is his home.",
+//         trailer: "https://www.youtube.com/watch?v=5PSNL1qE6VY",
+//         picture: "https://musicart.xboxlive.com/7/4d4d6500-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080",
+//         rating: "PG-13",
+//         nowPlaying: true,
+//         durationInMinutes: 160
+//     },
+//     {
+//         id: 5,
+//         title: "Blade Runner 2049",
+//         category: "Science Fiction / Action",
+//         cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"],
+//         director: "Denis Villeneuve",
+//         producer: "Andrew A. Kosove, Broderick Johnson",
+//         synopsis: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard, who's been missing for thirty years.",
+//         trailer: "https://www.youtube.com/watch?v=gCcx85zbxz4",
+//         picture: "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_.jpg",
+//         rating: "R",
+//         nowPlaying: false,
+//         durationInMinutes: 165
+//     }
+// ];
 
 const Home = () => {
     const { isLoggedIn } = useContext(AuthContext);

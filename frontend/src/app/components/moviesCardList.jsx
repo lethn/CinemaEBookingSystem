@@ -18,6 +18,7 @@ const MoviesCardList = (props) => {
                     picture={movie.picture}
                     rating={movie.rating}
                     nowPlaying={movie.nowPlaying}
+                    durationInMinutes={movie.durationInMinutes}
                 />
             ))}
         </div>

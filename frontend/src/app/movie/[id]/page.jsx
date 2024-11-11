@@ -98,6 +98,10 @@ export default function Movie({ params }) {
                                 <strong>Producer: </strong>
                                 {movie.producer}
                             </p>
+                            <p className="text-white mb-2">
+                                <strong>Duration: </strong>
+                                {movie.durationInMinutes} minutes
+                            </p>
                             <p className="text-white mb-4">
                                 <strong>Rating: </strong>
                                 {movie.rating}
@@ -109,7 +113,7 @@ export default function Movie({ params }) {
                                     {uniqueShowtimes.length > 0 ? (
                                         uniqueShowtimes.map(show => {
                                             const startTime = new Date(show.time);
-                                            const endTime = new Date(startTime.getTime() + show.durationInMinutes * 60000);
+                                            const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
                                             return (
                                                 <div key={show.id} className="flex flex-col items-center bg-gray-700 rounded-lg p-3">
                                                     <p className="text-white font-bold">

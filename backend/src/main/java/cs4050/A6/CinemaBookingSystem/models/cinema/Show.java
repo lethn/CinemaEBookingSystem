@@ -27,11 +27,11 @@ public class Show {
     private Long id;
 
     @Column(nullable = false)
-    private int durationInMinutes;
-    @Column(nullable = false)
     private LocalDateTime time;
     @Column(nullable = false)
     private Long showroomId; // Set by controller method using query param in URL
+    @Column(nullable = false)
+    private Long theatreId; // Set by controller method using query param in URL
 
     // Non-required fields upon creation
     @ElementCollection(targetClass = String.class)
