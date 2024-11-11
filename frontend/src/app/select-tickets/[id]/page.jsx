@@ -15,6 +15,8 @@ export default function SelectSeats({ params }) {
     const [adultTickets, setAdultTickets] = useState(0);
     const [seniorTickets, setSeniorTickets] = useState(0);
     const [showImage, setShowImage] = useState(true);
+    const movieId = id;
+    const totalTickets = childTickets + adultTickets + seniorTickets;
 
     const handleShowtimeSelect = (showtime) => {
         if (totalTickets != 0) {
@@ -23,8 +25,6 @@ export default function SelectSeats({ params }) {
             alert("Select at least one ticket.")
         }
     };
-
-    const totalTickets = childTickets + adultTickets + seniorTickets;
 
     const handleTicketChange = (e, ticketType) => {
         const value = parseInt(e.target.value, 10) || 0; // Ensure value is a number or default to 0
@@ -35,22 +35,19 @@ export default function SelectSeats({ params }) {
         } else if (ticketType === 'senior') {
           setSeniorTickets(value);
         }
+        
         setSelectedShowtime('');
     };
     
     const poster = () => {
-        setShowImage(true);
-    }
-    
-    const trailer = () => {
-        setShowImage(false);
+        setShowImage(!showImage);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const queryString = new URLSearchParams({
-            totalTickets,
+            movieId,
             childTickets,
             adultTickets,
             seniorTickets
@@ -106,8 +103,8 @@ export default function SelectSeats({ params }) {
         <div className="min-h-screen flex flex-col">
             <NavBar userType={userType} />
             <div className='grid grid-cols-[2fr_2fr_3fr]'>
-                <div className='m-4 flex items-center flex-col bg-neutral-800/80 p-4 rounded-lg'>
-                    <div className="w-full aspect-square flex justify-center border border-4 border-gray-600 rounded-lg">
+                <div className='m-4 flex items-center flex-col bg-neutral-800/80 p-4 rounded-xl border-4 border-navBarRed'>
+                    <div className="w-full aspect-square flex justify-center border border-4 border-navBarRed rounded-lg">
                         {showImage ? (
                             <img
                             src={movie.picture}
@@ -125,18 +122,18 @@ export default function SelectSeats({ params }) {
                         )}
                     </div>
                     <div className="mb-1">
-                        <button className="mx-1 text-xl text-gray-600" onClick={poster}>◁</button>
-                        <button className="mx-1 text-xl text-gray-600" onClick={trailer}>▷</button>
+                        <button className="mx-1 text-xl text-navBarRed" onClick={poster}>◁</button>
+                        <button className="mx-1 text-xl text-navBarRed" onClick={poster}>▷</button>
                     </div>
-                    <div className="border-2 border-gray-600 w-full mb-2"></div>
+                    <div className="border-2 border-navBarRed w-full mb-2"></div>
                     <div className="flex w-full justify-between items-center px-1">
                         <h2 className="text-2xl text-white font-bold">{movie.title}</h2>
                         <p className="text-white border-2 border-white flex items-center justify-center px-1">{movie.rating}</p>
                     </div>
-                    <div className="border-2 border-gray-600 w-full my-2"></div>
+                    <div className="border-2 border-navBarRed w-full my-2"></div>
                     <div className="w-full text-left px-1">
-                        <p>Category: {movie.category}</p>
-                        <p>Director: {movie.director}</p>
+                        <p>Genre: {movie.category}</p>
+                        <p>Runtime: {movie.durationInMinutes} mins</p>
                     </div>
                 </div>
                 <div className='m-4 flex items-center flex-col'>
@@ -144,7 +141,7 @@ export default function SelectSeats({ params }) {
                         <h2 className="text-4xl font-semibold mb-6 w-full">Tickets</h2>
                     </div>
                     <div className="w-[75%] grid grid-cols-2 grid-rows-3 gap-4">
-                            <label className="text-xl m-2 text-right">Child:</label>
+                            <label className="text-xl m-2 text-right">Child (0-12):</label>
                             <input
                                 type="number"
                                 min="0"
@@ -152,7 +149,7 @@ export default function SelectSeats({ params }) {
                                 onChange={(e) => handleTicketChange(e, 'child')}
                                 className="rounded-lg p-2 bg-neutral-800/80 text-white text-center"
                             />
-                            <label className="text-xl m-2 text-right">Adult:</label>
+                            <label className="text-xl m-2 text-right">Adult (13-64):</label>
                             <input
                                 type="number"
                                 min="0"
@@ -160,7 +157,7 @@ export default function SelectSeats({ params }) {
                                 onChange={(e) => handleTicketChange(e, 'adult')}
                                 className="rounded-lg p-2 bg-neutral-800/80 text-white text-center"
                             />
-                            <label className="text-xl m-2 text-right">Senior:</label>
+                            <label className="text-xl m-2 text-right">Senior (65+):</label>
                             <input
                                 type="number"
                                 min="0"
@@ -197,11 +194,11 @@ export default function SelectSeats({ params }) {
                 </div>
             </div>
             <div className="flex w-full justify-between px-4 pb-4 mt-auto">
-                <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
                     Cancel
                 </button>
                 {selectedShowtime && (
-                    <button onClick={handleSubmit} className="text-lg bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                    <button onClick={handleSubmit} className="text-lg bg-navBarRed text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
                         Continue
                     </button>
                 )}

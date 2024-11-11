@@ -25,3 +25,7 @@ body {
         text-wrap: balance;
     }
 }
+
+.bg-gradient {
+    background: radial-gradient(102% 150% at bottom, transparent 50%, rgb(34, 34, 34) 50%);
+  }
