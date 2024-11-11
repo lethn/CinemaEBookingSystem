@@ -38,6 +38,7 @@ const MovieCard = (props) => {
                 <div className="absolute bottom-0 left-0 w-full bg-neutral-900/80 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
                 <p className="text-white">{props.category}</p>
                 <p className='text-white'>Director: {props.director}</p>
+                <p className='text-white'>Duration: {props.durationInMinutes} minutes</p>
 
                 <div className="flex justify-between mt-2 gap-2">
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" onClick={openModalHandler}>
