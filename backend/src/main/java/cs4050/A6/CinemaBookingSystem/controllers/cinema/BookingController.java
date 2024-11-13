@@ -8,6 +8,7 @@ import cs4050.A6.CinemaBookingSystem.repositories.cinema.PaymentCardRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.PromotionRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
+import cs4050.A6.CinemaBookingSystem.services.EmailService;
 import cs4050.A6.CinemaBookingSystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,16 @@ public class BookingController {
     private final ShowRepository showRepository;
     private final PromotionRepository promotionRepository;
     private final PaymentCardRepository paymentCardRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public BookingController(BookingRepository bookingRepository, CustomerRepository customerRepository, ShowRepository showRepository, PromotionRepository promotionRepository, PaymentCardRepository paymentCardRepository) {
+    public BookingController(BookingRepository bookingRepository, CustomerRepository customerRepository, ShowRepository showRepository, PromotionRepository promotionRepository, PaymentCardRepository paymentCardRepository, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.customerRepository = customerRepository;
         this.showRepository = showRepository;
         this.promotionRepository = promotionRepository;
         this.paymentCardRepository = paymentCardRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("/bookings")
@@ -129,7 +132,11 @@ public class BookingController {
             showRepository.save(existingShow.get());
         }
 
+        var customerEmail = existingBooking.get().getCustomer().getEmail();
+
         bookingRepository.deleteById(id);
+        // Send booking cancellation email
+        emailService.sendBookingCancellationEmail(customerEmail, id);
 
         return ResponseEntity.ok().build();
     }

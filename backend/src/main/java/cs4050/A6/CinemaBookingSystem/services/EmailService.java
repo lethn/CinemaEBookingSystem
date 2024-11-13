@@ -70,4 +70,18 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    public void sendBookingCancellationEmail(String email, Long bookingId) {
+        String subject = "Booking Cancelled - Refund Issued";
+
+        String content = "The following booking has been cancelled: " + bookingId + ". A refund has been issued to your payment method.";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(content);
+
+        mailSender.send(message);
+    }
 }
