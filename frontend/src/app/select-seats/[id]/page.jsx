@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/user';
 import axios from 'axios';
 import NavBar from '../../components/navBar';
 import RestrictedPage from '../../components/restrictedPage';
+import LoadingPage from '@/app/components/loadingPage';
 
 export default function SelectSeats({ params }) {
     const { isLoggedIn } = useContext(AuthContext);
@@ -14,13 +15,26 @@ export default function SelectSeats({ params }) {
     const [isLoading, setIsLoading] = useState(true);
     const [showtime, setShowtime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [childTickets, setChildTickets] = useState(null);
+    const [adultTickets, setAdultTickets] = useState(null);
+    const [seniorTickets, setSeniorTickets] = useState(null);
     const [totalTickets, setTotalTickets] = useState(null);
     const [movieId, setMovieId] = useState(null);
     const totalCols = 25; // Columns from 1 to 25
-    let totalRows = 12;
+    const totalRows = 12;
 
     const handleSubmit = (e) => {
-        router.push('/order-summary')
+        e.preventDefault();
+        const queryString = new URLSearchParams({
+            selectedSeats,
+            id,
+            movieId,
+            childTickets,
+            adultTickets,
+            seniorTickets
+        }).toString();
+
+        router.push(`/order-summary?${queryString}`);
     }
 
     const handleCancel = (e) => {
@@ -66,6 +80,9 @@ export default function SelectSeats({ params }) {
             const seniorTicketsParam = queryParams.get('seniorTickets');
             if (childTicketsParam && adultTicketsParam && seniorTicketsParam) {
                 setTotalTickets(Number(childTicketsParam) + Number(adultTicketsParam) + Number(seniorTicketsParam));
+                setChildTickets(childTicketsParam);
+                setAdultTickets(adultTicketsParam);
+                setSeniorTickets(seniorTicketsParam);
             }
             const movieIdParam = queryParams.get('movieId');
             if (movieIdParam) {
@@ -74,16 +91,15 @@ export default function SelectSeats({ params }) {
         }
     }, []);
 
+    if (isLoading) {
+        return(
+            <LoadingPage />
+        )
+    }
+
     if (!showtime) {
         return (
-            <div>
-                <NavBar userType={userType} />
-                <div className="flex justify-center items-center p-40 m-40">
-                    <h1 className="text-center text-4xl font-semibold text-white">
-                        Show Not Found
-                    </h1>
-                </div>
-            </div>
+            <RestrictedPage heading1="Show Not Found" />
         );
     }
 
@@ -159,11 +175,11 @@ export default function SelectSeats({ params }) {
                     </div>
                     {selectedSeats.length === totalTickets ? (
                         <button onClick={handleSubmit} className="text-lg bg-navBarRed text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
-                            Continue
+                            Checkout
                         </button>
                     ) : (
                         <button className="text-lg bg-red-900 text-white p-3 rounded-lg transition duration-300 ease-in-out" disabled>
-                            Continue
+                            Checkout
                         </button>
                     )}
                 </div>

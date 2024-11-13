@@ -2,146 +2,139 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../contexts/user';
+import axios from 'axios';
 import NavBar from "../components/navBar";
 import RestrictedPage from '../components/restrictedPage';
+import LoadingPage from "../components/loadingPage";
 
 export default function OrderSummary() {
     const { isLoggedIn } = useContext(AuthContext);
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
-
-    const [cardNumber, setCardNumber] = useState('');
-    const [expirationDate, setExpirationDate] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [error, setError] = useState('');
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+    const [childTickets, setChildTickets] = useState(null);
+    const [adultTickets, setAdultTickets] = useState(null);
+    const [seniorTickets, setSeniorTickets] = useState(null);
+    const [movieId, setMovieId] = useState(null);
+    const [movie, setMovie] = useState(null);
+    const [showId, setShowId] = useState(null);
+    const [show, setShow] = useState(null);
+    const [selectedSeats, setSelectedSeats] = useState(null);
+    const childTicketPrice = 11.99;
+    const adultTicketPrice = 11.99;
+    const seniorTicketPrice = 11.99;
 
-    const [tickets, setTickets] = useState([
-        { id: 1, seat: 'A1', price: 12 },
-        { id: 2, seat: 'A2', price: 12 },
-        { id: 3, seat: 'B1', price: 12 },
-    ]);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const queryParams = new URLSearchParams(window.location.search);
+            const childTicketsParam = queryParams.get('childTickets');
+            const adultTicketsParam = queryParams.get('adultTickets');
+            const seniorTicketsParam = queryParams.get('seniorTickets');
+            const movieIdParam = queryParams.get('movieId');
+            const showIdParam = queryParams.get('id');
+            const selectedSeatsParam = queryParams.get('selectedSeats');
+            if (selectedSeatsParam) {
+                setChildTickets(childTicketsParam);
+                setAdultTickets(adultTicketsParam);
+                setSeniorTickets(seniorTicketsParam);
+                setMovieId(movieIdParam);
+                setShowId(showIdParam);
+                setSelectedSeats(selectedSeatsParam);
+            }
+        }
+    }, []);
 
-    const handleDeleteTicket = (id) => {
-        setTickets(tickets.filter(ticket => ticket.id !== id));
-    };
+    useEffect(() => {
+        if (movieId) {
+            setIsLoading(true);
+            axios.get(`http://localhost:8080/movies/${movieId}`)
+                .then((response) => {
+                    setMovie(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching movie data:", error);
+                });
+        }
+        if (showId) {
+            axios.get(`http://localhost:8080/shows/${showId}`)
+                .then((response) => {
+                    setShow(response.data);
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.error("Error fetching show data:", error);
+                    setIsLoading(false);
+                });
+        }
+    }, [movieId, showId]);
 
-    const onClickAddCardHandler = (e) => {
-        e.preventDefault();
-        router.push('/order-confirmation')
-    };
-
-    const addTicketsHandler = () => {
-        router.push('/select-tickets');
+    if (isLoading) {
+        return(
+            <LoadingPage />
+        )
     }
-
-    const totalCost = tickets.reduce((total, ticket) => total + ticket.price, 0);
-    const taxRate = 0.1; // 10% tax
-    const tax = totalCost * taxRate;
-    const finalTotal = totalCost + tax;
 
     if (isLoggedIn && userType === "CUSTOMER") {
         return (
-            <div>
+            <div className="flex flex-col min-h-screen">
                 <NavBar userType={userType} />
-                <div className="p-4">
-                    <h1 className="text-3xl font-bold my-2">Order Summary for Movie: Inception</h1>
-                    <div className="grid grid-cols-3">
-                        <table className="w-full border mt-4">
-                            <thead>
-                                <tr>
-                                    <th className="border p-2">Seat Number</th>
-                                    <th className="border p-2">Price per Ticket</th>
-                                    <th className="border p-2">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tickets.map((ticket) => (
-                                    <tr key={ticket.id}>
-                                        <td className="border p-2">{ticket.seat}</td>
-                                        <td className="border p-2">${ticket.price}</td>
-                                        <td className="border p-2">
-                                            <button
-                                                onClick={() => handleDeleteTicket(ticket.id)}
-                                                className="bg-red-500 text-white p-1 rounded"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-
-                        <div className="mt-4 text-center p-4">
-                            <h2 className="text-xl font-semibold">Order Summary:</h2>
-                            <ul className="grid grid-cols-1 gap-4 mt-2">
-                                {tickets.map((ticket) => (
-                                    <li key={ticket.id} className="flex justify-between p-2 border-b">
-                                        <span>Seat: {ticket.seat}</span>
-                                        <span>Price: ${ticket.price}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="mt-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <p>Total Cost:</p>
-                                    <p>${totalCost.toFixed(2)}</p>
-                                    <p>Tax (10%):</p>
-                                    <p>${tax.toFixed(2)}</p>
-                                    <h2 className="font-semibold">Final Total:</h2>
-                                    <h2 className="font-semibold">${finalTotal.toFixed(2)}</h2>
-                                </div>
+                <div className="grid grid-cols-3 p-4 flex-grow">
+                    <div className="flex flex-col bg-neutral-800/80 mr-4 rounded-xl h-full">
+                        <img 
+                            src={movie?.picture} 
+                            alt="Poster" 
+                            className="rounded-t-xl w-full object-cover h-1 items-top object-top flex-grow" 
+                        />
+                        <div className="p-4 h-1/4">
+                            <div className="flex w-full justify-between">
+                                <h2 className="text-2xl text-white font-bold">{movie?.title}</h2>
+                                <p className="text-white border-2 border-white flex items-center justify-center px-1">{movie?.rating}</p>
                             </div>
+                            <h2 className="text-xl text-white font-bold">
+                                {new Date(show.time).toLocaleString([], {
+                                    weekday: 'short', 
+                                    month: 'short', 
+                                    day: '2-digit', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit'
+                                })}
+                            </h2>
+                            <p className="text-lg">Seats: {selectedSeats}</p>
                         </div>
-
-                        <form className="bg-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={onClickAddCardHandler}>
-                            {error && <p className="text-red-500 mb-4">{error}</p>}
-
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1 text-black">Card Number</label>
+                    </div>
+                    <div className="">
+                        <h2 className="text-4xl font-semibold w-full">Payment Information</h2>
+                        <div className="flex justify-center">
+                            <form onSubmit={seniorTicketPrice} className="my-4">
                                 <input
                                     type="text"
-                                    value={cardNumber}
-                                    onChange={(e) => setCardNumber(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                    required
+                                    placeholder="Discount Code"
+                                    className="rounded-lg p-3 bg-neutral-800/80 text-white text-center"
                                 />
-                            </div>
-
-                            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">Expiration Date (MM/YY)</label>
-                                    <input
-                                        type="text"
-                                        value={expirationDate}
-                                        onChange={(e) => setExpirationDate(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        required
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <label className="text-lg font-medium mb-1 text-black">CVV</label>
-                                    <input
-                                        type="text"
-                                        value={cvv}
-                                        onChange={(e) => setCvv(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-md text-black box-border"
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                            <button type="submit" className="text-xl bg-blue-600 text-white p-3 px-6 rounded-md hover:bg-blue-700 w-full">
-                                Pay Now
-                            </button>
-                        </form>
+                                <button type='submit' className="ml-1 p-3 bg-red-600 text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    Apply
+                                </button>
+                            </form>
+                        </div>
+                        <div className="grid grid-cols-[3fr_4fr_2fr] text-lg">
+                            <p className="text-right my-1">Child Tickets:</p>
+                            <p className="text-center my-1">x{childTickets}</p>
+                            <p className="my-1">${childTicketPrice*childTickets}</p>
+                            <p className="text-right my-1">Adult Tickets:</p>
+                            <p className="text-center my-1">x{adultTickets}</p>
+                            <p className="my-1">${adultTicketPrice*adultTickets}</p>
+                            <p className="text-right my-1">Senior Tickets:</p>
+                            <p className="text-center my-1">x{seniorTickets}</p>
+                            <p className="my-1">${seniorTicketPrice*seniorTickets}</p>
+                            <p className="text-right border-t py-1">Total:</p>
+                            <p className="text-center border-t py-1"></p>
+                            <p className="border-t py-1">${seniorTicketPrice*seniorTickets + adultTicketPrice*adultTickets + childTicketPrice*childTickets}</p>
+                            <p></p>
+                        </div>
                     </div>
-                    <button
-                        className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 mt-5"
-                        onClick={addTicketsHandler}>Add Tickets</button>
                 </div>
             </div>
-        );
+        )
     }
 
     return (
