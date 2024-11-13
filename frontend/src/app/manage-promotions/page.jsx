@@ -142,7 +142,7 @@ export default function ManagePromotions() {
                                 currentPromotions.map((promotion) => (
                                     <div
                                         key={promotion.id}
-                                        className="flex flex-col sm:flex-row items-center p-4 rounded-lg mb-4 text-white bg-neutral-800 justify-between min-w-[300px] lg:min-w-[500px] max-w-full"
+                                        className="flex flex-col sm:flex-row items-center p-4 rounded-lg mb-4 text-white bg-neutral-700/50 justify-between min-w-[300px] lg:min-w-[500px] max-w-full hover:bg-neutral-700"
                                     >
                                         <div className="flex-1 overflow-hidden mx-2">
                                             <h3 className="font-bold text-white text-2xl">

@@ -109,7 +109,7 @@ export default function Movie({ params }) {
 
                             <div className="border-t border-gray-400/70 mt-4 pt-4 mb-2">
                                 <h2 className="text-2xl font-semibold text-white mb-4">Showtimes</h2>
-                                <div className="flex flex-wrap gap-4 justify-center">
+                                <div className="flex flex-wrap gap-4">
                                     {uniqueShowtimes.length > 0 ? (
                                         uniqueShowtimes.map(show => {
                                             const startTime = new Date(show.time);

@@ -92,7 +92,7 @@ export default function ManageMovies() {
                                 movies.map((movie) => (
                                     <div
                                         key={movie.id}
-                                        className="grid items-center justify-center grid-cols-1 md:grid-cols-6 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg"
+                                        className="grid items-center justify-center grid-cols-1 md:grid-cols-6 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700"
                                     >
                                         <div className="font-bold text-lg text-center">{movie.title}</div>
                                         <div className="text-center">{movie.category}</div>
