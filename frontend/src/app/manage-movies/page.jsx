@@ -48,8 +48,21 @@ export default function ManageMovies() {
     };
 
     const handleDeleteMovie = async (movieId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this movie?");
+        if (!confirmDelete)
+            return;
 
+        try {
+            await axios.delete(`http://localhost:8080/movies/${movieId}`);
+            alert("Movie deleted successfully!");
+
+            setMovies(movies.filter((movie) => movie.id !== movieId));
+        } catch (error) {
+            console.error("Error deleting movie:", error);
+            alert("Failed to delete the movie. Please try again later.");
+        }
     };
+
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
