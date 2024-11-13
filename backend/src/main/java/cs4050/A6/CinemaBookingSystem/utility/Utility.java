@@ -14,8 +14,7 @@ public class Utility {
     public static double calculateTotalCost(List<Ticket> tickets, int discountPercentage) {
         double total = 0;
         for (var ticket : tickets) {
-            // Calculate ticket cost based on type
-            // TO DO: CONFIRM PRICES
+            // Calculate ticket cost based on type -- assumed $12, $10, and $8
             switch (ticket.getType()) {
                 case ADULT -> total += 12;
                 case SENIOR -> total += 10;

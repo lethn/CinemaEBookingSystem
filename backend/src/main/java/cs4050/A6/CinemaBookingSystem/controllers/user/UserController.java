@@ -242,6 +242,8 @@ public class UserController {
                 case "city" -> existingCustomer.get().setCity((String) value);
                 case "state" -> existingCustomer.get().setState((String) value);
                 case "postalCode" -> existingCustomer.get().setPostalCode((String) value);
+                // Convert into corresponding enum value
+                case "status" -> existingCustomer.get().setStatus(CustomerState.valueOf(((String) value).toUpperCase()));
             }
         }
 

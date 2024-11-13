@@ -89,8 +89,6 @@ public class BookingController {
         double cost = Utility.calculateTotalCost(booking.getTickets(), booking.getDiscountPercentage());
         booking.setTotalCost(cost);
 
-        // CHECK: Need to do any actual logic for charging card?
-
         // Reserve seats
         for (Ticket ticket : booking.getTickets()) {
             String seatId = ticket.getSeatId();

@@ -27,6 +27,14 @@ public class PaymentCardController {
         this.customerRepository = customerRepository;
     }
 
+    @GetMapping("/paymentCards")
+    public ResponseEntity<List<PaymentCard>> getPaymentCards() {
+        List<PaymentCard> paymentCards = paymentCardRepository.findAll();
+
+        // Return successful response with JSON encoded body
+        return ResponseEntity.ok(paymentCards);
+    }
+
     @GetMapping("/paymentCards/{id}")
     public ResponseEntity<List<PaymentCard>> getPaymentCardsForUser(@PathVariable Long id) {
         // Get all payment cards for user
@@ -36,35 +44,39 @@ public class PaymentCardController {
         return ResponseEntity.ok(paymentCards);
     }
 
-    @PostMapping("/paymentCards") // Specify customerId in URL, booking in body
-    public ResponseEntity<PaymentCard> createPaymentCard(@RequestParam Long customerId, @RequestBody PaymentCard paymentCard) {
-        // Get existing customer
-        var existingCustomer = customerRepository.findById(customerId);
-        if (existingCustomer.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Does not exist
-        }
-
+    @PostMapping("/paymentCards") // Specify customerId in URL, booking in body -- if no customer id is specified, guest card saved to DB
+    public ResponseEntity<PaymentCard> createPaymentCard(@RequestParam(required = false) Long customerId, @RequestBody PaymentCard paymentCard) {
         // Validate card
         if (!Utility.isValidCard(paymentCard.getCardNumber(), paymentCard.getExpirationDate())) {
             return ResponseEntity.badRequest().build(); // Invalid card
-        }
-
-        // Verify customer is under card limit
-        if (!existingCustomer.get().canAddCard()) {
-            return ResponseEntity.badRequest().build(); // Too many cards
         }
 
         // Encode card number
         String encodedCardNumber = Utility.encode(paymentCard.getCardNumber());
         paymentCard.setCardNumber(encodedCardNumber);
 
-        // Update relationship on both sides
-        paymentCard.setCustomer(existingCustomer.get());
-        var result = paymentCardRepository.save(paymentCard);
-        existingCustomer.get().getPaymentCards().add(result);
-        customerRepository.save(existingCustomer.get());
+        PaymentCard result;
+        if (customerId != null) {
+            // Save to existing customer account
+            var existingCustomer = customerRepository.findById(customerId);
+            if (existingCustomer.isEmpty()) {
+                return ResponseEntity.notFound().build(); // Does not exist
+            }
 
-        // Return successful response with JSON encoded object created
+            // Verify customer is under card limit
+            if (!existingCustomer.get().canAddCard()) {
+                return ResponseEntity.badRequest().build(); // Too many cards
+            }
+
+            paymentCard.setCustomer(existingCustomer.get());
+
+            result = paymentCardRepository.save(paymentCard);
+            existingCustomer.get().getPaymentCards().add(result);
+            customerRepository.save(existingCustomer.get());
+        } else {
+            result = paymentCardRepository.save(paymentCard);
+        }
+
         return ResponseEntity.ok(result);
     }
 

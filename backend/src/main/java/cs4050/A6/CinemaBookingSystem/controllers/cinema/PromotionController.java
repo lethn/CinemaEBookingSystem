@@ -1,6 +1,7 @@
 package cs4050.A6.CinemaBookingSystem.controllers.cinema;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Promotion;
+import cs4050.A6.CinemaBookingSystem.models.response.BadRequestError;
 import cs4050.A6.CinemaBookingSystem.models.user.Customer;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.PromotionRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
@@ -60,7 +61,13 @@ public class PromotionController {
     }
 
     @PostMapping("/promotions")
-    public ResponseEntity<Promotion> createPromotion(@RequestBody Promotion promotion) {
+    public ResponseEntity<?> createPromotion(@RequestBody Promotion promotion) {
+        // Check for duplicates
+        var duplicate = promotionRepository.findByPromoCode(promotion.getPromoCode());
+        if (duplicate.isPresent()) {
+            return ResponseEntity.badRequest().body(new BadRequestError("Duplicate promotion code. Please enter a unique promotion code and try again."));
+        }
+
         promotionRepository.save(promotion);
 
         // Return successful response with JSON encoded object created
