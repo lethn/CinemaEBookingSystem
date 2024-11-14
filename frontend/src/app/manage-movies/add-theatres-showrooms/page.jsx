@@ -47,7 +47,7 @@ export default function AddTheatresShowrooms() {
                 "showrooms": []
             }).then((response) => {
                 console.log(response.data);
-                setTheatres([response.data, ...theatres]);
+                fetchTheatres();
                 alert("Theatre added successfully!");
 
                 setTheatreName("");
@@ -446,6 +446,7 @@ export default function AddTheatresShowrooms() {
                                     onChange={(e) => setTheatreID(e.target.value)}
                                     className="rounded-lg text-black w-full h-12"
                                     >
+                                        <option></option>
                                     {
                                         theatres.map((theatre) => (
                                             <option>{theatre.id}</option>
@@ -466,6 +467,7 @@ export default function AddTheatresShowrooms() {
                     </div>
                 </div>
                 
+                {/* Display */}
                 <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
                     <h2 className="text-3xl font-semibold text-white mb-4 text-center">List of Theatres</h2>
 
