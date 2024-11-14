@@ -2,12 +2,16 @@ package cs4050.A6.CinemaBookingSystem.controllers.movie;
 
 import cs4050.A6.CinemaBookingSystem.models.cinema.Show;
 import cs4050.A6.CinemaBookingSystem.models.movie.Movie;
+import cs4050.A6.CinemaBookingSystem.models.user.Customer;
+import cs4050.A6.CinemaBookingSystem.models.user.CustomerState;
 import cs4050.A6.CinemaBookingSystem.repositories.movie.MovieRepository;
+import cs4050.A6.CinemaBookingSystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 // CORS Configuration for specific endpoint (front-end)
@@ -94,5 +98,41 @@ public class MovieController {
         List<Movie> matches = movieRepository.findByCategoryContaining(category);
 
         return ResponseEntity.ok(matches);
+    }
+
+    @PatchMapping("/movies/{id}") // Updates specified fields on existing movie object
+    // Any field that is null (meaning wasn't included in JSON body) is assumed to not be changing
+    public ResponseEntity<Movie> updateMovie(@PathVariable("id") Long id, @RequestBody Map<String, Object> patch) {
+        Optional<Movie> existing = movieRepository.findById(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Does not exist
+        }
+
+        // Extract non-null fields
+        for (String key : patch.keySet()) {
+            Object value = patch.get(key);
+
+            if (value == null) {
+                continue;
+            }
+
+            switch (key) {
+                case "cast" -> existing.get().setCast((List<String>) value);
+                case "title" -> existing.get().setTitle((String) value);
+                case "category" -> existing.get().setCategory((String) value);
+                case "director" -> existing.get().setDirector((String) value);
+                case "producer" -> existing.get().setProducer((String) value);
+                case "synopsis" -> existing.get().setSynopsis((String) value);
+                case "trailer" -> existing.get().setTrailer((String) value);
+                case "picture" -> existing.get().setPicture((String) value);
+                case "rating" -> existing.get().setRating((String) value);
+                case "nowPlaying" -> existing.get().setNowPlaying((boolean) value);
+                case "durationInMinutes" -> existing.get().setDurationInMinutes((int) value);
+            }
+        }
+
+        var result = movieRepository.save(existing.get());
+
+        return ResponseEntity.ok(result);
     }
 }
