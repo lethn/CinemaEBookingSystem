@@ -13,6 +13,7 @@ export default function AddTheatresShowrooms() {
     const [theatres, setTheatres] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [theatreName, setTheatreName] = useState("");
+    const [theatreID, setTheatreID] = useState("");
 
     const fetchTheatres = async () => {
         setIsLoading(true);
@@ -71,6 +72,32 @@ export default function AddTheatresShowrooms() {
             console.error("Error deleting theatre:", error);
             alert("Failed to delete the theatre. Please try again later.");
         }
+    };
+
+    const handleAddShowroom = async (e) => {
+
+        e.preventDefault();
+
+        if(showroom == "") {
+            alert("Theatre Name is required");
+            return;
+        }
+
+        axios
+            .post("http://localhost:8080/theatres",{
+                "friendlyName": theatreName,
+                "showrooms": []
+            }).then((response) => {
+                console.log(response.data);
+                setTheatres([response.data, ...theatres]);
+                alert("Theatre added successfully!");
+
+                setTheatreName("");
+            }).catch((error) => {
+                console.error(error);
+                alert("Failed to add theatre. Please try again.");
+            });
+
     };
 
 
@@ -138,12 +165,12 @@ export default function AddTheatresShowrooms() {
                             <div className="">
                                 <div>
                                     <label className="font-medium mb-1">
-                                    Theatre <span className="text-red-500">*</span>
+                                    Theatre ID <span className="text-red-500">*</span>
                                     </label>
                                 </div>
                                 
                                 <select 
-                                    name="showroom" id="room"
+                                    value={theatreID}
                                     className="rounded-lg text-black w-full h-12"
                                     >
                                     {
@@ -156,7 +183,7 @@ export default function AddTheatresShowrooms() {
 
                             <div className='flex gap-2'>
                                 <button
-                                    onClick={handleAddTheatre}
+                                    onClick={handleAddShowroom}
                                     className="font-semibold text-center px-2  rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto"
                                 >
                                     Add Showroom
