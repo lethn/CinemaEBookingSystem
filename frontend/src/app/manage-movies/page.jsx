@@ -40,7 +40,7 @@ export default function ManageMovies() {
     };
 
     const handleEditMovie = (movieId) => {
-        // router.push(`manage-movies/edit-movie/${movieId}`);
+        router.push(`manage-movies/edit-movies/${movieId}`);
     };
 
     const handleEditShowtimes = (movieId) => {
