@@ -225,6 +225,7 @@ export default function AddMovies() {
 
                         <div className='flex px-2 mx-2 pt-2 gap-2'>
                             <button
+                                type="button"
                                 onClick={handleBack}
                                 className="font-semibold px-4 py-2 rounded-lg text-white bg-gray-600 hover:bg-gray-800"
                             >
