@@ -44,7 +44,7 @@ export default function ManageMovies() {
     };
 
     const handleEditShowtimes = (movieId) => {
-        // router.push(`manage-movies/edit-showtimes/${movieId}`);
+        router.push(`manage-movies/manage-showtimes/${movieId}`);
     };
 
     const handleDeleteMovie = async (movieId) => {
@@ -88,7 +88,7 @@ export default function ManageMovies() {
                 <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
                     <h2 className="text-3xl font-semibold text-white mb-4 text-center">List of Movies</h2>
 
-                    <div className="grid grid-cols-6 justify-center items-center gap-5 px-3 py-1 bg-neutral-700 border-gray-500 text-white rounded-lg font-semibold hidden md:grid mb-4">
+                    <div className="grid grid-cols-6 justify-center items-center gap-2 px-3 py-1 bg-neutral-700 border-gray-500 text-white rounded-lg font-semibold hidden md:grid mb-4">
                         <p className="p-3 text-lg text-center">Title</p>
                         <p className="p-3 text-lg text-center">Genre</p>
                         <p className="p-3 text-lg text-center">Rating</p>
@@ -123,7 +123,7 @@ export default function ManageMovies() {
                                                 onClick={() => handleEditShowtimes(movie.id)}
                                                 className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-cyan-600 hover:bg-cyan-800 w-full md:w-auto"
                                             >
-                                                Edit Showtimes
+                                                Manage Showtimes
                                             </button>
                                         </div>
                                         <div className="text-center">
