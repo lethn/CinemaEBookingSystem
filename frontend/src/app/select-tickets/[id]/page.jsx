@@ -171,15 +171,15 @@ export default function SelectSeats({ params }) {
                                         return (
                                             <button 
                                             key={show.id} 
-                                            className={`px-4 py-2 rounded text-white ${!isUnavailable && !(selectedShowtime === show.id) ? 'hover:bg-red-900 transition duration-300 ease-in-out' : ''} ${selectedShowtime === show.id ? 'bg-navBarRed' : 'bg-neutral-800/80'} ${isUnavailable ? 'cursor-not-allowed line-through' : ''}`}
+                                            className={`px-4 py-2 rounded text-white transition duration-300 ease-in-out ${!isUnavailable && !(selectedShowtime === show.id) ? 'hover:bg-red-900' : ''} ${selectedShowtime === show.id ? 'bg-navBarRed' : 'bg-neutral-800/80'} ${isUnavailable ? 'cursor-not-allowed line-through' : ''}`}
                                             onClick={() => handleShowtimeSelect(show.id)}
                                             disabled={isUnavailable}
                                         >{new Date(show.time).toLocaleString([], {
                                             weekday: 'short', 
                                             month: 'short', 
-                                            day: '2-digit', 
-                                            hour: '2-digit', 
-                                            minute: '2-digit'
+                                            day: 'numeric', 
+                                            hour: 'numeric', 
+                                            minute: 'numeric'
                                         })}</button>
                                         )
                                     })}
