@@ -15,6 +15,7 @@ export default function SelectSeats({ params }) {
     const [isLoading, setIsLoading] = useState(true);
     const [showtime, setShowtime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [sortedSeats, setSortedSeats] = useState([]);
     const [childTickets, setChildTickets] = useState(null);
     const [adultTickets, setAdultTickets] = useState(null);
     const [seniorTickets, setSeniorTickets] = useState(null);
@@ -26,7 +27,7 @@ export default function SelectSeats({ params }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const queryString = new URLSearchParams({
-            selectedSeats,
+            sortedSeats,
             id,
             movieId,
             childTickets,
@@ -44,18 +45,18 @@ export default function SelectSeats({ params }) {
     const handleSeatSelect = (seatLabel) => {
         setSelectedSeats(prevSelectedSeats => {
             if (prevSelectedSeats.includes(seatLabel)) {
-                // Remove seat if already selected
                 return prevSelectedSeats.filter(seat => seat !== seatLabel);
             } else if (prevSelectedSeats.length < totalTickets) {
-                // Add seat if not selected and there is space
                 return [...prevSelectedSeats, seatLabel];
             } else {
-                // If the number of selected seats exceeds the totalTickets, remove the first selected seat and add the new one
-                const newSeats = [...prevSelectedSeats.slice(1), seatLabel]; // Remove the first seat and add the new seat
-                return newSeats;
+                return [...prevSelectedSeats.slice(1), seatLabel];
             }
         });
-    };
+    }
+
+    useEffect(() => {
+        setSortedSeats([...selectedSeats].sort());
+    }, [selectedSeats]);
 
     useEffect(() => {
         if (id) {
@@ -166,7 +167,7 @@ export default function SelectSeats({ params }) {
                         {selectedSeats.length > 0 && (
                             <span className="text-white">Seats selected: </span>
                         )}
-                        {selectedSeats.map((seat, index) => (
+                        {sortedSeats.sort().map((seat, index) => (
                             <span key={index} className="text-white">
                                 {seat}
                                 {index < selectedSeats.length - 1 && ', '}
