@@ -406,7 +406,7 @@ export default function AddTheatresShowrooms() {
                             <div className='flex gap-2'>
                                 <button
                                     onClick={handleAddTheatre}
-                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-red-800 w-full md:w-auto"
+                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto"
                                 >
                                     Add Theatre
                                 </button>
@@ -458,7 +458,7 @@ export default function AddTheatresShowrooms() {
                             <div className='flex gap-2'>
                                 <button
                                     onClick={handleAddShowroom}
-                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-red-800 w-full md:w-auto"
+                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto"
                                 >
                                     Add Showroom
                                 </button>
