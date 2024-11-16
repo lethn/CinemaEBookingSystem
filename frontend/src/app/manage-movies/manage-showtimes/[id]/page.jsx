@@ -17,6 +17,12 @@ export default function EditMovies({ params }) {
     const [showtimes, setShowtimes] = useState([]);
     const [theatreMap, setTheatreMap] = useState({});
     const [showroomMap, setShowroomMap] = useState({});
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
+    const [theatres, setTheatres] = useState([]);
+    const [selectedTheatre, setSelectedTheatre] = useState("");
+    const [selectedShowroom, setSelectedShowroom] = useState("");
+    const [showrooms, setShowrooms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -49,6 +55,7 @@ export default function EditMovies({ params }) {
 
                 setTheatreMap(theatreMap);
                 setShowroomMap(showroomMap);
+                setTheatres(theatresData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -61,12 +68,32 @@ export default function EditMovies({ params }) {
         }
     }, [id]);
 
+    const handleDateChange = (e) => {
+        setDate(e.target.value);
+    };
+
+    const handleTimeChange = (e) => {
+        setTime(e.target.value);
+    };
+
+    const sortedShowtimes = [...showtimes].sort((a, b) => {
+        const theatreA = theatreMap[a.theatreId] || "";
+        const theatreB = theatreMap[b.theatreId] || "";
+        
+        if (theatreA.localeCompare(theatreB) !== 0) {
+            return theatreA.localeCompare(theatreB);
+        }
+
+        const dateA = new Date(a.time);
+        const dateB = new Date(b.time);
+        return dateA - dateB;
+    });
+
     const handleDeleteShowtime = (showId) => {
         axios
             .delete(`http://localhost:8080/shows/${showId}`)
             .then(() => {
                 setShowtimes(showtimes.filter((show) => show.id !== showId));
-                alert("Show deleted successfully!");
             })
             .catch((error) => {
                 console.error("Error deleting show:", error);
@@ -74,6 +101,47 @@ export default function EditMovies({ params }) {
             });
     };
 
+    const handleTheatreChange = (e) => {
+        const theatreId = parseInt(e.target.value);
+        setSelectedTheatre(theatreId);
+        setSelectedShowroom("");
+
+        const selectedTheatre = theatres.find((theatre) => theatre.id === theatreId);
+        setShowrooms(selectedTheatre ? selectedTheatre.showrooms : []);
+    };
+
+    const handleShowroomChange = (e) => {
+        setSelectedShowroom(parseInt(e.target.value));
+    };
+
+    const handleAddShowtime = async (e) => {
+        e.preventDefault();
+
+        if (!selectedTheatre || !selectedShowroom) {
+            alert("Please select both a theatre and a showroom.");
+            return;
+        }
+
+        const showDateTime = `${date}T${time}:00`;
+
+        try {
+            const response = await axios.post(
+                `http://localhost:8080/shows?movieId=${id}&showroomId=${selectedShowroom}&theatreId=${selectedTheatre}`,
+                { time: showDateTime }
+            );
+            alert("Showtime added successfully!");
+
+            const newShowtime = response.data;
+            setShowtimes((prevShowtimes) => [...prevShowtimes, newShowtime]);
+        } catch (error) {
+            if (error.response) {
+                alert(`Error: ${error.response.data.message || error.response.data}`);
+            } else {
+                console.error("Error adding showtime:", error);
+                alert("Failed to add the showtime. Please try again later.");
+            }
+        }
+    };
 
     if (isLoading) {
         return <LoadingPage />;
@@ -103,14 +171,16 @@ export default function EditMovies({ params }) {
                         </div>
 
                         <div className="w-full lg:w-1/3">
-                            <form className="bg-neutral-800 p-6 rounded-lg shadow-lg">
+                            <form onSubmit={handleAddShowtime} className="bg-neutral-800 p-6 rounded-lg shadow-lg">
                                 <h2 className="text-3xl font-semibold mb-6 text-center">Add New Showtime</h2>
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Date <span className="text-red-500">*</span></label>
                                     <input
                                         type="date"
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        className="w-full p-3 border rounded-lg text-black"
                                         required
                                     />
                                 </div>
@@ -119,27 +189,31 @@ export default function EditMovies({ params }) {
                                     <label className="text-lg font-medium mb-1">Time <span className="text-red-500">*</span></label>
                                     <input
                                         type="time"
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                        value={time}
+                                        onChange={handleTimeChange}
+                                        className="w-full p-3 border rounded-lg text-black"
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Theatre <span className="text-red-500">*</span></label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
-                                        required
-                                    />
+                                    <select value={selectedTheatre} onChange={handleTheatreChange} className="w-full p-3 border rounded-lg text-black" required>
+                                        <option value="">Select Theatre</option>
+                                        {theatres.map((theatre) => (
+                                            <option key={theatre.id} value={theatre.id}>{theatre.friendlyName}</option>
+                                        ))}
+                                    </select>
                                 </div>
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Showroom <span className="text-red-500">*</span></label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
-                                        required
-                                    />
+                                    <select value={selectedShowroom} onChange={handleShowroomChange} className="w-full p-3 border rounded-lg text-black" required>
+                                        <option value="">Select Showroom</option>
+                                        {showrooms.map((showroom) => (
+                                            <option key={showroom.id} value={showroom.id}>{showroom.friendlyName}</option>
+                                        ))}
+                                    </select>
                                 </div>
 
                                 <button
@@ -164,8 +238,8 @@ export default function EditMovies({ params }) {
                         </div>
 
                         <div className="grid gap-4">
-                            {showtimes.length > 0 ? (
-                                showtimes.map((show) => {
+                            {sortedShowtimes.length > 0 ? (
+                                sortedShowtimes.map((show) => {
                                     const startTime = new Date(show.time);
                                     const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
 
@@ -191,12 +265,13 @@ export default function EditMovies({ params }) {
                                                 </button>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })
                             ) : (
                                 <p className="text-center mt-6 text-gray-400/70">No showtimes available at the moment</p>
                             )}
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -73,7 +73,7 @@ export default function Movie({ params }) {
                         <img
                             src={movie.picture}
                             alt={`${movie.title} Poster`}
-                            className="rounded-lg w-full h-auto max-w-lg object-cover shadow-lg"
+                            className="rounded-lg w-full h-auto max-w-lg  shadow-lg"
                         />
                     </div>
 
