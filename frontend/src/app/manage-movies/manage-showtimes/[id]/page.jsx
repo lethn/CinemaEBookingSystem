@@ -116,7 +116,7 @@ export default function EditMovies({ params }) {
             const updatedShowtimes = showtimes.filter((show) => show.id !== id);
             setShowtimes(updatedShowtimes);
 
-            if (updatedShowtimes.length > 0 && (currentPage - 1) * showtimesPerPage >= updatedShowtimes.length && currentPage > 1) {
+            if (updatedShowtimes.length > 0 && indexOfFirstShowtime >= updatedShowtimes.length && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
         } catch (error) {
@@ -296,7 +296,6 @@ export default function EditMovies({ params }) {
                                 <p className="text-center mt-6 text-gray-400/70">No showtimes available at the moment</p>
                             )}
                         </div>
-
                     </div>
 
                     <Pagination

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../contexts/user";
 import NavBar from "../components/navBar";
+import Pagination from "../components/Pagination";
 import RestrictedPage from "../components/restrictedPage";
 import axios from "axios";
 
@@ -13,6 +14,14 @@ export default function ManageMovies() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [movies, setMovies] = useState([]);
+
+    // List of Movies Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const moviesPerPage = 5;
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+    const totalPages = Math.ceil(movies.length / moviesPerPage);
 
     const fetchMovies = async () => {
         setIsLoading(true);
@@ -47,6 +56,10 @@ export default function ManageMovies() {
         router.push(`manage-movies/manage-showtimes/${movieId}`);
     };
 
+    const changePageHandler = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     const handleDeleteMovie = async (movieId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this movie?");
         if (!confirmDelete)
@@ -54,15 +67,17 @@ export default function ManageMovies() {
 
         try {
             await axios.delete(`http://localhost:8080/movies/${movieId}`);
-            alert("Movie deleted successfully!");
+            const updatedMovies = movies.filter((movie) => movie.id !== movieId);
+            setMovies(updatedMovies);
 
-            setMovies(movies.filter((movie) => movie.id !== movieId));
+            if (updatedMovies.length > 0 && indexOfFirstMovie >= updatedMovies.length && currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+            }
         } catch (error) {
             console.error("Error deleting movie:", error);
             alert("Failed to delete the movie. Please try again later.");
         }
     };
-
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
@@ -101,8 +116,8 @@ export default function ManageMovies() {
                         <p className="text-center mt-6 text-gray-400/70">Loading movies...</p>
                     ) : (
                         <div className="grid gap-4">
-                            {movies.length > 0 ? (
-                                movies.map((movie) => (
+                            {currentMovies.length > 0 ? (
+                                currentMovies.map((movie) => (
                                     <div
                                         key={movie.id}
                                         className="grid items-center justify-center grid-cols-1 md:grid-cols-6 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700"
@@ -142,6 +157,12 @@ export default function ManageMovies() {
                         </div>
                     )}
                 </div>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onChangePage={changePageHandler}
+                    pagesPerRow={15}
+                />
             </div>
         );
     }
