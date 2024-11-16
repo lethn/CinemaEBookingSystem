@@ -1,17 +1,16 @@
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "@/app/contexts/user";
-import { useRouter } from "next/navigation";
 import NavBar from "@/app/components/navBar";
 import RestrictedPage from "@/app/components/restrictedPage";
 import LoadingPage from "@/app/components/loadingPage";
+import Pagination from "@/app/components/Pagination";
 import axios from "axios";
 
 export default function EditMovies({ params }) {
     const { isLoggedIn } = useContext(AuthContext);
     const userType = typeof window !== "undefined" ? localStorage.getItem("userType") : null;
     const { id } = params;
-    const router = useRouter();
 
     const [movie, setMovie] = useState(null);
     const [showtimes, setShowtimes] = useState([]);
@@ -24,6 +23,41 @@ export default function EditMovies({ params }) {
     const [selectedShowroom, setSelectedShowroom] = useState("");
     const [showrooms, setShowrooms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const sortedShowtimes = [...showtimes].sort((a, b) => {
+        const theatreA = theatreMap[a.theatreId] || "";
+        const theatreB = theatreMap[b.theatreId] || "";
+
+        // Sort by theatre
+        if (theatreA.localeCompare(theatreB) !== 0) {
+            return theatreA.localeCompare(theatreB);
+        }
+
+        // Sort by date/time
+        const dateA = new Date(a.time);
+        const dateB = new Date(b.time);
+        if (dateA - dateB !== 0) {
+            return dateA - dateB;
+        }
+
+        // Sort by showroom name if the same date, time, and theatre
+        const showroomA = showroomMap[a.showroomId] || "";
+        const showroomB = showroomMap[b.showroomId] || "";
+        return showroomA.localeCompare(showroomB);
+    });
+
+
+    // List of Showtimes Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const showtimesPerPage = 5;
+    const indexOfLastShowtime = currentPage * showtimesPerPage;
+    const indexOfFirstShowtime = indexOfLastShowtime - showtimesPerPage;
+    const currentShowtimes = sortedShowtimes.slice(indexOfFirstShowtime, indexOfLastShowtime);
+    const totalPages = Math.ceil(sortedShowtimes.length / showtimesPerPage);
+
+    const handleChangePage = (page) => {
+        setCurrentPage(page);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,29 +110,19 @@ export default function EditMovies({ params }) {
         setTime(e.target.value);
     };
 
-    const sortedShowtimes = [...showtimes].sort((a, b) => {
-        const theatreA = theatreMap[a.theatreId] || "";
-        const theatreB = theatreMap[b.theatreId] || "";
-        
-        if (theatreA.localeCompare(theatreB) !== 0) {
-            return theatreA.localeCompare(theatreB);
+    const handleDeleteShowtime = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/shows/${id}`);
+            const updatedShowtimes = showtimes.filter((show) => show.id !== id);
+            setShowtimes(updatedShowtimes);
+
+            if (updatedShowtimes.length > 0 && (currentPage - 1) * showtimesPerPage >= updatedShowtimes.length && currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+            }
+        } catch (error) {
+            console.error("Error deleting showtime:", error);
+            alert("Failed to delete the showtime. Please try again later.");
         }
-
-        const dateA = new Date(a.time);
-        const dateB = new Date(b.time);
-        return dateA - dateB;
-    });
-
-    const handleDeleteShowtime = (showId) => {
-        axios
-            .delete(`http://localhost:8080/shows/${showId}`)
-            .then(() => {
-                setShowtimes(showtimes.filter((show) => show.id !== showId));
-            })
-            .catch((error) => {
-                console.error("Error deleting show:", error);
-                alert("Failed to delete the show. Please try again later.");
-            });
     };
 
     const handleTheatreChange = (e) => {
@@ -151,6 +175,7 @@ export default function EditMovies({ params }) {
         return (
             <div className="min-h-screen bg-neutral-900 text-white">
                 <NavBar userType={userType} />
+
                 <div className="container mx-auto p-4">
                     <h1 className="text-3xl font-semibold text-center mb-6">Manage Showtimes</h1>
 
@@ -238,8 +263,8 @@ export default function EditMovies({ params }) {
                         </div>
 
                         <div className="grid gap-4">
-                            {sortedShowtimes.length > 0 ? (
-                                sortedShowtimes.map((show) => {
+                            {currentShowtimes.length > 0 ? (
+                                currentShowtimes.map((show) => {
                                     const startTime = new Date(show.time);
                                     const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
 
@@ -254,7 +279,7 @@ export default function EditMovies({ params }) {
                                                 {startTime.toLocaleDateString()}
                                             </div>
                                             <div className="font-bold text-lg text-center">
-                                                {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} - {endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                                             </div>
                                             <div className="text-center">
                                                 <button
@@ -273,6 +298,13 @@ export default function EditMovies({ params }) {
                         </div>
 
                     </div>
+
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onChangePage={handleChangePage}
+                        pagesPerRow={20}
+                    />
                 </div>
             </div>
         );
