@@ -30,11 +30,11 @@ public class Movie {
     private String director;
     @Column(nullable = false)
     private String producer;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String synopsis;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String trailer;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String picture;
     @Column(nullable = false)
     private String rating; // E.g., 'PG-13'
