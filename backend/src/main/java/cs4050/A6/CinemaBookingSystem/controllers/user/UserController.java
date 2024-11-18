@@ -90,7 +90,7 @@ public class UserController {
         if (customerState == CustomerState.INACTIVE) {
             return ResponseEntity.badRequest().body(new BadRequestError("Customer account is inactive. Please verify account prior to login."));
         } else if (customerState == CustomerState.SUSPENDED) {
-            ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
+            return ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
         }
 
         // Validate password against saved
