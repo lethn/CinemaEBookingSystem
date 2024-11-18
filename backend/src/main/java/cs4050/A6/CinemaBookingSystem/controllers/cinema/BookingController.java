@@ -49,6 +49,17 @@ public class BookingController {
         return ResponseEntity.ok(movies);
     }
 
+    @GetMapping("/bookings/{id}")
+    public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
+        Optional<Booking> booking = bookingRepository.findById(id);
+
+        if (booking.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(booking.get());
+    }
+
     @PostMapping("/bookings") // Specify customerId, showId, promoCode (optional) in URL, booking in body
     public ResponseEntity<Booking> createBooking(@RequestParam Long customerId, @RequestParam Long showId, @RequestParam Long paymentCardId, @RequestParam(required = false) String promoCode, @RequestBody Booking booking) {
         // Get existing customer

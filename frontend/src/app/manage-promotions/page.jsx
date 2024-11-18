@@ -162,7 +162,8 @@ export default function ManagePromotions() {
                                                 Send
                                             </button>
                                             <button
-                                                className={"font-semibold px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-800"}
+                                                className={`font-semibold px-4 py-2 rounded-lg text-white ${promotion.modifiable ? 'bg-red-500 hover:bg-red-700' : 'bg-gray-300 cursor-not-allowed'
+                                                }`}
                                                 onClick={() => handleDeletePromotion(promotion.id)}
                                             >
                                                 Delete

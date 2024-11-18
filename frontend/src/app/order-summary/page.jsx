@@ -24,6 +24,9 @@ export default function OrderSummary() {
     const [promoCode, setPromoCode] = useState(null);
     const [discount, setDiscount] = useState(0);
     const [cards, setCards] = useState([]);
+    const [cardNumber, setCardNumber] = useState('');
+    const [expirationDate, setExpirationDate] = useState('');
+    const [cvv, setCvv] = useState('');
     const [selectedCard, setSelectedCard] = useState(null);
     const [tickets, setTickets] = useState(null);
     const childTicketPrice = 8.00;
@@ -190,28 +193,73 @@ export default function OrderSummary() {
         }
     };
 
+    const handleExpirationDate = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5); // Limit input to MM/YY format
+        }
+        setExpirationDate(value);
+    };
+
+    const handleCardNumber = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCardNumber(value);
+    };
+
+    const handleCvv = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        setCvv(value);
+    };
+
     const handleCardSelection = (cardId) => {
         setSelectedCard(cardId);
     };
 
     const handleBookingSubmission = async () => {
-        if (!selectedCard) {
-            alert("Please select a payment card.");
-            return;
-        }
-
         try {
+            let paymentCardId = selectedCard;
+    
+            if (!selectedCard) {
+                alert("Please select a payment card.");
+                return;
+            }
+    
+            // If the user selects "new", create a new card first
+            if (selectedCard === "new") {
+                if ((cvv.length < 3) || (cardNumber.length < 16) || (expirationDate.length < 5)) {
+                    alert('Fill out card details');
+                    return;
+                } else {
+                    const [month, year] = expirationDate.split('/');
+                    const fullYear = `20${year}`;
+                    const day = '01';
+                    const expDate = `${fullYear}-${month}-${day}`;
+        
+                    const cardResponse = await axios.post(`http://localhost:8080/paymentCards`, {
+                        friendlyName: "temp",
+                        cardNumber,
+                        expirationDate: expDate,
+                        billingAddress: "TO DO",
+                    });
+        
+                    console.log("New card created:", cardResponse.data);
+                    paymentCardId = cardResponse.data.id;
+                }
+            }
+    
+            // Proceed with booking after card creation
             const url = promoCode
-                ? `http://localhost:8080/bookings?customerId=${userID}&showId=${showId}&paymentCardId=${selectedCard}&promoCode=${promoCode}`
-                : `http://localhost:8080/bookings?customerId=${userID}&showId=${showId}&paymentCardId=${selectedCard}`;
+                ? `http://localhost:8080/bookings?customerId=${userID}&showId=${showId}&paymentCardId=${paymentCardId}&promoCode=${promoCode}`
+                : `http://localhost:8080/bookings?customerId=${userID}&showId=${showId}&paymentCardId=${paymentCardId}`;
     
-            const response = await axios.post(url, { tickets });
-    
-            alert("Booking successful!");
-            console.log(response.data);
-            router.push('/order-confirmation');
+            const bookingResponse = await axios.post(url, { tickets });
+            console.log("Booking details:", bookingResponse.data);
+            router.push(`/order-confirmation/${bookingResponse.data.id}`);
         } catch (error) {
-            console.error("Error submitting booking:", error);
+            console.error("Error during submission:", error);
             alert("An error occurred. Please try again.");
         }
     };
@@ -278,7 +326,7 @@ export default function OrderSummary() {
                                 </div>
                                 <div className="flex justify-between pb-1">
                                     <p>Discount Applied: </p>
-                                    <p>{discount}%</p>
+                                    <p>-{discount}%</p>
                                 </div>
                                 <div className="flex justify-between border-t-2 py-1 text-2xl font-bold">
                                     <p>Total: </p>
@@ -292,7 +340,7 @@ export default function OrderSummary() {
                                         id="promoCode"
                                         name="promoCode"
                                         placeholder="Promo Code"
-                                        className="rounded-lg p-3 bg-neutral-800/80 text-white text-center flex-grow"
+                                        className="rounded-lg p-3 bg-neutral-800/80 text-white text-center flex-grow outline-1 outline-navBarRed focus:outline"
                                     />
                                     <button type='submit' className="ml-1 py-3 px-6 bg-red-600 text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                         Apply
@@ -313,7 +361,7 @@ export default function OrderSummary() {
                                     <button
                                         key={card.id}
                                         onClick={() => handleCardSelection(card.id)}
-                                        className={`p-3 rounded-lg border border-navBarRed transition duration-300 ease-in-out mb-1 ${selectedCard === card.id ? "bg-navBarRed" : "hover:bg-red-800 bg-black"}`}
+                                        className={`p-3 rounded-lg transition duration-300 ease-in-out mb-1 ${selectedCard === card.id ? "bg-navBarRed" : "hover:bg-red-800 bg-black"}`}
                                     >
                                         <div className="flex justify-between">
                                             <p>{card.friendlyName}</p>
@@ -324,6 +372,44 @@ export default function OrderSummary() {
                                         </div>
                                     </button>
                                 ))}
+                                <button
+                                    onClick={() => handleCardSelection('new')}
+                                    className={`p-3 rounded-lg transition duration-300 ease-in-out mt-4 ${selectedCard === 'new' ? "bg-navBarRed" : "hover:bg-red-800 bg-black"}`}
+                                >
+                                    New Card
+                                </button>
+                                    <input
+                                        type="text"
+                                        placeholder="Card Number"
+                                        value={cardNumber}
+                                        onChange={handleCardNumber}
+                                        className="my-1 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        maxLength={16}
+                                        minLength={16}
+                                        required
+                                    />
+                                <div className="flex flex-row">
+                                    <input
+                                        type="text"
+                                        placeholder="Exp. Date"
+                                        value={expirationDate}
+                                        onChange={handleExpirationDate}
+                                        className="w-full mr-1 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        maxLength={5}
+                                        minLength={5}
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="CVV"
+                                        value={cvv}
+                                        onChange={handleCvv}
+                                        className=" w-full rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        maxLength={3}
+                                        minLength={3}
+                                        required
+                                    />
+                                </div>
                             </div>
                             <button onClick={handleBookingSubmission} className="p-3 bg-navBarRed text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Confirm Booking
