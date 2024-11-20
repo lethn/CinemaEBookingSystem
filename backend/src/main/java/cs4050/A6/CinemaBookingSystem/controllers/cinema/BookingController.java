@@ -9,6 +9,7 @@ import cs4050.A6.CinemaBookingSystem.repositories.cinema.PromotionRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.cinema.ShowRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.services.EmailService;
+import cs4050.A6.CinemaBookingSystem.services.GmailService;
 import cs4050.A6.CinemaBookingSystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
