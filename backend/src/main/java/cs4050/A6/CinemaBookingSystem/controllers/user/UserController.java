@@ -10,6 +10,7 @@ import cs4050.A6.CinemaBookingSystem.repositories.user.AdminRepository;
 import cs4050.A6.CinemaBookingSystem.repositories.user.CustomerRepository;
 import cs4050.A6.CinemaBookingSystem.security.LoginRequest;
 import cs4050.A6.CinemaBookingSystem.services.EmailService;
+import cs4050.A6.CinemaBookingSystem.services.GmailService;
 import cs4050.A6.CinemaBookingSystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +91,7 @@ public class UserController {
         if (customerState == CustomerState.INACTIVE) {
             return ResponseEntity.badRequest().body(new BadRequestError("Customer account is inactive. Please verify account prior to login."));
         } else if (customerState == CustomerState.SUSPENDED) {
-            ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
+            return ResponseEntity.badRequest().body(new BadRequestError("Customer account is suspended. Please contact an admin to enable account access."));
         }
 
         // Validate password against saved
