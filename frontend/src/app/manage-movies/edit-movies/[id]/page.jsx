@@ -101,7 +101,7 @@ export default function EditMovies({ params }) {
 
                 <div className="flex flex-col justify-center items-center m-8 p-8">
                     <form className="bg-neutral-800/80 text-white p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl" onSubmit={handleSaveChanges}>
-                        <h1 className="text-4xl font-semibold mb-10">Edit Movie</h1>
+                        <h1 className="text-4xl font-semibold mb-6">Edit Movie</h1>
 
                         <div className="flex flex-col px-2 mx-2 md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                             <div className="flex-1">
@@ -112,7 +112,7 @@ export default function EditMovies({ params }) {
                                     type="text"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -124,7 +124,7 @@ export default function EditMovies({ params }) {
                                     type="text"
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -139,7 +139,7 @@ export default function EditMovies({ params }) {
                                     type="number"
                                     value={durationInMinutes}
                                     onChange={(e) => setDurationInMinutes(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -151,7 +151,7 @@ export default function EditMovies({ params }) {
                                     type="text"
                                     value={rating}
                                     onChange={(e) => setRating(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -162,7 +162,7 @@ export default function EditMovies({ params }) {
                                 <select
                                     value={nowPlaying}
                                     onChange={(e) => setNowPlaying(e.target.value)}
-                                    className="w-full p-[12px] border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-[12px] rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 >
                                     <option value="true">Now Playing</option>
@@ -178,7 +178,7 @@ export default function EditMovies({ params }) {
                             <textarea
                                 value={synopsis}
                                 onChange={(e) => setSynopsis(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -191,7 +191,7 @@ export default function EditMovies({ params }) {
                                 type="text"
                                 value={cast}
                                 onChange={(e) => setCast(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -204,7 +204,7 @@ export default function EditMovies({ params }) {
                                 type="text"
                                 value={director}
                                 onChange={(e) => setDirector(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -217,7 +217,7 @@ export default function EditMovies({ params }) {
                                 type="text"
                                 value={producer}
                                 onChange={(e) => setProducer(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -230,7 +230,7 @@ export default function EditMovies({ params }) {
                                 type="url"
                                 value={trailer}
                                 onChange={(e) => setTrailer(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -243,21 +243,21 @@ export default function EditMovies({ params }) {
                                 type="url"
                                 value={picture}
                                 onChange={(e) => setPicture(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
 
-                        <div className='flex px-2 mx-2 pt-2 gap-2'>
+                        <div className='flex mx-4 justify-between'>
                             <button
                                 type="button"
                                 onClick={handleBack}
-                                className="font-semibold px-4 py-2 rounded-lg text-white bg-gray-600 hover:bg-gray-800"
+                                className="font-semibold px-4 py-2 rounded-lg text-white bg-neutral-700/50 hover:bg-neutral-700 transition duration-300 ease-in-out"
                             >
                                 Back
                             </button>
 
-                            <button type="submit" className="bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition">
+                            <button type="submit" className="bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Save Changes
                             </button>
                         </div>

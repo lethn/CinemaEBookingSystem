@@ -87,7 +87,7 @@ export default function AddMovies() {
                                     type="text"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -99,7 +99,7 @@ export default function AddMovies() {
                                     type="text"
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -114,7 +114,7 @@ export default function AddMovies() {
                                     type="number"
                                     value={durationInMinutes}
                                     onChange={(e) => setDurationInMinutes(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -126,7 +126,7 @@ export default function AddMovies() {
                                     type="text"
                                     value={rating}
                                     onChange={(e) => setRating(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -137,7 +137,7 @@ export default function AddMovies() {
                                 <select
                                     value={nowPlaying}
                                     onChange={(e) => setNowPlaying(e.target.value)}
-                                    className="w-full p-[12px] border border-gray-400 rounded-lg text-black focus:outline-none"
+                                    className="w-full p-3.5 rounded-lg bg-neutral-700/50 text-white hover:bg-neutral-700"
                                     required
                                 >
                                     <option value="true">Now Playing</option>
@@ -153,7 +153,7 @@ export default function AddMovies() {
                             <textarea
                                 value={synopsis}
                                 onChange={(e) => setSynopsis(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -166,7 +166,7 @@ export default function AddMovies() {
                                 type="text"
                                 value={cast}
                                 onChange={(e) => setCast(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -179,7 +179,7 @@ export default function AddMovies() {
                                 type="text"
                                 value={director}
                                 onChange={(e) => setDirector(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -192,7 +192,7 @@ export default function AddMovies() {
                                 type="text"
                                 value={producer}
                                 onChange={(e) => setProducer(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -205,7 +205,7 @@ export default function AddMovies() {
                                 type="url"
                                 value={trailer}
                                 onChange={(e) => setTrailer(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -218,21 +218,22 @@ export default function AddMovies() {
                                 type="url"
                                 value={picture}
                                 onChange={(e) => setPicture(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
+                        
 
-                        <div className='flex px-2 mx-2 pt-2 gap-2'>
+                        <div className='flex px-2 mx-2 pt-2 gap-2 justify-between'>
                             <button
                                 type="button"
                                 onClick={handleBack}
-                                className="font-semibold px-4 py-2 rounded-lg text-white bg-gray-600 hover:bg-gray-800"
+                                className="font-semibold px-4 py-2 rounded-lg text-white bg-neutral-700/50 hover:bg-neutral-700 transition duration-300 ease-in-out"
                             >
                                 Back
                             </button>
 
-                            <button type="submit" className="bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition">
+                            <button type="submit" className="bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Add Movie
                             </button>
                         </div>

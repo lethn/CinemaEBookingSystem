@@ -160,7 +160,7 @@ export default function SelectSeats({ params }) {
                     </div>
                 </div>
                 <div className="flex w-full justify-between items-center px-4 pb-4 mt-auto">
-                    <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
+                    <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">
                         Go Back
                     </button>
                     <div className="">

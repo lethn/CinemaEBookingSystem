@@ -142,7 +142,7 @@ export default function SelectSeats({ params }) {
                                             min="0"
                                             value={childTickets}
                                             onChange={(e) => handleTicketChange(e, 'child')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%]"
+                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
                                         />
                                         <label className="text-xl m-2 text-right">Adult (13-64):</label>
                                         <input
@@ -150,7 +150,7 @@ export default function SelectSeats({ params }) {
                                             min="0"
                                             value={adultTickets}
                                             onChange={(e) => handleTicketChange(e, 'adult')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%]"
+                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
                                         />
                                         <label className="text-xl m-2 text-right">Senior (65+):</label>
                                         <input
@@ -158,7 +158,7 @@ export default function SelectSeats({ params }) {
                                             min="0"
                                             value={seniorTickets}
                                             onChange={(e) => handleTicketChange(e, 'senior')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%]"
+                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
                                         />
                                 </div>
                             </div>
@@ -187,7 +187,7 @@ export default function SelectSeats({ params }) {
                             </div>
                         </div>
                         <div className="flex w-full justify-between pl-4 mt-auto">
-                            <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
+                            <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">
                                 Back Home
                             </button>
                             {selectedShowtime ? (

@@ -376,148 +376,133 @@ export default function AddTheatresShowrooms() {
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
-            <div>
+            <div className="">
                 <NavBar userType={userType} />
-                <h1 className="text-3xl text-center font-semibold text-white m-2 p-2">
-                    Manage Theatres and Showrooms
-                </h1>
+                <div className="flex flex-col items-center p-4">
+                    <h2 className="text-4xl font-semibold mb-2 w-full">Manage Theatres and Showrooms</h2>
 
-                <div className="grid grid-cols-2 gap-6 m-8 p-8 content-stretch">
-                    {/* theatres */}
-                    <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
-                        <h2 className="text-3xl font-semibold text-white mb-4 text-center">Add Theatre</h2>
+                    <div className="flex gap-4">
+                        {/* theatres */}
+                        <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
+                            <h2 className="text-3xl font-semibold text-white mb-4 text-center">Add Theatre</h2>
 
-                        <div className="grid grid-cols-4 gap-4">
-                            <div className="flex flex-col col-span-3 md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                <div className="flex-1">
-                                    <label className="font-medium mb-1">
-                                        Theatre Name <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={theatreName}
-                                        onChange={(e) => setTheatreName(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
-                                        required
-                                    />
+                            <div className="flex gap-4">
+                                <div className="flex flex-col col-span-3 md:flex-row space-y-4 md:space-y-0 md:space-x-4 ">
+                                    <div className="flex-1">
+                                        <input
+                                            type="text"
+                                            value={theatreName}
+                                            placeholder="Theatre Name"
+                                            onChange={(e) => setTheatreName(e.target.value)}
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div className='flex gap-2'>
                                 <button
                                     onClick={handleAddTheatre}
-                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto"
+                                    className="font-semibold text-center px-2 rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto transition duration-300 ease-in-out"
                                 >
                                     Add Theatre
                                 </button>
                             </div>
                         </div>
-                    </div>
 
-                    {/* showrooms */}
-                    <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
-                        <h2 className="text-3xl font-semibold text-white mb-4 text-center">Add Showroom</h2>
+                        {/* showrooms */}
+                        <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
+                            <h2 className="text-3xl font-semibold text-white mb-4 text-center">Add Showroom</h2>
 
-                        <div className="grid grid-cols-4 gap-4">
-                            <div className="flex flex-col col-span-2 md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                <div className="flex-1">
-                                    <label className="font-medium mb-1">
-                                        Showroom Name <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={showroomName}
-                                        onChange={(e) => setShowroomName(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
-                                        required
-                                    />
+                            <div className="flex gap-4">
+                                <div className="flex flex-col col-span-2 md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                                    <div className="flex-1">
+                                        <input
+                                            type="text"
+                                            value={showroomName}
+                                            placeholder="Showroom Name"
+                                            onChange={(e) => setShowroomName(e.target.value)}
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
-                            
-                            <div className="">
-                                <div>
-                                    <label className="font-medium mb-1">
-                                        Theatre ID <span className="text-red-500">*</span>
-                                    </label>
+                                <div className="">
+                                    <select 
+                                        value={theatreID}
+                                        onChange={(e) => setTheatreID(e.target.value)}
+                                        className="rounded-lg w-full h-full p-3 bg-neutral-700/50 text-white hover:bg-neutral-700"
+                                        >
+                                            <option value="" disabled selected>Theatre ID</option>
+                                        {
+                                            theatres.map((theatre) => (
+                                                <option>{theatre.id}</option>
+                                            ))
+                                        }
+                                    </select>
                                 </div>
-                                <select 
-                                    value={theatreID}
-                                    onChange={(e) => setTheatreID(e.target.value)}
-                                    className="rounded-lg text-black w-full h-12"
-                                    >
-                                        <option></option>
-                                    {
-                                        theatres.map((theatre) => (
-                                            <option>{theatre.id}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
 
-                            <div className='flex gap-2'>
                                 <button
                                     onClick={handleAddShowroom}
-                                    className="font-semibold text-center px-2  rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto"
+                                    className="font-semibold text-center px-2 rounded-lg text-white bg-green-600 hover:bg-green-800 w-full md:w-auto transition duration-300 ease-in-out"
                                 >
                                     Add Showroom
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                {/* Display */}
-                <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
-                    <h2 className="text-3xl font-semibold text-white mb-4 text-center">List of Theatres</h2>
+                    
+                    {/* Display */}
+                    <div className="bg-neutral-800/80 p-6 m-6 shadow-lg rounded-lg mx-auto max-w-7xl">
+                        <h2 className="text-3xl font-semibold text-white mb-4 text-center">List of Theatres</h2>
 
-                    <div className="grid grid-cols-4 justify-center items-center gap-5 px-3 py-1 bg-neutral-700 border-gray-500 text-white rounded-lg font-semibold hidden md:grid mb-4">
-                        <p className="p-3 text-lg text-center">ID</p>
-                        <p className="p-3 text-lg text-center">Name</p>
-                        <p className="p-3 text-lg text-center">Showroom Info</p>
-                        <p className="p-3 text-lg text-center">Delete Theatre</p>
-                    </div>
+                        <div className="grid grid-cols-4 justify-center items-center gap-5 px-3 py-1 bg-neutral-700 border-gray-500 text-white rounded-lg font-semibold hidden md:grid mb-4">
+                            <p className="p-3 text-lg text-center">ID</p>
+                            <p className="p-3 text-lg text-center">Name</p>
+                            <p className="p-3 text-lg text-center">Showroom Info</p>
+                            <p className="p-3 text-lg text-center">Delete Theatre</p>
+                        </div>
 
-                    <div className="grid gap-4">
-                        {theatres.length > 0 ? (
-                            theatres.map((theatre) => (
-                                <div
-                                    key={theatre.id}
-                                    className="grid items-center justify-center grid-cols-1 md:grid-cols-4 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700"
-                                >
-                                    <div className="font-bold text-lg text-center">{theatre.id}</div>
-                                    <div className="text-center">{theatre.friendlyName}</div>
-                                    <div>
-                                        <div> {
-                                            theatre.showrooms.map((room) => (
-                                                <div className="grid grid-cols-3 m-2">
-                                                    <div className="text-center">ID: {room.id}</div>
-                                                    <div className="text-center">{room.friendlyName}</div>
-                                                    <div className="text-center">
-                                                        <button
-                                                            onClick={() => handleDeleteShowroom(room.id, theatre.id)}
-                                                            className="font-semibold text-center px-2  rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto"
-                                                        >
-                                                            Delete
-                                                        </button>
+                        <div className="grid gap-4">
+                            {theatres.length > 0 ? (
+                                theatres.map((theatre) => (
+                                    <div
+                                        key={theatre.id}
+                                        className="grid items-center justify-center grid-cols-1 md:grid-cols-4 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700"
+                                    >
+                                        <div className="font-bold text-lg text-center">{theatre.id}</div>
+                                        <div className="text-center">{theatre.friendlyName}</div>
+                                        <div>
+                                            <div> {
+                                                theatre.showrooms.map((room) => (
+                                                    <div className="grid grid-cols-3 m-2">
+                                                        <div className="text-center">ID: {room.id}</div>
+                                                        <div className="text-center">{room.friendlyName}</div>
+                                                        <div className="text-center">
+                                                            <button
+                                                                onClick={() => handleDeleteShowroom(room.id, theatre.id)}
+                                                                className="font-semibold text-center px-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="text-center">
+                                            <button
+                                                onClick={() => handleDeleteTheatre(theatre.id)}
+                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
+                                            >
+                                                Delete
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="text-center">
-                                        <button
-                                            onClick={() => handleDeleteTheatre(theatre.id)}
-                                            className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-center mt-6 text-gray-400/70">No theatres available at the moment</p>
-                        )}
+                                ))
+                            ) : (
+                                <p className="text-center mt-6 text-gray-400/70">No theatres available at the moment</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

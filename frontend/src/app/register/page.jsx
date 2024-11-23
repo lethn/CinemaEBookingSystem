@@ -166,7 +166,7 @@ export default function Register() {
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -178,7 +178,7 @@ export default function Register() {
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 required
                             />
                         </div>
@@ -192,7 +192,7 @@ export default function Register() {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             required
                         />
                     </div>
@@ -206,7 +206,7 @@ export default function Register() {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full p-3 pr-10 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 ref={passwordRef}
                                 minLength={8}
                                 required
@@ -215,7 +215,7 @@ export default function Register() {
                                 onClick={togglePasswordVisibility}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                             >
-                                {showPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                {showPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@ export default function Register() {
                                 type={showConfirmPassword ? "text" : "password"} 
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="w-full p-3 pr-10 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 minLength={8}
                                 required
                             />
@@ -237,7 +237,7 @@ export default function Register() {
                                 onClick={toggleConfirmPasswordVisibility}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                             >
-                                {showConfirmPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                {showConfirmPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ export default function Register() {
                             type="text"
                             value={streetAddress}
                             onChange={(e) => setStreetAddress(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                         />
                     </div>
 
@@ -259,7 +259,7 @@ export default function Register() {
                                 type="text"
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             />
                         </div>
                         <div className="flex-1">
@@ -268,7 +268,7 @@ export default function Register() {
                                 type="text"
                                 value={state}
                                 onChange={(e) => setState(e.target.value)}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             />
                         </div>
                         <div className="flex-1">
@@ -277,7 +277,7 @@ export default function Register() {
                                 type="text"
                                 value={postalCode}
                                 onChange={handlePostalCode}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 maxLength={5}
                             />
                         </div>
@@ -289,7 +289,7 @@ export default function Register() {
                             type="text"
                             value={cardName}
                             onChange={(e) => setCardName(e.target.value)}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             maxLength={16}
                         />
                     </div>
@@ -300,7 +300,7 @@ export default function Register() {
                             type="text"
                             value={cardNumber}
                             onChange={handleCardNumber}
-                            className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             maxLength={16}
                         />
                     </div>
@@ -312,7 +312,7 @@ export default function Register() {
                                 type="text"
                                 value={expirationDate}
                                 onChange={handleExpirationDate}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             />
                         </div>
                         <div className="flex-1">
@@ -321,7 +321,7 @@ export default function Register() {
                                 type="text"
                                 value={cvv}
                                 onChange={handleCvv}
-                                className="w-full p-3 border border-gray-400 rounded-lg box-border text-black focus:outline-none"
+                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                 maxLength={3}
                             />
                         </div>
@@ -337,7 +337,7 @@ export default function Register() {
                         <label className='font-medium mb-1'>Receive email promotions?</label>
                     </div>
                     <div className='px-2 mx-2'>
-                        <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                        <button type="submit" className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                             Register
                         </button>
                     </div>

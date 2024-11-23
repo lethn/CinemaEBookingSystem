@@ -231,44 +231,45 @@ export default function EditProfile() {
 
     if (isLoggedIn && userType === "ADMIN") {
         return (
-            <div>
+            <div className='flex flex-col h-screen'>
                 <NavBar userType={userType} />
-                <div className="flex justify-center items-center m-8 p-8">
+                <div className="flex flex-col flex-grow justify-center items-center">
                     <div>
-                        <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl">
-                            <h2 className="text-4xl text-center font-semibold mb-6">Admin Profile</h2>
+                        <form className="bg-neutral-800/80 p-8 m-auto shadow-lg rounded-lg w-full max-w-3xl">
+                            <h2 className="text-4xl font-semibold mb-6">Admin Profile</h2>
+                            <div className='w-4/5 mx-auto'>
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1">First Name</label>
+                                    <input
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white focus:outline-none"
+                                        readOnly
+                                    />
+                                </div>
 
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1">First Name</label>
-                                <input
-                                    type="text"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                    readOnly
-                                />
-                            </div>
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1">Last Name</label>
+                                    <input
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white focus:outline-none"
+                                        readOnly
+                                    />
+                                </div>
 
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1">Last Name</label>
-                                <input
-                                    type="text"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="text-lg font-medium mb-1">Email</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                    readOnly
-                                />
+                                <div className="mb-4">
+                                    <label className="text-lg font-medium mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white focus:outline-none"
+                                        readOnly
+                                    />
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -297,7 +298,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             required
                                         />
                                     </div>
@@ -309,7 +310,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             required
                                         />
                                     </div>
@@ -323,7 +324,7 @@ export default function EditProfile() {
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border bg-neutral-300/80 focus:outline-none"
+                                        className="w-full p-3 rounded-lg text-white box-border bg-neutral-700/50 focus:outline-none cursor-not-allowed"
                                         required
                                         readOnly
                                     />
@@ -335,7 +336,7 @@ export default function EditProfile() {
                                         type="text"
                                         value={streetAddress}
                                         onChange={(e) => setStreetAddress(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     />
                                 </div>
 
@@ -346,7 +347,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={city}
                                             onChange={(e) => setCity(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         />
                                     </div>
                                     <div className="flex-1">
@@ -355,7 +356,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={state}
                                             onChange={(e) => setState(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         />
                                     </div>
                                     <div className="flex-1">
@@ -364,7 +365,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={postalCode}
                                             onChange={handlePostalCode}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             maxLength={5}
                                         />
                                     </div>
@@ -380,7 +381,7 @@ export default function EditProfile() {
                                     <label className='font-medium mb-1'>Receive email promotions?</label>
                                 </div>
 
-                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                <button type="submit" className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Save Profile
                                 </button>
                             </form>
@@ -399,7 +400,7 @@ export default function EditProfile() {
                                             type={showCurrentPassword ? "text" : "password"}
                                             value={currentPassword}
                                             onChange={(e) => setCurrentPassword(e.target.value)}
-                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            className="w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             required
                                         />
                                         <div
@@ -421,7 +422,7 @@ export default function EditProfile() {
                                             type={showNewPassword ? "text" : "password"}
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
-                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            className="w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             required
                                         />
                                         <div
@@ -434,7 +435,7 @@ export default function EditProfile() {
                                 </div>
 
                                 {/* field for confirming new password */}
-                                <div className="mb-4 relative">
+                                <div className="mb-6 relative">
                                     <label className="text-lg font-medium mb-1">
                                         Confirm New Password <span className="text-red-500">*</span>
                                     </label>
@@ -443,7 +444,7 @@ export default function EditProfile() {
                                             type={showConfirmPassword ? "text" : "password"}
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
-                                            className="w-full p-3 pr-10 border border-gray-400 rounded-lg text-black focus:outline-none"
+                                            className="w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             required
                                         />
                                         <div
@@ -455,7 +456,7 @@ export default function EditProfile() {
                                     </div>
                                 </div>
 
-                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                <button type="submit" className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Reset Password
                                 </button>
                             </form>
@@ -475,7 +476,7 @@ export default function EditProfile() {
                                         type="text"
                                         value={cardName}
                                         onChange={(e) => setCardName(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         required
                                     />
                                 </div>
@@ -488,7 +489,7 @@ export default function EditProfile() {
                                         type="text"
                                         value={cardNumber}
                                         onChange={handleCardNumber}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         maxLength={16}
                                         minLength={16}
                                         required
@@ -504,7 +505,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={expirationDate}
                                             onChange={handleExpirationDate}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             maxLength={5}
                                             minLength={5}
                                             required
@@ -518,7 +519,7 @@ export default function EditProfile() {
                                             type="text"
                                             value={cvv}
                                             onChange={handleCvv}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                             maxLength={3}
                                             minLength={3}
                                             required
@@ -526,7 +527,7 @@ export default function EditProfile() {
                                     </div>
                                 </div>
 
-                                <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                <button type="submit" className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Add New Card
                                 </button>
                             </form>
@@ -535,33 +536,25 @@ export default function EditProfile() {
 
                             <div className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl mt-4 text-lg font-medium mb-1 text-black">
                                 <h2 className="text-4xl font-semibold mb-6 text-white">Current Cards</h2>
-                                <table className="table-auto border min-w-full border-white">
-                                    <thead>
-                                        <tr>
-                                            <th className="border p-2 text-lg font-medium mb-1 text-white">Card Name</th>
-                                            {/* <th className="border p-2 text-lg font-medium mb-1 text-black">Card Number</th> */}
-                                            <th className="border p-2 text-lg font-medium mb-1 text-white">Expiration</th>
-                                            <th className=" p-2 text-lg font-medium mb-1 text-white">Delete Card</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {cards.map((card) => (
-                                            <tr key={card.id}>
-                                                <td className="border p-2 text-white">{card.friendlyName}</td>
-                                                {/* <td className="border p-2">{card.cardNumber}</td> */}
-                                                <td className="border p-2 text-white">{card.expirationDate}</td>
-                                                <td className="border p-2">
-                                                    <button
-                                                        onClick={() => handleDeleteCard(card.id)}
-                                                        className="bg-red-600 text-white p-1 rounded hover:bg-red-800 transition duration-300 ease-in-out"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <div className="grid grid-cols-3 justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold hidden md:grid mb-4">
+                                    <p className="p-3 text-lg text-center">Card Name</p>
+                                    <p className="p-3 text-lg text-center">Expiration</p>
+                                    <p className="p-3 text-lg text-center">Delete Card</p>
+                                </div>
+                                {cards.map((card) => (
+                                    <div key={card.id} className="grid grid-cols-3 justify-center items-center p-3 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700 mb-4">
+                                        <p className="text-lg text-center">{card.friendlyName}</p>
+                                        <p className="text-lg text-center">{card.expirationDate}</p>
+                                        <div className='mx-auto'>
+                                            <button
+                                                onClick={() => handleDeleteCard(card.id)}
+                                                className="font-semibold text-center px-4 py-1 rounded-lg text-white bg-navBarRed hover:bg-red-800 md:w-auto transition duration-300 ease-in-out w-min"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

@@ -26,19 +26,19 @@ const SearchBar = ({ setSearchMovie, searchType, setSearchType }) => {
                 value={search}
                 onChange={handleInputChange}
                 placeholder="Search Movie"
-                className="text-black w-64 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                className="text-black w-64 p-2 border border-neutral-700/50 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
             />
             <select
                 value={selectedType}
                 onChange={handleDropdownChange}
-                className="text-black ml-3 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                className="text-black ml-3 p-3 rounded-lg bg-neutral-700/50 text-white hover:bg-neutral-700"
             >
                 <option value="title">Title</option>
                 <option value="category">Genre</option>
             </select>
             <button
                 onClick={onClickSearchQueryHandler}
-                className="ml-3 px-4 py-2 bg-red-600 text-white p-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
+                className="ml-3 px-4 py-2 bg-navBarRed text-white p-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
             >
                 Search
             </button>

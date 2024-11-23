@@ -61,7 +61,7 @@ export default function LoginForm() {
                     placeholder="Enter your username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                    className="block w-full p-3 mt-1 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                     required
                 />
 
@@ -74,14 +74,14 @@ export default function LoginForm() {
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="block w-full p-3 pr-10 border border-gray-300 rounded-lg text-black focus:outline-none"
+                        className="block w-full p-3 pr-10 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                         required
                     />
                     <div
                         onClick={togglePasswordVisibility}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                     >
-                        {showPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                        {showPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@ export default function LoginForm() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`p-3 rounded-lg transition duration-300 ease-in-out ${loading ? "bg-red-400" : "bg-red-600 hover:bg-red-800"
+                    className={`p-3 rounded-lg transition duration-300 ease-in-out ${loading ? "bg-red-800" : "bg-navBarRed hover:bg-red-800"
                         } text-white`}
                 >
                     {loading ? "Signing in..." : "Login"}

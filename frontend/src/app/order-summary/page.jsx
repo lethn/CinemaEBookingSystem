@@ -202,16 +202,19 @@ export default function OrderSummary() {
             value = value.slice(0, 5); // Limit input to MM/YY format
         }
         setExpirationDate(value);
+        setSelectedCard('new');
     };
 
     const handleCardNumber = (e) => {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
         setCardNumber(value);
+        setSelectedCard('new');
     };
 
     const handleCvv = (e) => {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
         setCvv(value);
+        setSelectedCard('new');
     };
 
     const handleCardSelection = (cardId) => {
@@ -239,7 +242,7 @@ export default function OrderSummary() {
                     const expDate = `${fullYear}-${month}-${day}`;
         
                     const cardResponse = await axios.post(`http://localhost:8080/paymentCards`, {
-                        friendlyName: "temp",
+                        friendlyName: `**** **** **** ${cardNumber.slice(-4)}`,
                         cardNumber,
                         expirationDate: expDate,
                         billingAddress: "TO DO",
@@ -340,15 +343,15 @@ export default function OrderSummary() {
                                         id="promoCode"
                                         name="promoCode"
                                         placeholder="Promo Code"
-                                        className="rounded-lg p-3 bg-neutral-800/80 text-white text-center flex-grow outline-1 outline-navBarRed focus:outline"
+                                        className="rounded-lg p-3 bg-neutral-800/80 text-white text-center flex-grow outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
                                     />
                                     <button type='submit' className="ml-1 py-3 px-6 bg-red-600 text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                         Apply
                                     </button>
                                 </form>
                                 <div className="flex">
-                                    <button onClick={editTickets} className="py-3 w-1/2 bg-neutral-800/80 text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">Edit Tickets</button>
-                                    <button onClick={editSeats} className="py-3 ml-1 flex-grow bg-neutral-800/80 text-white rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">Edit Seats</button>
+                                    <button onClick={editTickets} className="py-3 w-1/2 bg-neutral-800/80 text-white rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">Edit Tickets</button>
+                                    <button onClick={editSeats} className="py-3 ml-1 flex-grow bg-neutral-800/80 text-white rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">Edit Seats</button>
                                 </div>
                             </div>
                         </div>
@@ -361,7 +364,7 @@ export default function OrderSummary() {
                                     <button
                                         key={card.id}
                                         onClick={() => handleCardSelection(card.id)}
-                                        className={`p-3 rounded-lg transition duration-300 ease-in-out mb-1 ${selectedCard === card.id ? "bg-navBarRed" : "hover:bg-red-800 bg-black"}`}
+                                        className={`p-3 rounded-lg transition duration-300 ease-in-out mb-1 ${selectedCard === card.id ? "bg-navBarRed" : "bg-neutral-700 hover:bg-red-800 bg-black"}`}
                                     >
                                         <div className="flex justify-between">
                                             <p>{card.friendlyName}</p>
@@ -374,7 +377,7 @@ export default function OrderSummary() {
                                 ))}
                                 <button
                                     onClick={() => handleCardSelection('new')}
-                                    className={`p-3 rounded-lg transition duration-300 ease-in-out mt-4 ${selectedCard === 'new' ? "bg-navBarRed" : "hover:bg-red-800 bg-black"}`}
+                                    className={`p-3 rounded-lg transition duration-300 ease-in-out mt-4 ${selectedCard === 'new' ? "bg-navBarRed" : " bg-neutral-700 hover:bg-red-800 bg-black"}`}
                                 >
                                     New Card
                                 </button>
@@ -383,7 +386,7 @@ export default function OrderSummary() {
                                         placeholder="Card Number"
                                         value={cardNumber}
                                         onChange={handleCardNumber}
-                                        className="my-1 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        className="my-1 bg-neutral-700/50 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         maxLength={16}
                                         minLength={16}
                                         required
@@ -394,7 +397,7 @@ export default function OrderSummary() {
                                         placeholder="Exp. Date"
                                         value={expirationDate}
                                         onChange={handleExpirationDate}
-                                        className="w-full mr-1 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        className="w-full mr-1 bg-neutral-700/50 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         maxLength={5}
                                         minLength={5}
                                         required
@@ -404,7 +407,7 @@ export default function OrderSummary() {
                                         placeholder="CVV"
                                         value={cvv}
                                         onChange={handleCvv}
-                                        className=" w-full rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline"
+                                        className=" w-full bg-neutral-700/50 rounded-lg p-3 bg-black text-white text-center outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         maxLength={3}
                                         minLength={3}
                                         required

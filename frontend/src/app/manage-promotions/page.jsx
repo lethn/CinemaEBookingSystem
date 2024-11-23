@@ -109,7 +109,7 @@ export default function ManagePromotions() {
                                     type="text"
                                     value={promotionCode}
                                     onChange={(e) => setPromotionCode(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                             </div>
@@ -120,14 +120,14 @@ export default function ManagePromotions() {
                                     type="number"
                                     value={discountPercentage}
                                     onChange={(e) => setDiscountPercentage(e.target.value)}
-                                    className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
+                                    className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     min="0"
                                     max="100"
                                     required
                                 />
                             </div>
 
-                            <button type="submit" className="text-xl w-full bg-red-600 text-white p-3 mt-2 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                            <button type="submit" className="text-xl w-full bg-navBarRed text-white p-3 mt-2 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                 Add Promotion
                             </button>
                         </form>
@@ -154,7 +154,7 @@ export default function ManagePromotions() {
                                         </div>
                                         <div className="flex items-center space-x-4 mt-2 mx-2 sm:mt-0">
                                             <button
-                                                className={`font-semibold px-4 py-2 rounded-lg text-white ${promotion.modifiable ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'
+                                                className={`font-semibold px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${promotion.modifiable ? 'bg-green-600 hover:bg-green-800' : 'bg-gray-300 cursor-not-allowed'
                                                     }`}
                                                 onClick={() => handleSendPromotion(promotion.id)}
                                                 disabled={!promotion.modifiable}
@@ -162,7 +162,7 @@ export default function ManagePromotions() {
                                                 Send
                                             </button>
                                             <button
-                                                className={`font-semibold px-4 py-2 rounded-lg text-white ${promotion.modifiable ? 'bg-red-500 hover:bg-red-700' : 'bg-gray-300 cursor-not-allowed'
+                                                className={`font-semibold px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${promotion.modifiable ? 'bg-navBarRed hover:bg-red-800' : 'bg-gray-300 cursor-not-allowed'
                                                 }`}
                                                 onClick={() => handleDeletePromotion(promotion.id)}
                                             >
@@ -172,13 +172,13 @@ export default function ManagePromotions() {
                                     </div>
                                 ))
                             )}
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onChangePage={changePageHandler}
-                                pagesPerRow={15}
-                            />
                         </div>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onChangePage={changePageHandler}
+                            pagesPerRow={15}
+                        />
                     </div>
                 </div>
             </div>

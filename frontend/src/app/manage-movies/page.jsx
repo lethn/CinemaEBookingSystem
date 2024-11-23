@@ -88,13 +88,13 @@ export default function ManageMovies() {
                 <div className="flex gap-4 m-2 p-2 justify-center">
                     <button
                         onClick={handleAddMovie}
-                        className="font-semibold px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-800"
+                        className="font-semibold px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-800 transition duration-300 ease-in-out"
                     >
                         Add Movie
                     </button>
                     <button
                         onClick={handleCreateTheatre}
-                        className="font-semibold px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-800"
+                        className="font-semibold px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-800 transition duration-300 ease-in-out"
                     >
                         Manage Theatre and Showroom
                     </button>
@@ -128,7 +128,7 @@ export default function ManageMovies() {
                                         <div className="text-center">
                                             <button
                                                 onClick={() => handleEditMovie(movie.id)}
-                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-teal-600 hover:bg-teal-800 w-full md:w-auto"
+                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-teal-600 hover:bg-teal-800 w-full md:w-auto transition duration-300 ease-in-out"
                                             >
                                                 Edit Details
                                             </button>
@@ -136,7 +136,7 @@ export default function ManageMovies() {
                                         <div className="text-center">
                                             <button
                                                 onClick={() => handleEditShowtimes(movie.id)}
-                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-cyan-600 hover:bg-cyan-800 w-full md:w-auto"
+                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-cyan-600 hover:bg-cyan-800 w-full md:w-auto transition duration-300 ease-in-out"
                                             >
                                                 Manage Showtimes
                                             </button>
@@ -144,7 +144,7 @@ export default function ManageMovies() {
                                         <div className="text-center">
                                             <button
                                                 onClick={() => handleDeleteMovie(movie.id)}
-                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto"
+                                                className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
                                             >
                                                 Delete
                                             </button>

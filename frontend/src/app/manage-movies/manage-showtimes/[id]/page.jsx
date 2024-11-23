@@ -205,7 +205,7 @@ export default function EditMovies({ params }) {
                                         type="date"
                                         value={date}
                                         onChange={handleDateChange}
-                                        className="w-full p-3 border rounded-lg text-black"
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         required
                                     />
                                 </div>
@@ -216,14 +216,14 @@ export default function EditMovies({ params }) {
                                         type="time"
                                         value={time}
                                         onChange={handleTimeChange}
-                                        className="w-full p-3 border rounded-lg text-black"
+                                        className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Theatre <span className="text-red-500">*</span></label>
-                                    <select value={selectedTheatre} onChange={handleTheatreChange} className="w-full p-3 border rounded-lg text-black" required>
+                                    <select value={selectedTheatre} onChange={handleTheatreChange} className="w-full p-3 rounded-lg bg-neutral-700/50 text-white hover:bg-neutral-700" required>
                                         <option value="">Select Theatre</option>
                                         {theatres.map((theatre) => (
                                             <option key={theatre.id} value={theatre.id}>{theatre.friendlyName}</option>
@@ -233,7 +233,7 @@ export default function EditMovies({ params }) {
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Showroom <span className="text-red-500">*</span></label>
-                                    <select value={selectedShowroom} onChange={handleShowroomChange} className="w-full p-3 border rounded-lg text-black" required>
+                                    <select value={selectedShowroom} onChange={handleShowroomChange} className="w-full p-3 rounded-lg bg-neutral-700/50 text-white hover:bg-neutral-700" required>
                                         <option value="">Select Showroom</option>
                                         {showrooms.map((showroom) => (
                                             <option key={showroom.id} value={showroom.id}>{showroom.friendlyName}</option>
@@ -284,7 +284,7 @@ export default function EditMovies({ params }) {
                                             <div className="text-center">
                                                 <button
                                                     onClick={() => handleDeleteShowtime(show.id)}
-                                                    className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-800 w-full md:w-auto"
+                                                    className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
                                                 >
                                                     Delete
                                                 </button>
