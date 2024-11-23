@@ -29,11 +29,7 @@ export default function Movie({ params }) {
 
     const buyTickets = (e) => {
         e.preventDefault();
-        if (userType === "CUSTOMER") {
-            router.push(`/select-tickets/${movie.id}`);
-        } else {
-            alert("You must be a customer and log in to book tickets");
-        }
+        router.push(`/select-tickets/${movie.id}`);
     };
 
     if (isLoading) {
@@ -145,12 +141,8 @@ export default function Movie({ params }) {
 
                         <div className="mt-6">
                             <button
-                                className={`px-4 py-2 rounded ${userType === "CUSTOMER"
-                                    ? "bg-green-500 hover:bg-green-600 text-white"
-                                    : "bg-gray-300 cursor-not-allowed text-white"
-                                    }`}
+                                className={`px-4 py-2 rounded bg-green-500 hover:bg-green-600 text-white`}
                                 onClick={buyTickets}
-                                disabled={userType !== "CUSTOMER"}
                             >
                                 Book Tickets
                             </button>

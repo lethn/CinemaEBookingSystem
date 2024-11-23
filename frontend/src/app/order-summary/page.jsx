@@ -273,6 +273,10 @@ export default function OrderSummary() {
         )
     }
 
+    if (!isLoggedIn) { 
+        router.push('/login');
+    }
+
     if (isLoggedIn && userType === "CUSTOMER") {
         return (
             <div className="flex flex-col min-h-screen">
@@ -425,6 +429,6 @@ export default function OrderSummary() {
     }
 
     return (
-        <RestrictedPage heading1="You must be signed in as a customer to view this page" heading2="Please log in to proceed" />
+        <RestrictedPage heading1="You must be signed in as a customer to book tickets" heading2="Please log in to proceed" />
     );
 }

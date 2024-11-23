@@ -104,13 +104,13 @@ export default function SelectSeats({ params }) {
         );
     }
 
-    if (isLoggedIn && userType === "CUSTOMER") {
-        return (
-            <div className='min-h-screen flex flex-col'>
-                <NavBar userType={userType} />
-                <div className='flex flex-col items-center p-4'>
-                    <h2 className="text-4xl font-semibold mb-2 w-full">Select Seats</h2>
-                    <div className="mx-auto w-[50%] h-[50px] bg-gradient flex items-end justify-center text-lg p-2">
+    return (
+        <div className='min-h-screen flex flex-col'>
+            <NavBar userType={userType} />
+            <div className='flex flex-col flex-grow items-center p-4'>
+                <h2 className="text-4xl font-semibold mb-4 w-full">Select Seats</h2>
+                <div className='flex flex-col flex-grow items-center justify-center'>
+                    <div className="mx-auto w-full h-[50px] bg-gradient flex items-end justify-center text-lg p-2">
                         SCREEN
                     </div>
                     <div className='grid grid-cols-[repeat(25,minmax(0,1fr))] grid-rows-[repeat(12,minmax(0,1fr))] mt-4'>
@@ -159,16 +159,16 @@ export default function SelectSeats({ params }) {
                         })}
                     </div>
                 </div>
-                <div className="flex w-full justify-between items-center px-4 pb-4 mt-auto">
+                <div className="flex w-full justify-between items-center mt-auto">
                     <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">
                         Go Back
                     </button>
                     <div className="">
                         {selectedSeats.length > 0 && (
-                            <span className="text-white">Seats selected: </span>
+                            <span className="text-white text-xl">Seats selected: </span>
                         )}
                         {sortedSeats.sort().map((seat, index) => (
-                            <span key={index} className="text-white">
+                            <span key={index} className="text-white text-xl">
                                 {seat}
                                 {index < selectedSeats.length - 1 && ', '}
                             </span>
@@ -185,10 +185,6 @@ export default function SelectSeats({ params }) {
                     )}
                 </div>
             </div>
-        );
-    }
-
-    return (
-        <RestrictedPage heading1="You must be signed in as a customer to view this page" heading2="Please log in to proceed" />
+        </div>
     );
 }

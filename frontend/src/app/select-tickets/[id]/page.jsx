@@ -93,120 +93,116 @@ export default function SelectSeats({ params }) {
 
     const sortedShows = movie.shows.sort((a, b) => new Date(a.time) - new Date(b.time));
 
-    if (isLoggedIn && userType === "CUSTOMER") {
-        return (
-            <div className="min-h-screen flex flex-col">
-                <NavBar userType={userType} />
-                <div className='grid grid-cols-[2fr_5fr] p-4 flex-grow'>
-                    <div className='flex items-center flex-col bg-neutral-800/80 p-4 rounded-xl h-full'>
-                        <div className="flex w-full justify-between items-center mb-2">
-                            <h2 className="text-2xl text-white font-bold">{movie.title}</h2>
-                            <p className="text-white border-2 border-white flex items-center justify-center px-1">{movie.rating}</p>
-                        </div>
-                        <div className="w-full aspect-square flex justify-center items-center border rounded-lg border-white">
-                            {showImage ? (
-                                <img
-                                src={movie.picture}
-                                alt="Poster"
-                                className="max-h-full"
-                                />
-                            ) : (
-                                <iframe
-                                src={movie.trailer.replace("watch?v=", "embed/")}
-                                title="YouTube video player"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                className="w-full h-[67%]"
-                                ></iframe>
-                            )}
-                        </div>
-                        <div className="">
-                            <button className="mx-1 text-xl text-white" onClick={poster}>◁</button>
-                            <button className="mx-1 text-xl text-white" onClick={poster}>▷</button>
-                        </div>
-                        <div className="w-full text-left">
-                            <p>Genre: {movie.category}</p>
-                            <p>Runtime: {movie.durationInMinutes} mins</p>
-                            <p>Director: {movie.director}</p>
-                            <p>Cast: {movie.cast.join(", ")}</p>
-                        </div>
+    return (
+        <div className="min-h-screen flex flex-col">
+            <NavBar userType={userType} />
+            <div className='grid grid-cols-[2fr_5fr] p-4 flex-grow'>
+                <div className='flex items-center flex-col bg-neutral-800/80 p-4 rounded-xl h-full'>
+                    <div className="flex w-full justify-between items-center mb-2">
+                        <h2 className="text-2xl text-white font-bold">{movie.title}</h2>
+                        <p className="text-white border-2 border-white flex items-center justify-center px-1">{movie.rating}</p>
                     </div>
-                    <div className="flex flex-col">
-                        <div className='grid grid-cols-[2fr_3fr]'>
-                            <div className='px-4 flex items-center flex-col'>
-                                <h2 className="text-4xl font-semibold mb-6 w-full pl-4">Tickets</h2>
-                                <div className="grid grid-cols-[4fr_3fr] grid-rows-3 gap-4">
-                                        <label className="text-xl m-2 text-right">Child (0-12):</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={childTickets}
-                                            onChange={(e) => handleTicketChange(e, 'child')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
-                                        />
-                                        <label className="text-xl m-2 text-right">Adult (13-64):</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={adultTickets}
-                                            onChange={(e) => handleTicketChange(e, 'adult')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
-                                        />
-                                        <label className="text-xl m-2 text-right">Senior (65+):</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={seniorTickets}
-                                            onChange={(e) => handleTicketChange(e, 'senior')}
-                                            className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
-                                        />
-                                </div>
+                    <div className="w-full aspect-square flex justify-center items-center border rounded-lg border-white">
+                        {showImage ? (
+                            <img
+                            src={movie.picture}
+                            alt="Poster"
+                            className="max-h-full"
+                            />
+                        ) : (
+                            <iframe
+                            src={movie.trailer.replace("watch?v=", "embed/")}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-[67%]"
+                            ></iframe>
+                        )}
+                    </div>
+                    <div className="">
+                        <button className="mx-1 text-xl text-white" onClick={poster}>◁</button>
+                        <button className="mx-1 text-xl text-white" onClick={poster}>▷</button>
+                    </div>
+                    <div className="w-full text-left">
+                        <p>Genre: {movie.category}</p>
+                        <p>Runtime: {movie.durationInMinutes} mins</p>
+                        <p>Director: {movie.director}</p>
+                        <p>Cast: {movie.cast.join(", ")}</p>
+                    </div>
+                </div>
+                <div className="flex flex-col">
+                    <div className='grid grid-cols-[2fr_3fr]'>
+                        <div className='px-4 flex items-center flex-col'>
+                            <h2 className="text-4xl font-semibold mb-6 w-full pl-4">Tickets</h2>
+                            <div className="grid grid-cols-2 grid-rows-3 gap-4">
+                                    <label className="text-xl m-2 text-right">Child (0-12):</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={childTickets}
+                                        onChange={(e) => handleTicketChange(e, 'child')}
+                                        className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
+                                    />
+                                    <label className="text-xl m-2 text-right">Adult (13-64):</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={adultTickets}
+                                        onChange={(e) => handleTicketChange(e, 'adult')}
+                                        className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
+                                    />
+                                    <label className="text-xl m-2 text-right">Senior (65+):</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={seniorTickets}
+                                        onChange={(e) => handleTicketChange(e, 'senior')}
+                                        className="rounded-lg p-2 bg-neutral-800/80 text-white text-center w-[75%] outline-1 outline-navBarRed focus:outline focus:bg-neutral-700/50 hover:bg-neutral-700/50"
+                                    />
                             </div>
-                            <div className="flex items-center flex-col">
-                                <h2 className="text-4xl font-semibold mb-6 w-full pl-4">Showtimes</h2>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {sortedShows.map((show) => {
-                                        const availableSeats = show.allSeats.length - show.reservedSeats.length;
-                                        const isUnavailable = totalTickets > availableSeats;
-                                        return (
-                                            <button 
+                        </div>
+                        <div className="flex items-center flex-col">
+                            <h2 className="text-4xl font-semibold mb-6 w-full pl-4">Showtimes</h2>
+                            <div className="grid grid-cols-3 gap-4">
+                                {sortedShows.filter((show) => new Date(show.time) > new Date()).map((show) => {
+                                    const availableSeats = show.allSeats.length - show.reservedSeats.length;
+                                    const isUnavailable = totalTickets > availableSeats;
+                                    return (
+                                        <button 
                                             key={show.id} 
-                                            className={`px-4 py-2 rounded text-white transition duration-300 ease-in-out ${!isUnavailable && !(selectedShowtime === show.id) ? 'hover:bg-red-900' : ''} ${selectedShowtime === show.id ? 'bg-navBarRed' : 'bg-neutral-800/80'} ${isUnavailable ? 'cursor-not-allowed line-through' : ''}`}
+                                            className={`px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${!isUnavailable && !(selectedShowtime === show.id) ? 'hover:bg-red-900' : ''} ${selectedShowtime === show.id ? 'bg-navBarRed' : 'bg-neutral-800/80'} ${isUnavailable ? 'cursor-not-allowed line-through' : ''}`}
                                             onClick={() => handleShowtimeSelect(show.id)}
                                             disabled={isUnavailable}
-                                        >{new Date(show.time).toLocaleString([], {
-                                            weekday: 'short', 
-                                            month: 'short', 
-                                            day: 'numeric', 
-                                            hour: 'numeric', 
-                                            minute: 'numeric'
-                                        })}</button>
-                                        )
-                                    })}
-                                </div>
+                                        >
+                                            {new Date(show.time).toLocaleString([], {
+                                                weekday: 'short', 
+                                                month: 'short', 
+                                                day: 'numeric', 
+                                                hour: 'numeric', 
+                                                minute: 'numeric'
+                                            })}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
-                        <div className="flex w-full justify-between pl-4 mt-auto">
-                            <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">
-                                Back Home
+                    </div>
+                    <div className="flex w-full justify-between pl-4 mt-auto">
+                        <button onClick={handleCancel} className="text-lg bg-neutral-800/80 text-white p-3 rounded-lg hover:bg-neutral-700 transition duration-300 ease-in-out">
+                            Back Home
+                        </button>
+                        {selectedShowtime ? (
+                            <button onClick={handleSubmit} className="text-lg bg-navBarRed text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
+                                Select Seats
                             </button>
-                            {selectedShowtime ? (
-                                <button onClick={handleSubmit} className="text-lg bg-navBarRed text-white p-3 rounded-lg hover:bg-red-900 transition duration-300 ease-in-out">
-                                    Select Seats
-                                </button>
-                            ) : (
-                                <button className="text-lg bg-red-900 text-white p-3 rounded-lg transition duration-300 ease-in-out" disabled>
-                                    Select Seats
-                                </button>
-                            )}
-                        </div>
+                        ) : (
+                            <button className="text-lg bg-red-900 text-white p-3 rounded-lg transition duration-300 ease-in-out" disabled>
+                                Select Seats
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
-        )
-    }
-
-    return (
-        <RestrictedPage heading1="You must be signed in as a customer to view this page" heading2="Please log in to proceed" />
-    );
+        </div>
+    )
 }

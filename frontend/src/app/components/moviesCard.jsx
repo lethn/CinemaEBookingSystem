@@ -14,11 +14,7 @@ const MovieCard = (props) => {
 
     const buyTickets = (e) => {
         e.preventDefault();
-        if (userType === "CUSTOMER") {
-            router.push(`/select-tickets/${props.id}`);
-        } else {
-            alert("You must be a customer and log in to book tickets");
-        }
+        router.push(`/select-tickets/${props.id}`);
     };
 
     return (
@@ -47,12 +43,8 @@ const MovieCard = (props) => {
 
                     {props.nowPlaying && (
                     <button
-                        className={`px-4 py-2 rounded-lg transition duration-300 ease-in-out ${userType === "CUSTOMER"
-                        ? "bg-green-500 hover:bg-green-700 text-white"
-                        : "bg-gray-300 cursor-not-allowed text-white"
-                        }`}
+                        className={`px-4 py-2 rounded-lg transition duration-300 ease-in-out bg-green-500 hover:bg-green-700 text-white`}
                         onClick={buyTickets}
-                        disabled={userType !== "CUSTOMER"}
                     >
                         Book Tickets
                     </button>

@@ -407,7 +407,7 @@ export default function EditProfile() {
                                             onClick={toggleCurrentPasswordVisibility}
                                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                         >
-                                            {showCurrentPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                            {showCurrentPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                                         </div>
                                     </div>
                                 </div>
@@ -429,7 +429,7 @@ export default function EditProfile() {
                                             onClick={toggleNewPasswordVisibility}
                                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                         >
-                                            {showNewPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                            {showNewPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                                         </div>
                                     </div>
                                 </div>
@@ -451,7 +451,7 @@ export default function EditProfile() {
                                             onClick={toggleConfirmPasswordVisibility}
                                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                         >
-                                            {showConfirmPassword ? <FaEyeSlash className="text-black" /> : <FaEye className="text-black" />}
+                                            {showConfirmPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                                         </div>
                                     </div>
                                 </div>
