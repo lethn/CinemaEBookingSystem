@@ -98,9 +98,13 @@ export default function SelectSeats({ params }) {
             <NavBar userType={userType} />
             <div className='grid grid-cols-[2fr_5fr] p-4 flex-grow'>
                 <div className='flex items-center flex-col bg-neutral-800/80 p-4 rounded-xl h-full'>
-                    <div className="flex w-full justify-between items-center mb-2">
+                    <div className="flex w-full justify-between items-center">
                         <h2 className="text-2xl text-white font-bold">{movie.title}</h2>
                         <p className="text-white border-2 border-white flex items-center justify-center px-1">{movie.rating}</p>
+                    </div>
+                    <div className="flex w-full justify-between text-lg mb-2">
+                        <h3>{movie.category}</h3>
+                        <h3>{movie.durationInMinutes} mins</h3>
                     </div>
                     <div className="w-full aspect-square flex justify-center items-center border rounded-lg border-white">
                         {showImage ? (
@@ -123,9 +127,7 @@ export default function SelectSeats({ params }) {
                         <button className="mx-1 text-xl text-white" onClick={poster}>◁</button>
                         <button className="mx-1 text-xl text-white" onClick={poster}>▷</button>
                     </div>
-                    <div className="w-full text-left">
-                        <p>Genre: {movie.category}</p>
-                        <p>Runtime: {movie.durationInMinutes} mins</p>
+                    <div className="w-full">
                         <p>Director: {movie.director}</p>
                         <p>Cast: {movie.cast.join(", ")}</p>
                     </div>

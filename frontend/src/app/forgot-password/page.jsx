@@ -110,11 +110,11 @@ export default function ForgotPassword() {
                                     placeholder="Enter your email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    className="block w-full p-3 mt-1 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                                 <button type="submit"
-                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    className="w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Reset Password
                                 </button>
                             </form>
@@ -136,12 +136,12 @@ export default function ForgotPassword() {
                                     placeholder="Enter Verification Code"
                                     value={verificationCode}
                                     onChange={(e) => setVerificationCode(e.target.value)}
-                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    className="block w-full p-3 mt-1 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                                 <button
                                     type="submit"
-                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    className="w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Verify Code
                                 </button>
                             </form>
@@ -160,7 +160,7 @@ export default function ForgotPassword() {
                                     placeholder="Enter New Password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    className="block w-full p-3 mt-1 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                                 <label className="font-medium text-white">Confirm Password</label>
@@ -169,12 +169,12 @@ export default function ForgotPassword() {
                                     placeholder="Confirm New Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                                    className="block w-full p-3 mt-1 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 />
                                 <button
                                     type="submit"
-                                    className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
+                                    className="w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
                                     Confirm
                                 </button>
                             </form>

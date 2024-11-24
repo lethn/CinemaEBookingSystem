@@ -154,7 +154,7 @@ export default function ManagePromotions() {
                                         </div>
                                         <div className="flex items-center space-x-4 mt-2 mx-2 sm:mt-0">
                                             <button
-                                                className={`font-semibold px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${promotion.modifiable ? 'bg-green-600 hover:bg-green-800' : 'bg-gray-300 cursor-not-allowed'
+                                                className={`font-semibold px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${promotion.modifiable ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'
                                                     }`}
                                                 onClick={() => handleSendPromotion(promotion.id)}
                                                 disabled={!promotion.modifiable}

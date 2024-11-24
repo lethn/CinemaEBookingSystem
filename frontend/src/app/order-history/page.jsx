@@ -92,7 +92,7 @@ export default function ManageMovies() {
                 <div className="flex-grow flex flex-col items-center justify-center">
                     <div className="bg-neutral-800/80 p-6 shadow-lg rounded-lg mx-auto">
                         <h2 className="text-3xl font-semibold text-white mb-4 text-center">Previous Bookings</h2>
-                        <div className="grid grid-cols-6 justify-center items-center gap-2 px-3 py-1 bg-neutral-700 border-gray-500 text-white rounded-lg font-semibold hidden md:grid mb-4">
+                        <div className="grid grid-cols-[1fr_4fr_3fr_1fr_2fr_2fr] justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold md:grid mb-4">
                             <p className="p-3 text-lg text-center">Order ID</p>
                             <p className="p-3 text-lg text-center">Movie</p>
                             <p className="p-3 text-lg text-center">Showtime</p>
@@ -109,7 +109,7 @@ export default function ManageMovies() {
                                     currentOrders.map((order) => (
                                         <div
                                             key={order.id}
-                                            className="grid items-center justify-center grid-cols-1 md:grid-cols-6 gap-2 p-3 border-gray-500 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700"
+                                            className="grid items-center justify-center grid-cols-[1fr_4fr_3fr_1fr_2fr_2fr] gap-2 p-3 text-white bg-neutral-700/50 rounded-lg hover:outline outline-1 outline-navBarRed"
                                         >
                                             <div className="font-bold text-lg text-center">{order.id}</div>
                                             <div className="text-center">{order.movieTitle}</div>

@@ -15,7 +15,7 @@ export default function AddTheatresShowrooms() {
     const [theatreName, setTheatreName] = useState("");
     const [showroomName, setShowroomName] = useState("");
     const [theatreID, setTheatreID] = useState("");
-    const [seats, setSeats] = useState([]);
+    const [seats, setSeats] = useState(null);
 
     const fetchTheatres = async () => {
         setIsLoading(true);
@@ -121,6 +121,11 @@ export default function AddTheatresShowrooms() {
             return;
         }
 
+        if(!seats) {
+            alert("Theatre Size is required");
+            return;
+        }
+
         axios.post(`http://localhost:8080/showrooms?theatreId=${theatreID}`, {
                 "friendlyName": showroomName,
                 seats
@@ -215,7 +220,7 @@ export default function AddTheatresShowrooms() {
                                             <option value="" disabled selected>Theatre ID</option>
                                         {
                                             theatres.map((theatre) => (
-                                                <option>{theatre.id}</option>
+                                                <option key={theatre.id}>{theatre.id}</option>
                                             ))
                                         }
                                     </select>
@@ -223,9 +228,9 @@ export default function AddTheatresShowrooms() {
 
                                 <div className="">
                                     <select 
-                                        value={seats}
                                         onChange={(e) => manageSetSeats(e.target.value)}
                                         className="rounded-lg w-full h-full p-3 bg-neutral-700/50 text-white hover:bg-neutral-700"
+                                        required
                                         >
                                             <option value="" disabled selected>Theatre Size</option>
                                             <option value="small">Small</option>

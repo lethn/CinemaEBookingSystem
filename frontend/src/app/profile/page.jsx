@@ -542,7 +542,7 @@ export default function EditProfile() {
                                     <p className="p-3 text-lg text-center">Delete Card</p>
                                 </div>
                                 {cards.map((card) => (
-                                    <div key={card.id} className="grid grid-cols-3 justify-center items-center p-3 text-white bg-neutral-700/50 rounded-lg hover:bg-neutral-700 mb-4">
+                                    <div key={card.id} className="grid grid-cols-3 justify-center items-center p-3 text-white bg-neutral-700/50 rounded-lg mb-4 hover:outline outline-1 outline-navBarRed">
                                         <p className="text-lg text-center">{card.friendlyName}</p>
                                         <p className="text-lg text-center">{card.expirationDate}</p>
                                         <div className='mx-auto'>
