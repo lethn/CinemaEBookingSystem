@@ -96,7 +96,8 @@ export default function EditProfile({ params }) {
         setPostalCode(value);
     };
 
-    const onClickUnsuspendHandler = (e) => {
+
+    const onClickActivateHandler = (e) => {
         e.preventDefault();
         const suspendStatus ={
             status: "ACTIVE"
@@ -158,124 +159,89 @@ export default function EditProfile({ params }) {
             <div>
                 <NavBar userType={userType} />
                 <div className="flex flex-col justify-center items-center m-8 p-8">
-                    <div className='grid grid-cols-2'>
+                    <div className='grid grid-cols-2 w-full'>
                         <div className='p-4'>
-                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl"
-                                  onSubmit={onClickEditProfileHandler}>
+                            <div className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-4xl">
                                 {error && <p className="text-red-500 mb-4">{error}</p>}
-                                <h2 className="text-4xl font-semibold mb-6">Edit User Profile</h2>
+                                <h2 className="text-4xl font-semibold mb-6">User Profile</h2>
 
                                 {/* First Name and Last Name */}
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                                     <div className="flex-1">
                                         <label className="text-lg font-medium mb-1">
-                                            First Name <span className="text-red-500">*</span>
+                                            First Name
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={firstName}
-                                            onChange={(e) => setFirstName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                            required
-                                        />
+                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                            {firstName}
+                                        </p>
                                     </div>
                                     <div className="flex-1">
                                         <label className="text-lg font-medium mb-1">
-                                            Last Name <span className="text-red-500">*</span>
+                                            Last Name
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={lastName}
-                                            onChange={(e) => setLastName(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                            required
-                                        />
+                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                            {lastName}
+                                        </p>
                                     </div>
                                 </div>
 
                                 {/* Email (Read-only) */}
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">
-                                        Email <span className="text-red-500">*</span>
+                                        Email
                                     </label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border bg-neutral-300/80 focus:outline-none"
-                                        required
-                                    />
+                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                        {email}
+                                    </p>
                                 </div>
 
                                 {/* Street Address */}
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">Street Address</label>
-                                    <input
-                                        type="text"
-                                        value={streetAddress}
-                                        onChange={(e) => setStreetAddress(e.target.value)}
-                                        className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                    />
+                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                        {streetAddress ? streetAddress : "N/A"}
+                                    </p>
                                 </div>
 
                                 {/* City, State, Postal Code */}
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                    <div className="flex-1">
+                                <div className="flex-1">
                                         <label className="text-lg font-medium mb-1">City</label>
-                                        <input
-                                            type="text"
-                                            value={city}
-                                            onChange={(e) => setCity(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                        />
+                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                            {city ? city : "N/A"}
+                                        </p>
                                     </div>
                                     <div className="flex-1">
                                         <label className="text-lg font-medium mb-1">State</label>
-                                        <input
-                                            type="text"
-                                            value={state}
-                                            onChange={(e) => setState(e.target.value)}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                        />
+                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                            {state ? state : "N/A"}
+                                        </p>
                                     </div>
                                     <div className="flex-1">
                                         <label className="text-lg font-medium mb-1">Postal Code</label>
-                                        <input
-                                            type="text"
-                                            value={postalCode}
-                                            onChange={handlePostalCode}
-                                            className="w-full p-3 border border-gray-400 rounded-lg text-black box-border focus:outline-none"
-                                            maxLength={5}
-                                        />
+                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                            {postalCode ? postalCode : "N/A"}
+                                        </p>
                                     </div>
                                 </div>
-
-                                {/* Email Promotions Checkbox */}
                                 <div className="mb-4">
-                                    <input
-                                        type='checkbox'
-                                        checked={emailPromotions}
-                                        onChange={(e) => setEmailPromotions(e.target.checked)}
-                                        className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
-                                    />
-                                    <label className='font-medium mb-1'>Receive email promotions?</label>
+                                    <label className='font-medium mb-1'>Receives email promotions?</label>
+                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
+                                        {emailPromotions? "Yes":"No"}
+                                    </p>
                                 </div>
-
-                                <button type="submit"
-                                        className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out">
-                                    Save Profile
-                                </button>
-                            </form>
+                            </div>
                         </div>
-                    <div className='p-4'>
+                        <div className='p-4'>
                         <div
                             className="flex flex-col bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl gap-3 justify-center items-center">
-                            <h2 className="text-2xl font-semibold mb-2">Suspend User</h2>
+                            <h2 className="text-2xl font-semibold mb-2">Change User Status</h2>
                             <button
-                                onClick={status === "SUSPENDED" ? onClickUnsuspendHandler : onClickSuspendHandler}
+                                onClick={status === ("SUSPENDED" || "INACTIVE") ? onClickActivateHandler : onClickSuspendHandler}
                                 className="text-xl w-full bg-yellow-600 text-white p-3 rounded-lg hover:bg-yellow-800 transition duration-300 ease-in-out"
                             >
-                                {status === "SUSPENDED" ? "Unsuspend User" : "Suspend User"}
+                                {status === "INACTIVE"? "Activate User" :
+                                    status === "SUSPENDED" ? "Unsuspend User" : "Suspend User"}
                             </button>
                             <h2 className="text-2xl font-semibold mb-2">Make User Admin</h2>
                             <button

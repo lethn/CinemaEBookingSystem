@@ -5,6 +5,7 @@ import NavBar from '../components/navBar';
 import RestrictedPage from '../components/restrictedPage';
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import LoadingPage from "../components/loadingPage"
 
 export default function ManageUsers() {
     const router = useRouter();
@@ -15,8 +16,10 @@ export default function ManageUsers() {
     const [searchTerm, setSearchTerm] = useState("");
     const [users, setUsers] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const fetchUsers = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/customers`);
             const customers = response.data;
@@ -29,7 +32,9 @@ export default function ManageUsers() {
             const newArray = [...customers, ...admins];
             setAllUsers(newArray);
             setUsers(newArray); // Set all users initially
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error('Error fetching users:', error);
             setAllUsers([]);
             setUsers([]); // Reset users on error
@@ -117,6 +122,10 @@ export default function ManageUsers() {
                         onClick={handleSearchSubmit}>Search</button>
                 </div>
                 <div className="flex w-full justify-center">
+                    {loading &&(
+                        <LoadingPage/>
+                    )}
+                    {!loading &&(
                     <table className="min-w-full table-fixed bg-blue-950 border border-gray-200 shadow-lg rounded-md">
                         <thead className="bg-black">
                         <tr className="px-4 py-2 text-center text-sm font-semibold text-white">
@@ -141,7 +150,7 @@ export default function ManageUsers() {
                                                 className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-cyan-600 hover:bg-cyan-800 w-full md:w-auto"
                                                 onClick={() => handleEdit(user.id)}
                                             >
-                                                Edit
+                                                View
                                             </button>
                                         )}
                                         <button
@@ -160,6 +169,7 @@ export default function ManageUsers() {
                         )}
                         </tbody>
                     </table>
+                        )}
                 </div>
             </div>
         </div>
