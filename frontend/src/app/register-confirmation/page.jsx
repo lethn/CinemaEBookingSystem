@@ -36,10 +36,10 @@ export default function RegisterConfirmation() {
     };
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <NavBar />
-            <div className="flex flex-col p-24 mx-auto items-center">
-                <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg m-4">
+            <div className="flex flex-col flex-grow justify-center items-center">
+                <div className="bg-neutral-800/60 p-8 shadow-lg rounded-lg">
                     <h2 className="text-4xl font-semibold mb-6">Thank you for registering!</h2>
                     <form onSubmit={handleSubmit} className="flex flex-col p-2 m-2">
                         <p className="text-white mb-4">
@@ -51,7 +51,7 @@ export default function RegisterConfirmation() {
                             placeholder="Enter Verification Code"
                             value={verificationCode}
                             onChange={(e) => setVerificationCode(e.target.value)}
-                            className="block w-full p-3 mt-1 mb-4 border border-gray-300 rounded-lg text-black focus:outline-none"
+                            className="w-full p-3 mb-4 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                             required
                             ref={verifyCodeRef}
                         />

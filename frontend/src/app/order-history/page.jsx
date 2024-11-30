@@ -142,7 +142,7 @@ export default function ManageMovies() {
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-center mt-6 text-gray-400/70">No movies available at the moment</p>
+                                    <p className="text-center mt-6 text-gray-400/70">No bookings found.</p>
                                 )}
                             </div>
                         )}
@@ -159,6 +159,6 @@ export default function ManageMovies() {
     }
 
     return (
-        <RestrictedPage heading1="You must be signed in as an admin to view this page" heading2="Please log in to proceed" />
+        <RestrictedPage heading1="You must be signed in as a customer to view this page" heading2="Please log in to proceed" />
     );
 }

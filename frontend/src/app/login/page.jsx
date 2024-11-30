@@ -4,12 +4,10 @@ import LoginForm from "../components/loginForm";
 
 export default function Login() {
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <NavBar />
-            <div className="flex flex-col min-h-screen">
-                <div className="flex flex-col p-24 mx-auto items-center">
-                    <LoginForm />
-                </div>
+            <div className="flex flex-col flex-grow justify-center items-center">
+                <LoginForm />
             </div>
         </div>
     );

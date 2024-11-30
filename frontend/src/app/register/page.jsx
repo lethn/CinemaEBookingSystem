@@ -41,9 +41,21 @@ export default function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!((cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3 && cardName.length != 0) ||
-        (cardNumber.length == 0 && expirationDate.length == 0 && cvv.length == 0 && cardName.length == 0))) {
-            alert('Card information is incorrect');
+        if (!((cardNumber.length == 16 && expirationDate.length == 5 && cvv.length == 3) ||
+        (cardNumber.length == 0 && expirationDate.length == 0 && cvv.length == 0))) {
+            if (cardNumber.length != 16) {
+                alert('Card number must be 16 digits');
+                return;
+            } else if (expirationDate.length != 5) {
+                alert('Expiration date must be in the format MM/YY');
+                return;
+            } else if (cvv.length != 3) {
+                alert('CVV must be 3 digits');
+                return;
+            } else if (cardName.length == 0) {
+                alert('Card name is required');
+                return;
+            }
             return;
         }
 
@@ -101,20 +113,27 @@ export default function Register() {
             const fullYear = `20${year}`;
             const day = '01';
             const expDate = `${fullYear}-${month}-${day}`;
+            let friendlyName;
+
+            if (cardName.length == 0) {
+                friendlyName = `**** **** **** ${cardNumber.slice(-4)}`;
+            } else {
+                friendlyName = cardName + ` (...${cardNumber.slice(-4)})`;
+            }
 
             axios.post(`http://localhost:8080/paymentCards?customerId=${id}`,
                 {
-                    "friendlyName": cardName,
-                    "cardNumber": cardNumber,
-                    "expirationDate": expDate, // expirationDate needs to be formatted to match db
+                    friendlyName,
+                    cardNumber,
+                    "expirationDate": expDate,
                     "billingAddress": "TO DO"
                 }
             ).then((response) => {
                 console.log(response.data);
-                alert("Added card successfully!");
-                fetchUserData();
+                alert('Card added successfully');
             }).catch((error) => {
                 console.log(error);
+                alert('Failed to add card');
             });
 
             return;
@@ -126,7 +145,7 @@ export default function Register() {
 
     const handleExpirationDate = (e) => {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-        if (value.length >= 2) {
+        if (value.length >= 3) {
             value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
         }
         if (value.length > 5) {

@@ -195,7 +195,7 @@ export default function OrderSummary() {
 
     const handleExpirationDate = (e) => {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-        if (value.length >= 2) {
+        if (value.length >= 3) {
             value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
         }
         if (value.length > 5) {

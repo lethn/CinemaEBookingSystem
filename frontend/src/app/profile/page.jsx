@@ -167,17 +167,34 @@ export default function EditProfile() {
         e.preventDefault();
         const [month, year] = expirationDate.split('/');
         const fullYear = `20${year}`;
-        const day = '01';
-        const expDate = `${fullYear}-${month}-${day}`;
+        const expDate = `${fullYear}-${month}-02`;
+
+        if (month < 1 || month > 12) {
+            alert("Invalid expiration month");
+            return;
+        }
+
+        let friendlyName;
+        if (cardName.length == 0) {
+            friendlyName = `**** **** **** ${cardNumber.slice(-4)}`;
+        } else {
+            friendlyName = cardName + ` (...${cardNumber.slice(-4)})`;
+        }
+
+
         axios.post(`http://localhost:8080/paymentCards?customerId=${userID}`,
             {
-                "friendlyName": cardName,
-                "cardNumber": cardNumber,
+                friendlyName,
+                cardNumber,
                 "expirationDate": expDate, // expirationDate needs to be formatted to match db
                 "billingAddress": "TO DO"
             }
         ).then((response) => {
             console.log(response.data);
+            setCardName("");
+            setCardNumber("");
+            setExpirationDate("");
+            setCvv("");
             alert("Added card successfully!");
             fetchUserData();
         }).catch((error) => {
@@ -201,7 +218,7 @@ export default function EditProfile() {
 
     const handleExpirationDate = (e) => {
         let value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-        if (value.length >= 2) {
+        if (value.length >= 3) {
             value = value.slice(0, 2) + '/' + value.slice(2); // Insert the slash after MM
         }
         if (value.length > 5) {
@@ -470,14 +487,13 @@ export default function EditProfile() {
 
                                 <div className="mb-4">
                                     <label className="text-lg font-medium mb-1">
-                                        Card Name <span className="text-red-500">*</span>
+                                        Card Name
                                     </label>
                                     <input
                                         type="text"
                                         value={cardName}
                                         onChange={(e) => setCardName(e.target.value)}
                                         className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
-                                        required
                                     />
                                 </div>
 
@@ -544,7 +560,10 @@ export default function EditProfile() {
                                 {cards.map((card) => (
                                     <div key={card.id} className="grid grid-cols-3 justify-center items-center p-3 text-white bg-neutral-700/50 rounded-lg mb-4 hover:outline outline-1 outline-navBarRed">
                                         <p className="text-lg text-center">{card.friendlyName}</p>
-                                        <p className="text-lg text-center">{card.expirationDate}</p>
+                                        <p className="text-lg text-center">{new Date(card.expirationDate).toLocaleString([], {
+                                                month: '2-digit', 
+                                                year: 'numeric'
+                                            })}</p>
                                         <div className='mx-auto'>
                                             <button
                                                 onClick={() => handleDeleteCard(card.id)}

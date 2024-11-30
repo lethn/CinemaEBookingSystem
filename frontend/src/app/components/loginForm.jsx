@@ -50,7 +50,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="bg-neutral-800/60 p-8 shadow-lg w-96 rounded-lg m-4">
+        <div className="bg-neutral-800/60 p-8 shadow-lg w-96 rounded-lg">
             <h2 className="text-4xl font-semibold mb-6">Login</h2>
             <form className='flex flex-col p-2 m-2' onSubmit={handleSubmit}>
                 <label className="font-medium text-white">
