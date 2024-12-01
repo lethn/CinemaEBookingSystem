@@ -264,7 +264,7 @@ export default function EditProfile({ params }) {
                                     > Bestow Admin
                                     </button>
                                     <button
-                                        onClick={status === ("SUSPENDED" || "INACTIVE") ? onClickActivateHandler : onClickSuspendHandler}
+                                        onClick={(status === "SUSPENDED" || status === "INACTIVE") ? onClickActivateHandler : onClickSuspendHandler}
                                         className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out"
                                     >
                                         {status === "INACTIVE"? "Activate User" :

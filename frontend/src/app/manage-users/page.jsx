@@ -110,24 +110,25 @@ export default function ManageUsers() {
         return (
             <div className="min-h-screen flex flex-col">
                 <NavBar userType={userType} />
-                <div className="flex flex-col flex-grow items-center justify-center m-2 mx-16">
-                    <div className="bg-neutral-800/80 p-6 shadow-lg rounded-lg w-full">
-                    <div className='flex justify-between'>
-                        <h2 className="text-3xl font-semibold text-white mb-4 text-center">Manage Users</h2>
-                        <div className="flex flex-box mb-4">
-                            <input
-                                type="text"
-                                placeholder="Search by name or email"
-                                value={searchTerm}
-                                onChange={handleSearchChange}
-                                className="w-full p-3 mx-2 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
-                            />
-                            <button
-                                className="font-semibold px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-800 transition duration-300 ease-in-out"
-                                onClick={handleSearchSubmit}>Search</button>
+                <div className="flex-grow flex flex-col items-center justify-center m-4">
+                    <div className="bg-neutral-800/80 p-4 px-6 shadow-lg rounded-lg mx-16">
+                        <div className='grid grid-cols-[minmax(0,1fr),1fr,1fr] items-center mb-4'>
+                            <div></div>
+                            <h2 className="text-3xl font-semibold text-white text-center">Manage Users</h2>
+                            <div className="flex ml-auto">
+                                <input
+                                    type="text"
+                                    placeholder="Search by name or email"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                    className="p-3 mx-1 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
+                                />
+                                <button
+                                    className="font-semibold px-4 py-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 transition duration-300 ease-in-out"
+                                    onClick={handleSearchSubmit}>Search</button>
+                            </div>
                         </div>
-                    </div>
-                        <div className="grid grid-cols-[2fr_2fr_1fr_2fr_2fr] justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold md:grid mb-4">
+                        <div className="grid grid-cols-[2fr_2fr_1fr_2fr_1fr] justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold md:grid mb-4">
                             <p className="p-3 text-lg text-center">Name</p>
                             <p className="p-3 text-lg text-center">Email</p>
                             <p className="p-3 text-lg text-center">ID</p>
@@ -137,7 +138,7 @@ export default function ManageUsers() {
                         <div className="grid gap-4">
                             {currentUsers.length > 0 ? (
                                 currentUsers.map((user) => (
-                                    <div key={user.id} className="grid grid-cols-[2fr_2fr_1fr_2fr_2fr] gap-2 p-3 text-white bg-neutral-700/50 rounded-lg hover:outline outline-1 outline-navBarRed">
+                                    <div key={user.id} className="grid grid-cols-[2fr_2fr_1fr_2fr_1fr] gap-2 p-3 text-white bg-neutral-700/50 rounded-lg hover:outline outline-1 outline-navBarRed">
                                         <div className="font-bold text-lg text-center">{user.firstName + " " + user.lastName}</div>
                                         <div className="text-center">{user.email}</div>
                                         <div className="text-center">{user.id}</div>
@@ -166,10 +167,10 @@ export default function ManageUsers() {
                         </div>
                     </div>
                     <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onChangePage={changePageHandler}
-                        pagesPerRow={15}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onChangePage={changePageHandler}
+                            pagesPerRow={5}
                     />
                 </div>
             </div>

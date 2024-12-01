@@ -182,16 +182,21 @@ export default function EditMovies({ params }) {
                     <div className="flex flex-col lg:flex-row items-center gap-8 mb-10">
                         <div className="w-full lg:w-1/2 flex flex-col items-center">
                             <div className="bg-neutral-800 p-6 rounded-lg shadow-lg">
+                                <div className="text-center mb-2">
+                                    <div className="flex justify-between">
+                                        <h2 className="text-4xl font-semibold">{movie.title}</h2>
+                                        <p className="text-2xl p-1 border border-2">{movie.rating}</p>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <p className="text-xl">{movie.category}</p>
+                                        <p className="text-xl">{movie.durationInMinutes} mins</p>
+                                    </div>
+                                </div>
                                 <img
                                     src={movie.picture}
                                     alt={movie.title}
                                     className="w-full max-w-md object-cover rounded-lg shadow-lg"
                                 />
-                                <div className="text-center mt-4">
-                                    <h2 className="text-4xl font-semibold">{movie.title}</h2>
-                                    <p className="text-lg">Genre: {movie.category}</p>
-                                    <p className="text-lg">Rating: {movie.rating}</p>
-                                </div>
                             </div>
                         </div>
 
