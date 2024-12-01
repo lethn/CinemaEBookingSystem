@@ -5,6 +5,7 @@ import { AuthContext } from "../contexts/user";
 import NavBar from "../components/navBar";
 import Pagination from "../components/Pagination";
 import RestrictedPage from "../components/restrictedPage";
+import LoadingPage from "../components/loadingPage";
 import axios from "axios";
 
 export default function ManageMovies() {
@@ -85,14 +86,18 @@ export default function ManageMovies() {
         }
     };
 
+    if (isLoading) {
+        return <LoadingPage />;
+    }
+
     if (isLoggedIn && userType === "CUSTOMER") {
         return (
             <div className="min-h-screen flex flex-col">
                 <NavBar userType={userType} />
-                <div className="flex-grow flex flex-col items-center justify-center">
-                    <div className="bg-neutral-800/80 p-6 shadow-lg rounded-lg mx-auto">
+                <div className="flex-grow flex flex-col items-center justify-center m-4">
+                    <div className="bg-neutral-800/80 p-6 shadow-lg rounded-lg mx-16">
                         <h2 className="text-3xl font-semibold text-white mb-4 text-center">Previous Bookings</h2>
-                        <div className="grid grid-cols-[1fr_4fr_3fr_1fr_2fr_2fr] justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold md:grid mb-4">
+                        <div className="grid grid-cols-[2fr_4fr_3fr_1fr_3fr_2fr] justify-center items-center gap-2 px-3 py-1 bg-neutral-700 text-white rounded-lg font-semibold md:grid mb-4">
                             <p className="p-3 text-lg text-center">Order ID</p>
                             <p className="p-3 text-lg text-center">Movie</p>
                             <p className="p-3 text-lg text-center">Showtime</p>
@@ -101,51 +106,47 @@ export default function ManageMovies() {
                             <p className="p-3 text-lg text-center">Cancel Booking</p>
                         </div>
 
-                        {isLoading ? (
-                            <p className="text-center mt-6 text-gray-400/70">Loading orders...</p>
-                        ) : (
-                            <div className="grid gap-4">
-                                {currentOrders.length > 0 ? (
-                                    currentOrders.map((order) => (
-                                        <div
-                                            key={order.id}
-                                            className="grid items-center justify-center grid-cols-[1fr_4fr_3fr_1fr_2fr_2fr] gap-2 p-3 text-white bg-neutral-700/50 rounded-lg hover:outline outline-1 outline-navBarRed"
-                                        >
-                                            <div className="font-bold text-lg text-center">{order.id}</div>
-                                            <div className="text-center">{order.movieTitle}</div>
-                                            <div className="text-center">{new Date(order.showTime).toLocaleString([], {
-                                                month: '2-digit', 
-                                                day: '2-digit',
-                                                year: '2-digit', 
-                                                hour: 'numeric', 
-                                                minute: 'numeric'
-                                            })}</div>
-                                            <div className="text-center">${order.totalCost.toFixed(2)}</div>
-                                            <div className="text-center">{friendlyNames[order.paymentCardId]}</div>
-                                            <div className="text-center">
-                                                {new Date(order.showTime) > new Date() ? (
-                                                    <button
-                                                        onClick={() => handleCancelBooking(order.id, new Date(order.showTime) - new Date() < 3600000)}
-                                                        className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        disabled
-                                                        className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-800 w-full md:w-auto cursor-not-allowed"
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                )}
-                                            </div>
+                        <div className="grid gap-4">
+                            {currentOrders.length > 0 ? (
+                                currentOrders.map((order) => (
+                                    <div
+                                        key={order.id}
+                                        className="grid items-center justify-center grid-cols-[2fr_4fr_3fr_1fr_3fr_2fr] gap-2 p-3 text-white bg-neutral-700/50 rounded-lg hover:outline outline-1 outline-navBarRed"
+                                    >
+                                        <div className="font-bold text-lg text-center">{order.id}</div>
+                                        <div className="text-center">{order.movieTitle}</div>
+                                        <div className="text-center">{new Date(order.showTime).toLocaleString([], {
+                                            month: '2-digit', 
+                                            day: '2-digit',
+                                            year: '2-digit', 
+                                            hour: 'numeric', 
+                                            minute: 'numeric'
+                                        })}</div>
+                                        <div className="text-center">${order.totalCost.toFixed(2)}</div>
+                                        <div className="text-center">{friendlyNames[order.paymentCardId]}</div>
+                                        <div className="text-center">
+                                            {new Date(order.showTime) > new Date() ? (
+                                                <button
+                                                    onClick={() => handleCancelBooking(order.id, new Date(order.showTime) - new Date() < 3600000)}
+                                                    className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-navBarRed hover:bg-red-800 w-full md:w-auto transition duration-300 ease-in-out"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    disabled
+                                                    className="font-semibold text-center px-4 py-2 rounded-lg text-white bg-red-800 w-full md:w-auto cursor-not-allowed"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            )}
                                         </div>
-                                    ))
-                                ) : (
-                                    <p className="text-center mt-6 text-gray-400/70">No bookings found.</p>
-                                )}
-                            </div>
-                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-center mt-6 text-gray-400/70">No bookings found.</p>
+                            )}
+                        </div>
                     </div>
                     <Pagination
                         currentPage={currentPage}

@@ -87,22 +87,6 @@ export default function EditProfile() {
         fetchUserData();
     }, []);
 
-    // const dummyCards = [
-    //     {
-    //         id: 1,
-    //         friendlyName: "My Valid Card",
-    //         cardNumber: "1000000000000000",
-    //         expirationDate: "2014-01-01",
-    //         billingAddress: "Main Street, Atlanta GA"
-    //     }
-    // ];
-
-    /*
-    useEffect(() => {
-        setCards(dummyCards);
-    }, []);
-    */
-
     const onClickEditProfileHandler = (e) => {
         e.preventDefault();
         //address = streetAddress+ " "+ city + " " + state + " " + postalCode; if we decide to add address to user

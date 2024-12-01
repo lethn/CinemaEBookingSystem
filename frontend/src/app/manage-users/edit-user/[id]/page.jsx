@@ -156,102 +156,123 @@ export default function EditProfile({ params }) {
     // Check if the user is logged in and has admin privileges
     if (isLoggedIn && userType === "ADMIN") {
         return (
-            <div>
+            <div className='min-h-screen flex flex-col'>
                 <NavBar userType={userType} />
-                <div className="flex flex-col justify-center items-center m-8 p-8">
+                <div className="flex flex-col flex-grow justify-center items-center mx-16 my-4">
                     <div className='grid grid-cols-2 w-full'>
                         <div className='p-4'>
-                            <div className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-4xl">
-                                {error && <p className="text-red-500 mb-4">{error}</p>}
-                                <h2 className="text-4xl font-semibold mb-6">User Profile</h2>
+                            <form className="bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl">
+                                    {error && <p className="text-red-500 mb-4">{error}</p>}
+                                    <h2 className="text-4xl font-semibold mb-6">User Profile</h2>
+                                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                                        <div className="flex-1">
+                                            <label className="text-lg font-medium mb-1">
+                                                First Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={firstName}
+                                                readOnly
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="text-lg font-medium mb-1">
+                                                Last Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={lastName}
+                                                readOnly
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            />
+                                        </div>
+                                    </div>
 
-                                {/* First Name and Last Name */}
-                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                    <div className="flex-1">
+                                    <div className="mb-4">
                                         <label className="text-lg font-medium mb-1">
-                                            First Name
+                                            Email
                                         </label>
-                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                            {firstName}
-                                        </p>
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            className="w-full p-3 rounded-lg text-white box-border bg-neutral-700/50 outline-1 outline-navBarRed focus:outline hover:outline"
+                                            readOnly
+                                        />
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">
-                                            Last Name
-                                        </label>
-                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                            {lastName}
-                                        </p>
-                                    </div>
-                                </div>
 
-                                {/* Email (Read-only) */}
-                                <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1">
-                                        Email
-                                    </label>
-                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                        {email}
-                                    </p>
-                                </div>
+                                    <div className="mb-4">
+                                        <label className="text-lg font-medium mb-1">Street Address</label>
+                                        <input
+                                            type="text"
+                                            value={streetAddress}
+                                            readOnly
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                        />
+                                    </div>
 
-                                {/* Street Address */}
-                                <div className="mb-4">
-                                    <label className="text-lg font-medium mb-1">Street Address</label>
-                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                        {streetAddress ? streetAddress : "N/A"}
-                                    </p>
-                                </div>
+                                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                                        <div className="flex-1">
+                                            <label className="text-lg font-medium mb-1">City</label>
+                                            <input
+                                                type="text"
+                                                value={city}
+                                                readOnly
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="text-lg font-medium mb-1">State</label>
+                                            <input
+                                                type="text"
+                                                value={state}
+                                                readOnly
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="text-lg font-medium mb-1">Postal Code</label>
+                                            <input
+                                                type="text"
+                                                value={postalCode}
+                                                readOnly
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            />
+                                        </div>
+                                    </div>
 
-                                {/* City, State, Postal Code */}
-                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
-                                <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">City</label>
-                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                            {city ? city : "N/A"}
-                                        </p>
+                                    <div className="mb-4">
+                                        <input
+                                            type='checkbox'
+                                            checked={emailPromotions}
+                                            readOnly
+                                            className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                                        />
+                                        <label className='font-medium mb-1'>Receive email promotions?</label>
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">State</label>
-                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                            {state ? state : "N/A"}
-                                        </p>
-                                    </div>
-                                    <div className="flex-1">
-                                        <label className="text-lg font-medium mb-1">Postal Code</label>
-                                        <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                            {postalCode ? postalCode : "N/A"}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <label className='font-medium mb-1'>Receives email promotions?</label>
-                                    <p className="font-normal w-full p-3 border border-gray-400 rounded-lg box-border bg-white text-black focus:outline-none ">
-                                        {emailPromotions? "Yes":"No"}
-                                    </p>
+                                </form>
+
+                        </div>
+                        <div className='p-4'>
+                            <div
+                                className="flex flex-col bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl gap-3 justify-center items-center m-4">
+                                <h2 className="text-4xl font-semibold mb-6 w-full">Change User Status</h2>
+                                <div className='w-[90%]'>
+                                    <button
+                                        onClick={onClickAdminHandler}
+                                        className="text-xl w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition duration-300 ease-in-out mb-4"
+                                    > Bestow Admin
+                                    </button>
+                                    <button
+                                        onClick={status === ("SUSPENDED" || "INACTIVE") ? onClickActivateHandler : onClickSuspendHandler}
+                                        className="text-xl w-full bg-navBarRed text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out"
+                                    >
+                                        {status === "INACTIVE"? "Activate User" :
+                                            status === "SUSPENDED" ? "Unsuspend User" : "Suspend User"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div className='p-4'>
-                        <div
-                            className="flex flex-col bg-neutral-800/80 p-10 m-auto shadow-lg rounded-lg w-full max-w-3xl gap-3 justify-center items-center">
-                            <h2 className="text-2xl font-semibold mb-2">Change User Status</h2>
-                            <button
-                                onClick={status === ("SUSPENDED" || "INACTIVE") ? onClickActivateHandler : onClickSuspendHandler}
-                                className="text-xl w-full bg-yellow-600 text-white p-3 rounded-lg hover:bg-yellow-800 transition duration-300 ease-in-out"
-                            >
-                                {status === "INACTIVE"? "Activate User" :
-                                    status === "SUSPENDED" ? "Unsuspend User" : "Suspend User"}
-                            </button>
-                            <h2 className="text-2xl font-semibold mb-2">Make User Admin</h2>
-                            <button
-                                onClick={onClickAdminHandler}
-                                className="text-xl w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-800 transition duration-300 ease-in-out"
-                            > Bestow Admin
-                            </button>
-                        </div>
-
-                    </div>
                     </div>
                 </div>
             </div>
