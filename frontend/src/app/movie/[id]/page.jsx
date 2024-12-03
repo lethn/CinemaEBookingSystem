@@ -51,6 +51,7 @@ export default function Movie({ params }) {
 
     const uniqueShowtimes = Array.from(new Map(
         movie.shows
+            .filter(show => new Date(show.time) > new Date()) // Filter to only include upcoming showtimes
             .map(show => {
                 const showDate = new Date(show.time);
                 const showKey = showDate.toISOString().split("T")[0] + showDate.toTimeString().split(" ")[0];
@@ -60,94 +61,82 @@ export default function Movie({ params }) {
     ).values());
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <NavBar userType={userType} />
-
-            <div className="container mx-auto p-6">
-                <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-28">
-                    <div className="flex justify-center">
-                        <img
-                            src={movie.picture}
-                            alt={`${movie.title} Poster`}
-                            className="rounded-lg w-full h-auto max-w-lg  shadow-lg"
+            <div className='grid grid-cols-[6fr_7fr_7fr] flex-grow'>
+                <div className="flex flex-col h-full p-4">
+                    <img 
+                        src={movie.picture} 
+                        alt="Poster" 
+                        className="rounded-lg w-full object-cover h-1 flex-grow" 
+                    />
+                </div>
+                <div className="flex flex-col h-full py-4">
+                    <div className=" bg-neutral-800/80 rounded-lg mb-4">
+                        <div className=" bg-neutral-700 pt-4 px-4 pb-2 rounded-t-lg">
+                            <div className="flex justify-between items-center mb-1">
+                                <h2 className="text-4xl text-white font-bold">{movie.title}</h2>
+                                <p className="text-white text-2xl border-2 border-white flex items-center justify-center px-1">{movie.rating}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="text-white text-xl">{movie.category}</p>
+                                <p className="text-white text-xl">{movie.durationInMinutes} mins</p>
+                            </div>
+                        </div>
+                        <div className="px-4 pb-4 pt-2">
+                            <p className="text-white mb-2">{movie.synopsis}</p>
+                            <p className="text-white mb-2">Cast: {movie.cast.join(', ')}</p>
+                            <p className="text-white mb-2">Director: {movie.director}</p>
+                            <p className="text-white">Producer: {movie.producer}</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-grow rounded-lg overflow-hidden">
+                        <iframe
+                            width="100%"
+                            height="max-content"
+                            src={movie.trailer.replace("watch?v=", "embed/")}
+                            title={`${movie.title} Trailer`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
                         />
                     </div>
-
-                    <div className="flex flex-col justify-between">
-                        <h1 className="text-4xl font-bold">{movie.title}</h1>
-                        <div className="border-t border-gray-400/70 mt-4 pt-4">
-                            <h2 className="text-2xl font-semibold mb-4">Description</h2>
-                            <p className="text-white mb-4">{movie.synopsis}</p>
-                            <p className="text-white mb-2">
-                                <strong>Category: </strong>
-                                {movie.category}
-                            </p>
-                            <p className="text-white mb-2">
-                                <strong>Cast: </strong>
-                                {movie.cast.join(", ")}
-                            </p>
-                            <p className="text-white mb-2">
-                                <strong>Director: </strong>
-                                {movie.director}
-                            </p>
-                            <p className="text-white mb-2">
-                                <strong>Producer: </strong>
-                                {movie.producer}
-                            </p>
-                            <p className="text-white mb-2">
-                                <strong>Duration: </strong>
-                                {movie.durationInMinutes} minutes
-                            </p>
-                            <p className="text-white mb-4">
-                                <strong>Rating: </strong>
-                                {movie.rating}
-                            </p>
-
-                            <div className="border-t border-gray-400/70 mt-4 pt-4 mb-2">
-                                <h2 className="text-2xl font-semibold text-white mb-4">Showtimes</h2>
-                                <div className="flex flex-wrap gap-4">
-                                    {uniqueShowtimes.length > 0 ? (
-                                        uniqueShowtimes.map(show => {
-                                            const startTime = new Date(show.time);
-                                            const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
-                                            return (
-                                                <div key={show.id} className="flex flex-col items-center bg-gray-700 rounded-lg p-3">
-                                                    <p className="text-white font-bold">
-                                                        {startTime.toLocaleDateString()} | {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                    </p>
-                                                </div>
-                                            );
-                                        })
-                                    ) : (
-                                        <p className="text-gray-400/70">No showtimes available at the moment</p>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-400/70 mt-4 pt-4">
-                            <div className="aspect-w-16 aspect-h-9">
-                                <h2 className="text-2xl font-semibold mb-4">Trailer</h2>
-                                <iframe
-                                    width="100%"
-                                    height="400px"
-                                    src={movie.trailer.replace("watch?v=", "embed/")}
-                                    title={`${movie.title} Trailer`}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            </div>
-                        </div>
-
-                        <div className="mt-6">
+                </div>
+                <div className="flex flex-col h-full p-4">
+                    <h2 className="text-4xl font-semibold text-white mb-2">Showtimes:</h2>
+                    <div className="flex flex-wrap gap-4 justify-center">
+                        {uniqueShowtimes.length > 0 ? (
+                            uniqueShowtimes.map(show => {
+                                const startTime = new Date(show.time);
+                                const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
+                                return (
+                                    <div key={show.id} className="bg-neutral-800/80 rounded-lg p-3 h-min">
+                                        <p className="text-white font-bold">
+                                            {startTime.toLocaleString([], {
+                                            weekday: 'long', 
+                                            month: 'short', 
+                                            day: 'numeric', 
+                                            hour: 'numeric', 
+                                            minute: 'numeric'
+                                            })}
+                                        </p>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p className="text-gray-400/70">No showtimes available at the moment</p>
+                        )}
+                    </div>
+                    {movie.nowPlaying && (
+                        <div className="flex flex-grow items-end mt-4">
                             <button
-                                className={`px-4 py-2 rounded bg-green-500 hover:bg-green-600 text-white`}
+                                className={`p-3 w-full rounded-lg transition duration-300 ease-in-out hover:bg-green-700 text-white ${userType === "ADMIN" ? " bg-green-700 cursor-not-allowed" : "bg-green-500 "}`}
                                 onClick={buyTickets}
+                                disabled={userType === "ADMIN"}
                             >
                                 Book Tickets
                             </button>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

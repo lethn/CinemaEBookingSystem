@@ -26,7 +26,7 @@ const SearchBar = ({ setSearchMovie, searchType, setSearchType }) => {
                 value={search}
                 onChange={handleInputChange}
                 placeholder="Search Movie"
-                className="text-black w-64 p-2 border border-neutral-700/50 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
+                className="text-black w-64 p-2.5 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
             />
             <select
                 value={selectedType}

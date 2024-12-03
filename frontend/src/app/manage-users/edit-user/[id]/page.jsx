@@ -173,7 +173,7 @@ export default function EditProfile({ params }) {
                                                 type="text"
                                                 value={firstName}
                                                 readOnly
-                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                             />
                                         </div>
                                         <div className="flex-1">
@@ -184,7 +184,7 @@ export default function EditProfile({ params }) {
                                                 type="text"
                                                 value={lastName}
                                                 readOnly
-                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                             />
                                         </div>
                                     </div>
@@ -196,7 +196,7 @@ export default function EditProfile({ params }) {
                                         <input
                                             type="email"
                                             value={email}
-                                            className="w-full p-3 rounded-lg text-white box-border bg-neutral-700/50 outline-1 outline-navBarRed focus:outline hover:outline"
+                                            className="w-full p-3 rounded-lg text-white bg-neutral-700/50 outline-none"
                                             readOnly
                                         />
                                     </div>
@@ -207,7 +207,7 @@ export default function EditProfile({ params }) {
                                             type="text"
                                             value={streetAddress}
                                             readOnly
-                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                            className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                         />
                                     </div>
 
@@ -218,7 +218,7 @@ export default function EditProfile({ params }) {
                                                 type="text"
                                                 value={city}
                                                 readOnly
-                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                             />
                                         </div>
                                         <div className="flex-1">
@@ -227,7 +227,7 @@ export default function EditProfile({ params }) {
                                                 type="text"
                                                 value={state}
                                                 readOnly
-                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                             />
                                         </div>
                                         <div className="flex-1">
@@ -236,7 +236,7 @@ export default function EditProfile({ params }) {
                                                 type="text"
                                                 value={postalCode}
                                                 readOnly
-                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed hover:outline focus:outline"
+                                                className="w-full p-3 rounded-lg bg-neutral-700/50 text-white outline-none"
                                             />
                                         </div>
                                     </div>

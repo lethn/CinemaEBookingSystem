@@ -17,7 +17,6 @@ export default function ManageMovies() {
     const [isLoading, setIsLoading] = useState(true);
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [friendlyNames, setFriendlyNames] = useState({});
     const ordersPerPage = 5;
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -29,7 +28,6 @@ export default function ManageMovies() {
         try {
             const response = await axios.get(`http://localhost:8080/customers/${userID}`);
             setOrders(response.data.bookings);
-            console.log(response.data);
         } catch (error) {
             console.error("Error fetching orders:", error);
         } finally {
@@ -40,23 +38,6 @@ export default function ManageMovies() {
     useEffect(() => {
         fetchOrders();
     }, []);
-
-    useEffect(() => {
-        const fetchFriendlyNames = async () => {
-            const names = {};
-            for (const order of orders) {
-                try {
-                    const response = await axios.get(`http://localhost:8080/paymentCards/${order.paymentCardId}`);
-                    names[order.paymentCardId] = response.data[0].friendlyName;
-                } catch (error) {
-                    console.error(`Failed to fetch friendly name for card ${order.paymentCardId}`, error);
-                }
-            }
-            setFriendlyNames(names);
-        };
-
-        fetchFriendlyNames();
-    }, [orders]);
 
     const changePageHandler = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -123,7 +104,7 @@ export default function ManageMovies() {
                                             minute: 'numeric'
                                         })}</div>
                                         <div className="text-center">${order.totalCost.toFixed(2)}</div>
-                                        <div className="text-center">{friendlyNames[order.paymentCardId]}</div>
+                                        <div className="text-center">{order.paymentCardFriendlyName}</div>
                                         <div className="text-center">
                                             {new Date(order.showTime) > new Date() ? (
                                                 <button
