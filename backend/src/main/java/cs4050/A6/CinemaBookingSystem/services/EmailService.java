@@ -11,5 +11,7 @@ public interface EmailService {
 
     void sendPromotionEmail(String email, Promotion promotion);
 
+    void sendBookingConfirmationEmail(String email, Long bookingId);
+
     void sendBookingCancellationEmail(String email, Long bookingId);
 }

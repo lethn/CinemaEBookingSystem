@@ -25,6 +25,8 @@ public class Booking {
     private List<Ticket> tickets = new ArrayList<>();
     @Column(nullable = false) // Used for storing charged card -- refund use case
     private Long paymentCardId;
+    @Column(nullable = false) // Used for storing name charged card -- deleted card but used for booking use case
+    private String paymentCardFriendlyName;
 
     // Information to display in booking history page where user can cancel a booking -- just movie name and time
     @Column(nullable = false)

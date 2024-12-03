@@ -71,6 +71,20 @@ public class GmailService implements EmailService {
         mailSender.send(message);
     }
 
+    public void sendBookingConfirmationEmail(String email, Long bookingId) {
+        String subject = "Booking Confirmed";
+
+        String content = "The following booking has been confirmed: ID: " + bookingId + ". Thank you for your purchase!";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(content);
+
+        mailSender.send(message);
+    }
+
     public void sendBookingCancellationEmail(String email, Long bookingId) {
         String subject = "Booking Cancelled - Refund Issued";
 

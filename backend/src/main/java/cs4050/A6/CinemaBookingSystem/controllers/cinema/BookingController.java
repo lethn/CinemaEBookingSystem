@@ -87,6 +87,7 @@ public class BookingController {
             return ResponseEntity.notFound().build(); // Does not exist
         } else {
             booking.setPaymentCardId(existingCard.get().getId());
+            booking.setPaymentCardFriendlyName(existingCard.get().getFriendlyName());
         }
 
         // Get existing promotion (if specified)
@@ -117,6 +118,9 @@ public class BookingController {
         existingShow.get().getBookings().add(result);
         customerRepository.save(existingCustomer.get());
         showRepository.save(existingShow.get());
+
+        // Send booking confirmation email
+        emailService.sendBookingConfirmationEmail(existingCustomer.get().getEmail(), result.getId());
 
         // Return successful response with JSON encoded object created
         return ResponseEntity.ok(booking);
