@@ -103,21 +103,33 @@ export default function Movie({ params }) {
                 </div>
                 <div className="flex flex-col h-full p-4">
                     <h2 className="text-4xl font-semibold text-white mb-2">Showtimes:</h2>
-                    <div className="flex flex-wrap gap-4 justify-center">
+                    <div className="grid grid-cols-3 gap-4">
                         {uniqueShowtimes.length > 0 ? (
                             uniqueShowtimes.map(show => {
                                 const startTime = new Date(show.time);
                                 const endTime = new Date(startTime.getTime() + movie.durationInMinutes * 60000);
+
+                                const formattedDate = startTime.toLocaleString([], {
+                                    weekday: 'short',
+                                    month: 'short',
+                                    day: 'numeric',
+                                });
+
+                                const formattedTime = `${startTime.toLocaleString([], {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                })} - ${endTime.toLocaleString([], {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                })}`;
+
                                 return (
                                     <div key={show.id} className="bg-neutral-800/80 rounded-lg p-3 h-min">
-                                        <p className="text-white font-bold">
-                                            {startTime.toLocaleString([], {
-                                            weekday: 'long', 
-                                            month: 'short', 
-                                            day: 'numeric', 
-                                            hour: 'numeric', 
-                                            minute: 'numeric'
-                                            })}
+                                        <p className="text-white font-bold text-center">
+                                            {formattedDate}
+                                        </p>
+                                        <p className="text-gray-300 text-center">
+                                            {formattedTime}
                                         </p>
                                     </div>
                                 );

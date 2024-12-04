@@ -175,14 +175,25 @@ export default function SelectSeats({ params }) {
                                             className={`px-4 py-2 rounded-lg text-white transition duration-300 ease-in-out ${!isUnavailable && !(selectedShowtime === show.id) ? 'hover:bg-red-900' : ''} ${selectedShowtime === show.id ? 'bg-navBarRed' : 'bg-neutral-800/80'} ${isUnavailable ? 'cursor-not-allowed line-through' : ''}`}
                                             onClick={() => handleShowtimeSelect(show.id)}
                                             disabled={isUnavailable}
-                                        >
-                                            {new Date(show.time).toLocaleString([], {
-                                                weekday: 'short', 
-                                                month: 'short', 
-                                                day: 'numeric', 
-                                                hour: 'numeric', 
-                                                minute: 'numeric'
-                                            })}
+                                        >   
+                                            <div className="text-center">
+                                                <p className="text-white font-bold text-center">
+                                                    {new Date(show.time).toLocaleString([], {
+                                                        weekday: 'short',
+                                                        month: 'short',
+                                                        day: 'numeric'
+                                                    })}
+                                                </p>
+                                                <p className="text-gray-300 text-center">
+                                                    {new Date(show.time).toLocaleString([], {
+                                                        hour: 'numeric',
+                                                        minute: 'numeric'
+                                                    })} - {new Date(new Date(show.time).getTime() + movie.durationInMinutes * 60000).toLocaleString([], {
+                                                        hour: 'numeric',
+                                                        minute: 'numeric'
+                                                    })}
+                                                </p>
+                                            </div>
                                         </button>
                                     );
                                 })}

@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/user";
 import NavBar from "../components/navBar";
 import RestrictedPage from "../components/restrictedPage";
 import LoadingPage from "../components/loadingPage";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 
 export default function ManagePromotions() {
     const { isLoggedIn } = useContext(AuthContext);

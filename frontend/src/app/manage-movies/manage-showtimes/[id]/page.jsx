@@ -4,7 +4,7 @@ import { AuthContext } from "@/app/contexts/user";
 import NavBar from "@/app/components/navBar";
 import RestrictedPage from "@/app/components/restrictedPage";
 import LoadingPage from "@/app/components/loadingPage";
-import Pagination from "@/app/components/Pagination";
+import Pagination from "@/app/components/pagination";
 import axios from "axios";
 
 export default function EditMovies({ params }) {

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../contexts/user";
 import NavBar from "../components/navBar";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 import RestrictedPage from "../components/restrictedPage";
 import axios from "axios";
 
