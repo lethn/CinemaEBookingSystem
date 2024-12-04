@@ -21,7 +21,7 @@ export default function AddMovies() {
     const [picture, setPicture] = useState("");
     const [rating, setRating] = useState("");
     const [durationInMinutes, setDurationInMinutes] = useState("");
-    const [nowPlaying, setNowPlaying] = useState(true);
+    const [nowPlaying, setNowPlaying] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -228,7 +228,7 @@ export default function AddMovies() {
                             <button
                                 type="button"
                                 onClick={handleBack}
-                                className="font-semibold px-4 py-2 rounded-lg text-white bg-neutral-700/50 hover:bg-neutral-700 transition duration-300 ease-in-out"
+                                className="px-4 py-2 rounded-lg text-white bg-neutral-700/50 hover:bg-neutral-700 transition duration-300 ease-in-out"
                             >
                                 Back
                             </button>

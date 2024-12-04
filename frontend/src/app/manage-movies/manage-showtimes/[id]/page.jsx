@@ -110,15 +110,25 @@ export default function EditMovies({ params }) {
         setTime(e.target.value);
     };
 
-    const handleDeleteShowtime = async (id) => {
+    const handleDeleteShowtime = async (idShow) => {
         try {
-            await axios.delete(`http://localhost:8080/shows/${id}`);
-            const updatedShowtimes = showtimes.filter((show) => show.id !== id);
+            await axios.delete(`http://localhost:8080/shows/${idShow}`);
+            const updatedShowtimes = showtimes.filter((show) => show.id !== idShow);
             setShowtimes(updatedShowtimes);
 
+            alert("Delete showtime successfully!");
+
+            if (updatedShowtimes.length === 0 && movie.nowPlaying === true) {
+                await axios.patch(`http://localhost:8080/movies/${id}`, { nowPlaying: false });
+                setMovie((prevMovie) => ({ ...prevMovie, nowPlaying: false }));
+            }
+
+            console.log(updatedShowtimes.length);
+            
             if (updatedShowtimes.length > 0 && indexOfFirstShowtime >= updatedShowtimes.length && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
+            console.log(movie.nowPlaying);
         } catch (error) {
             console.error("Error deleting showtime:", error);
             alert("Failed to delete the showtime. Please try again later.");
@@ -147,6 +157,12 @@ export default function EditMovies({ params }) {
         }
 
         const showDateTime = `${date}T${time}:00`;
+        
+        const currentDateTime = new Date();
+        if (new Date(showDateTime) < currentDateTime) {
+            alert("The new showtime should be greater than the current date.");
+            return;
+        }
 
         try {
             const response = await axios.post(
@@ -156,7 +172,12 @@ export default function EditMovies({ params }) {
             alert("Showtime added successfully!");
 
             const newShowtime = response.data;
+            console.log(response.data);
             setShowtimes((prevShowtimes) => [...prevShowtimes, newShowtime]);
+
+            if (movie.nowPlaying === false) {
+                await axios.patch(`http://localhost:8080/movies/${id}`, { nowPlaying: true });
+            }
         } catch (error) {
             if (error.response) {
                 alert(`Error: ${error.response.data.message || error.response.data}`);

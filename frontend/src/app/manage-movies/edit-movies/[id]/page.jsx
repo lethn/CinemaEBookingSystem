@@ -75,6 +75,8 @@ export default function EditMovies({ params }) {
             durationInMinutes: parseInt(durationInMinutes)
         };
 
+        console.log(updatedMovie);
+
         axios.patch(`http://localhost:8080/movies/${id}`, updatedMovie)
             .then(() => {
                 alert("Movie updated successfully!");
@@ -161,7 +163,7 @@ export default function EditMovies({ params }) {
                                 </label>
                                 <select
                                     value={nowPlaying}
-                                    onChange={(e) => setNowPlaying(e.target.value)}
+                                    onChange={(e) => setNowPlaying(e.target.value === "true")}
                                     className="w-full p-[12px] rounded-lg bg-neutral-700/50 text-white outline-1 outline-navBarRed focus:outline focus:bg-neutral-700 hover:bg-neutral-700"
                                     required
                                 >

@@ -65,10 +65,10 @@ export default function Movie({ params }) {
             <NavBar userType={userType} />
             <div className='grid grid-cols-[6fr_7fr_7fr] flex-grow'>
                 <div className="flex flex-col h-full p-4">
-                    <img 
-                        src={movie.picture} 
-                        alt="Poster" 
-                        className="rounded-lg w-full object-cover h-1 flex-grow" 
+                    <img
+                        src={movie.picture}
+                        alt="Poster"
+                        className="rounded-lg w-full object-cover h-1 flex-grow"
                     />
                 </div>
                 <div className="flex flex-col h-full py-4">
@@ -135,7 +135,9 @@ export default function Movie({ params }) {
                                 );
                             })
                         ) : (
-                            <p className="text-gray-400/70">No showtimes available at the moment</p>
+                            <div className="col-span-3">
+                                <p className="text-gray-400/70 text-center">No showtimes available at the moment</p>
+                            </div>
                         )}
                     </div>
                     {movie.nowPlaying && (

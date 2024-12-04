@@ -108,7 +108,7 @@ export default function ManageMovies() {
                         <p className="p-3 text-lg text-center">Genre</p>
                         <p className="p-3 text-lg text-center">Rating</p>
                         <p className="p-3 text-lg text-center">Edit Details</p>
-                        <p className="p-3 text-lg text-center">Edit Showtimes</p>
+                        <p className="p-3 text-lg text-center">Manage Showtimes</p>
                         <p className="p-3 text-lg text-center">Delete</p>
                     </div>
 
