@@ -43,8 +43,8 @@ public class Utility {
         return encoder.matches(password, encoding);
     }
 
-    // Generates a random token for verifying email or resetting password
+    // Generates a random, 6 digit token for verifying email or resetting password
     public static String generateUniqueToken() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().substring(0, 6);
     }
 }
