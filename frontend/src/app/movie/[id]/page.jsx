@@ -124,7 +124,7 @@ export default function Movie({ params }) {
                                 })}`;
 
                                 return (
-                                    <div key={show.id} className="bg-neutral-800/80 rounded-lg p-3 h-min">
+                                    <div key={show.id} className="bg-neutral-800/80 rounded-lg p-3">
                                         <p className="text-white font-bold text-center">
                                             {formattedDate}
                                         </p>

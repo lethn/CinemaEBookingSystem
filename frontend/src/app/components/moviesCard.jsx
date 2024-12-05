@@ -27,7 +27,7 @@ const MovieCard = (props) => {
             </Link>
             <div className="relative">
                 <Link href={`/movie/${props.id}`} passHref>
-                    <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px] h-[440px] object-fill" />
+                    <img src={props.picture} alt={`${props.title} poster`} className="object-cover w-[320px] h-[480px] object-fill" />
                 </Link>
                 
                 {/* Region that will slide up over the image */}

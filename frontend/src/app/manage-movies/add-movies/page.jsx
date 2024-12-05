@@ -93,7 +93,7 @@ export default function AddMovies() {
                             </div>
                             <div className="flex-1">
                                 <label className="font-medium mb-1">
-                                    Category <span className="text-red-500">*</span>
+                                    Genre <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -212,7 +212,7 @@ export default function AddMovies() {
 
                         <div className="mb-4 px-2 mx-2">
                             <label className="font-medium mb-1">
-                                Picture URL <span className="text-red-500">*</span>
+                                Poster URL <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="url"
